@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 1 – Factors & Multiples</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Week 1: Factors & Multiples</h1>
+    <p>Let’s explore arrays, factor pairs, and number relationships!</p>
+</header>
+
+<section class="profile" style="padding: 10px;">
+    <img src="https://i.imgur.com/4AiXzf8.png" width="180">
+    <h2>Hi Zoey! Ready to learn?</h2>
+</section>
+
+<section class="lessons">
+
+    <div class="card">
+        <h3>Warm‑Up: Number of the Day (24)</h3>
+        <p>Show 24 using pictures, equations, or words.</p>
+        <button onclick="alert('Try drawing 24 as dots, groups, or arrays!')">Try It!</button>
+    </div>
+
+    <div class="card">
+        <h3>Mini‑Lesson: What Are Factors?</h3>
+        <p>Factors are numbers you multiply to get another number.</p>
+        <p>Example: 3 × 8 = 24 → 3 and 8 are factors.</p>
+        <button onclick="alert('Factors multiply to make a number!')">Got It!</button>
+    </div>
+
+    <div class="card">
+        <h3>Activity: Factor Factory</h3>
+        <p>Build arrays for 24:</p>
+        <ul>
+            <li>1 × 24</li>
+            <li>2 × 12</li>
+            <li>3 × 8</li>
+            <li>4 × 6</li>
+        </ul>
+        <button onclick="alert('Draw each array to see the factor pairs!')">Start Building</button>
+    </div>
+
+    <div class="card">
+        <h3>Game: Factor or Not a Factor?</h3>
+        <p>Say “Factor!” or “Not a factor!” when you hear a number.</p>
+        <button onclick="alert('Try numbers like 1, 2, 3, 4, 5, 6, 7, 8!')">Play</button>
+    </div>
+
+    <div class="card">
+        <h3>Build a Factor Rainbow</h3>
+        <p>Match factor pairs with rainbow arcs!</p>
+        <img src="https://i.imgur.com/4AiXzf8.png" width="200">
+        <button onclick="alert('Draw 1↔24, 2↔12, 3↔8, 4↔6')">Make Your Rainbow</button>
+    </div>
+
+    <div class="card">
+        <h3>Real‑World Problem</h3>
+        <p>A teacher has 24 markers. How many equal groups can she make?</p>
+        <button onclick="alert('Try groups of 2, 3, 4, 6, 8, 12!')">Solve It</button>
+    </div>
+
+    <div class="card">
+        <h3>Exit Ticket</h3>
+        <p>Answer these:</p>
+        <ol>
+            <li>What is a factor?</li>
+            <li>Give 3 factor pairs of 24.</li>
+            <li>Is 5 a factor of 24?</li>
+            <li>Draw an array for 3 × 8.</li>
+        </ol>
+        <button onclick="alert('Great job Zoey!')">Submit</button>
+    </div>
+
+</section>
+
+<section class="progress">
+    <button onclick="window.location.href='index.html'">⬅ Back to Dashboard</button>
+</section>
+
+</body>
+</html>
