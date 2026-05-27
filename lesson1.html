@@ -1,9 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 1 – Factors & Multiples</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .question-box {
+            background: #ffe6f7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ffb3e6;
+        }
+
+        .choice {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 2px solid #ffb3e6;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            background: #ffeff9;
+        }
+
+        .correct {
+            background: #d4ffdf !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .incorrect {
+            background: #ffe0e0 !important;
+            border-color: #ff4d4d !important;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Confetti container */
+        #confetti-container {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow: visible;
+            z-index: 9999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 14px;
+            background-color: #ff7ac4;
+            opacity: 0.9;
+            border-radius: 2px;
+            animation: fall 1.2s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(300px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>Week 1: Factors & Multiples</h1>
+    <p>Let’s explore arrays, factor pairs, and number relationships!</p>
+</header>
+
+<section class="profile">
+    <h2>Hi Zoey! Ready to learn?</h2>
+</section>
+
+<section class="lessons">
+
+    <!-- Warm Up -->
+    <div class="card">
+        <h3>Warm‑Up: Number of the Day (24)</h3>
+        <p>Which of these shows 24 as an array?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">3 rows of 5</div>
+            <div class="choice" onclick="check(this, true)">4 rows of 6</div>
+            <div class="choice" onclick="check(this, false)">2 rows of 10</div>
+            <div class="choice" onclick="check(this, false)">5 rows of 3</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- What Are Factors -->
+    <div class="card">
+        <h3>What Are Factors?</h3>
+        <p>Which numbers are BOTH factors of 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, true)">3 and 8</div>
+            <div class="choice" onclick="check(this, false)">5 and 7</div>
+            <div class="choice" onclick="check(this, false)">9 and 4</div>
+            <div class="choice" onclick="check(this, true)">2 and 12</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Factor Factory -->
+    <div class="card">
+        <h3>Factor Factory</h3>
+        <p>Which of these is a correct factor pair for 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">7 × 4</div>
+            <div class="choice" onclick="check(this, true)">3 × 8</div>
+            <div class="choice" onclick="check(this, false)">9 × 3</div>
+            <div class="choice" onclick="check(this, true)">2 × 12</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Factor or Not -->
+    <div class="card">
+        <h3>Factor or Not a Factor?</h3>
+        <p>Is 5 a factor of 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">Yes</div>
+            <div class="choice" onclick="check(this, true)">No</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Exit Ticket -->
+    <div class="card">
+        <h3>Exit Ticket</h3>
+        <p>Which array shows 3 × 8?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">3 rows of 6</div>
+            <div class="choice" onclick="check(this, true)">3 rows of 8</div>
+            <div class="choice" onclick="check(this, false)">8 rows of 4</div>
+            <div class="choice" onclick="check(this, false)">4 rows of 3</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="progress">
+    <button onclick="window.location.href='index.html'">⬅ Back to Dashboard</button>
+</section>
+
+<!-- Confetti container -->
+<div id="confetti-container"></div>
+
 <script>
 function check(element, isCorrect) {
     const box = element.parentElement;
     const feedback = box.querySelector(".feedback");
 
-    // Reset all choices
+    // Reset all choices in this question box
     box.querySelectorAll(".choice").forEach(choice => {
         choice.classList.remove("correct", "incorrect");
     });
@@ -12,11 +182,41 @@ function check(element, isCorrect) {
         element.classList.add("correct");
         feedback.textContent = "Great job, Zoey! 🎉";
         feedback.style.color = "#4CAF50";
+        launchConfetti();
     } else {
         element.classList.add("incorrect");
         feedback.textContent = "Try again!";
         feedback.style.color = "#ff4d4d";
     }
 }
+
+function launchConfetti() {
+    const container = document.getElementById("confetti-container");
+
+    // Create 40 confetti pieces
+    for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+
+        // Random horizontal position
+        confetti.style.left = Math.random() * 100 + "vw";
+
+        // Random color
+        const colors = ["#ff7ac4", "#ffb3e6", "#ffd1f2", "#fff0fa", "#ffe6f7"];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        // Random delay
+        confetti.style.animationDelay = (Math.random() * 0.5) + "s";
+
+        container.appendChild(confetti);
+
+        // Remove after animation
+        setTimeout(() => {
+            confetti.remove();
+        }, 1500);
+    }
+}
 </script>
 
+</body>
+</html>
