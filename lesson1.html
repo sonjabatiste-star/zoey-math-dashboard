@@ -4,6 +4,45 @@
     <meta charset="UTF-8">
     <title>Week 1 – Factors & Multiples</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .question-box {
+            background: #ffe6f7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ffb3e6;
+        }
+
+        .choice {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 2px solid #ffb3e6;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            background: #ffeff9;
+        }
+
+        .correct {
+            background: #d4ffdf !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .incorrect {
+            background: #ffe0e0 !important;
+            border-color: #ff4d4d !important;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -13,13 +52,87 @@
     <p>Let’s explore arrays, factor pairs, and number relationships!</p>
 </header>
 
-<section class="profile" style="padding: 10px;">
-    <img src="https://i.imgur.com/4AiXzf8.png" width="180">
+<section class="profile">
     <h2>Hi Zoey! Ready to learn?</h2>
 </section>
 
 <section class="lessons">
 
+    <!-- Warm Up -->
     <div class="card">
         <h3>Warm‑Up: Number of the Day (24)</h3>
-        <p>Show 24 using pictures, equations, or words.</p>
+        <p>Which of these shows 24 as an array?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">3 rows of 5</div>
+            <div class="choice" onclick="check(this, true)">4 rows of 6</div>
+            <div class="choice" onclick="check(this, false)">2 rows of 10</div>
+            <div class="choice" onclick="check(this, false)">5 rows of 3</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- What Are Factors -->
+    <div class="card">
+        <h3>What Are Factors?</h3>
+        <p>Which numbers are BOTH factors of 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, true)">3 and 8</div>
+            <div class="choice" onclick="check(this, false)">5 and 7</div>
+            <div class="choice" onclick="check(this, false)">9 and 4</div>
+            <div class="choice" onclick="check(this, true)">2 and 12</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Factor Factory -->
+    <div class="card">
+        <h3>Factor Factory</h3>
+        <p>Which of these is a correct factor pair for 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">7 × 4</div>
+            <div class="choice" onclick="check(this, true)">3 × 8</div>
+            <div class="choice" onclick="check(this, false)">9 × 3</div>
+            <div class="choice" onclick="check(this, true)">2 × 12</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Factor or Not -->
+    <div class="card">
+        <h3>Factor or Not a Factor?</h3>
+        <p>Is 5 a factor of 24?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">Yes</div>
+            <div class="choice" onclick="check(this, true)">No</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Exit Ticket -->
+    <div class="card">
+        <h3>Exit Ticket</h3>
+        <p>Which array shows 3 × 8?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">3 rows of 6</div>
+            <div class="choice" onclick="check(this, true)">3 rows of 8</div>
+            <div class="choice" onclick="check(this, false)">8 rows of 4</div>
+            <div class="choice" onclick="check(this, false)">4 rows of 3</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="progress">
+    <button onclick="window.location.href='index.html'">⬅ Back to Dashboard</button>
+</section>
+
+<script>
+function check(element, isCorrect) {
+    const box = element.parentElement;
+    const feedback = box.query
