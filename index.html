@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zoey's Math Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header>
+        <h1>Zoey’s Math Dashboard</h1>
+        <p>Where your math journey leads to infinite success!</p>
+    </header>
+
+    <section class="profile">
+        <img src="https://via.placeholder.com/120" class="avatar">
+        <h2>Welcome, Zoey!</h2>
+        <p>4th Grade • PIfinity Math Tutoring</p>
+    </section>
+
+    <section class="lessons">
+        <h2>Weekly Lessons</h2>
+
+        <div class="card">
+            <h3>Week 1: Factors & Multiples</h3>
+            <p>Interactive lesson on arrays, factor pairs, and number relationships.</p>
+            <button onclick="openLesson(1)">Open Lesson</button>
+        </div>
+
+        <div class="card">
+            <h3>Week 2: Data & Mean</h3>
+            <p>Understanding mean using fair-share models and dot plots.</p>
+            <button onclick="openLesson(2)">Open Lesson</button>
+        </div>
+
+    </section>
+
+    <section class="progress">
+        <h2>Your Progress</h2>
+        <p id="progressText">Loading progress...</p>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
