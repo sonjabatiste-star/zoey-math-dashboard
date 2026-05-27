@@ -1,17 +1,24 @@
+/* 🌸 Soft Pink + Rainbow Theme for Zoey's Dashboard 🌸 */
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f7f9fc;
+    font-family: "Comic Sans MS", Arial, sans-serif;
+    background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
     margin: 0;
     padding: 0;
+    color: #5a3e5b;
 }
 
+/* Header */
 header {
-    background: #4b79a1;
+    background: linear-gradient(90deg, #ff9ecb, #ffb3e6, #ffc8ff);
     color: white;
-    padding: 20px;
+    padding: 25px;
     text-align: center;
+    border-bottom: 5px solid #ff7ac4;
+    box-shadow: 0 4px 10px rgba(255, 122, 196, 0.4);
 }
 
+/* Profile Section */
 .profile {
     text-align: center;
     padding: 20px;
@@ -19,35 +26,50 @@ header {
 
 .avatar {
     border-radius: 50%;
+    border: 4px solid #ff9ecb;
+    box-shadow: 0 0 15px rgba(255, 122, 196, 0.5);
     margin-bottom: 10px;
 }
 
+/* Lesson Cards */
 .lessons {
     padding: 20px;
 }
 
 .card {
     background: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 2px solid #ffb3e6;
+    box-shadow: 0 4px 10px rgba(255, 122, 196, 0.2);
+    transition: transform 0.2s ease;
 }
 
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(255, 122, 196, 0.3);
+}
+
+/* Buttons */
 button {
-    background: #4b79a1;
+    background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 12px 18px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
 }
 
 button:hover {
-    background: #35516b;
+    background: #ff5cad;
 }
 
+/* Progress Section */
 .progress {
     padding: 20px;
-    background: #eef2f7;
+    background: #ffe6f7;
+    border-top: 3px solid #ff9ecb;
 }
