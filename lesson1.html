@@ -226,6 +226,16 @@ function markComplete(lesson) {
     localStorage.setItem(lesson, "complete");
 }
 </script>
+<button onclick="markComplete('lesson1'); window.location.href='index.html';" 
+        style="margin-top:20px; padding:12px 20px; background:#ffb3e6; border:none; border-radius:10px; cursor:pointer;">
+    🎉 Finish Lesson
+</button>
+
+<script>
+function markComplete(lesson) {
+    localStorage.setItem(lesson, "complete");
+}
+</script>
 
 </body>
 </html>
