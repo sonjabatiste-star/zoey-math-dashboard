@@ -74,6 +74,47 @@
 </section>
 
 <script src="script.js"></script>
+<script>
+function updateDashboard() {
+    let completed = 0;
+    const badges = document.getElementById("badges");
+    badges.innerHTML = "";
+
+    // Lesson 1
+    if (localStorage.getItem("lesson1") === "complete") {
+        completed++;
+        badges.innerHTML += `<div style="padding:10px; background:#ffd1f2; border-radius:10px;">
+                                🌟 Factor Master
+                             </div>`;
+    }
+
+    // Lesson 2
+    if (localStorage.getItem("lesson2") === "complete") {
+        completed++;
+        badges.innerHTML += `<div style="padding:10px; background:#d1e8ff; border-radius:10px;">
+                                🔍 Data Detective
+                             </div>`;
+    }
+
+    // Lesson 3
+    if (localStorage.getItem("lesson3") === "complete") {
+        completed++;
+        badges.innerHTML += `<div style="padding:10px; background:#ffe9b3; border-radius:10px;">
+                                🎯 Rounding Rockstar
+                             </div>`;
+    }
+
+    // Progress bar
+    const percent = (completed / 3) * 100;
+    document.getElementById("progressFill").style.width = percent + "%";
+
+    // Text
+    document.getElementById("progressText").textContent =
+        `Zoey has completed ${completed} out of 3 lessons.`;
+}
+
+updateDashboard();
+</script>
 
 </body>
 </html>
