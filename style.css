@@ -19,6 +19,14 @@ header {
     position: relative;
 }
 
+/* Top-right buttons (Teams + Parent Portal) */
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
 /* Profile Section */
 .profile {
     text-align: center;
@@ -73,12 +81,9 @@ button:hover {
     padding: 20px;
     background: #ffe6f7;
     border-top: 3px solid #ff9ecb;
-  .top-right {
-    position: absolute;
-    top: 20px;
-    right: 20px;
 }
 
+/* Teams Button */
 .teams-button {
     background: #7f9cff;
     color: white;
@@ -88,6 +93,8 @@ button:hover {
     font-size: 14px;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 9999;
 }
 
 .teams-button:hover {
