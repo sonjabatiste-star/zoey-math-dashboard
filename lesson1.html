@@ -217,6 +217,15 @@ function launchConfetti() {
     }
 }
 </script>
+<button onclick="markComplete('lesson1'); window.location.href='index.html';">
+    🎉 Finish Lesson
+</button>
+
+<script>
+function markComplete(lesson) {
+    localStorage.setItem(lesson, "complete");
+}
+</script>
 
 </body>
 </html>
