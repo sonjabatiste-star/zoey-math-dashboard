@@ -26,3 +26,18 @@ header {
     right: 20px;
     display: flex;
     gap: 12px;
+    z-index: 9999;
+}
+
+/* ⭐ Center Weekly Lessons */
+.lessons {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto; /* centers the whole lessons section */
+    text-align: center; /* centers the lesson titles */
+}
+
+.card {
+    margin-left: auto;
+    margin-right: auto;
+}
