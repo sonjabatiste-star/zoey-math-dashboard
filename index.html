@@ -53,7 +53,21 @@
 
 <section class="progress">
     <h2>Your Progress</h2>
-    <p id="progressText">Zoey has completed 1 out of 12 lessons. Great start!</p>
+
+    <!-- Progress Bar -->
+    <div style="background:#ffe6f7; border-radius:20px; width:80%; margin:auto; height:25px;">
+        <div id="progressFill" 
+             style="background:#ff99d6; height:100%; width:0%; border-radius:20px; transition:0.5s;">
+        </div>
+    </div>
+
+    <p id="progressText" style="margin-top:10px;">Loading progress...</p>
+
+    <!-- Badges -->
+    <h3>Your Badges</h3>
+    <div id="badges" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+    </div>
+</section>
 
     <!-- ✨ Cute footer image (same unicorn file) -->
     <img src="Unicorn.jpg" width="120" style="border-radius: 12px;">
