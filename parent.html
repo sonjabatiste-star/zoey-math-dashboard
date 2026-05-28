@@ -77,6 +77,14 @@
         .save-button:hover, .clear-button:hover {
             background: #e088c0;
         }
+
+        /* Timestamp styling */
+        #timestamp {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+        }
     </style>
 </head>
 
@@ -111,6 +119,9 @@
         <br>
         <button class="save-button" onclick="saveNotes()">Save Notes</button>
         <button class="clear-button" onclick="clearNotes()">Clear Notes</button>
+
+        <!-- Timestamp -->
+        <p id="timestamp"></p>
     </div>
 
     <br><br>
@@ -129,7 +140,7 @@ function unlock() {
     if (password === "1234") {
         document.getElementById("lockBox").style.display = "none";
         document.getElementById("parentContent").style.display = "block";
-        loadNotes(); // Load saved notes when unlocked
+        loadNotes(); // Load saved notes + timestamp
     } else {
         error.textContent = "Incorrect password";
     }
@@ -138,18 +149,37 @@ function unlock() {
 function saveNotes() {
     const notes = document.getElementById("teacherNotes").value;
     localStorage.setItem("zoeyNotes", notes);
+
+    // Save timestamp
+    const now = new Date();
+    const timestamp = now.toLocaleString("en-US", {
+        dateStyle: "long",
+        timeStyle: "short"
+    });
+
+    localStorage.setItem("zoeyNotesTimestamp", timestamp);
+    document.getElementById("timestamp").textContent = "Last updated: " + timestamp;
 }
 
 function loadNotes() {
     const saved = localStorage.getItem("zoeyNotes");
+    const savedTime = localStorage.getItem("zoeyNotesTimestamp");
+
     if (saved) {
         document.getElementById("teacherNotes").value = saved;
+    }
+
+    if (savedTime) {
+        document.getElementById("timestamp").textContent = "Last updated: " + savedTime;
     }
 }
 
 function clearNotes() {
     localStorage.removeItem("zoeyNotes");
+    localStorage.removeItem("zoeyNotesTimestamp");
+
     document.getElementById("teacherNotes").value = "";
+    document.getElementById("timestamp").textContent = "";
 }
 </script>
 
