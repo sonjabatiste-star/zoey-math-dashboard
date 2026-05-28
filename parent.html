@@ -42,7 +42,7 @@
             border-radius: 10px;
         }
 
-        /* ⭐ FIXED: Notes box styling was missing */
+        /* Editable Notes Box */
         .notes-box {
             background: #fff0fa;
             border: 2px solid #ffb3e6;
@@ -50,8 +50,32 @@
             border-radius: 12px;
             box-shadow: 0 2px 6px rgba(255, 122, 196, 0.2);
             margin-top: 10px;
-            font-size: 16px;
-            line-height: 1.5;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            border: 2px solid #ffb3e6;
+            padding: 10px;
+            font-size: 15px;
+            resize: vertical;
+            background: #fffaff;
+        }
+
+        .save-button, .clear-button {
+            background: #ff99d6;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        .save-button:hover, .clear-button:hover {
+            background: #e088c0;
         }
     </style>
 </head>
@@ -77,16 +101,20 @@
 
     <!-- PDF Embed -->
     <iframe src="tutoring-plan.pdf" width="100%" height="600px"></iframe>
+
     <br><br>
 
+    <!-- Editable Notes Section -->
     <h2>Teacher Notes from Last Session</h2>
     <div class="notes-box">
-        <p>
-            Zoey did an excellent job today! She mastered multiplying fractions and showed strong problem‑solving skills.
-        </p>
+        <textarea id="teacherNotes" placeholder="Type your notes here..."></textarea>
+        <br>
+        <button class="save-button" onclick="saveNotes()">Save Notes</button>
+        <button class="clear-button" onclick="clearNotes()">Clear Notes</button>
     </div>
 
     <br><br>
+
     <button onclick="window.location.href='index.html'" 
             style="padding:10px 20px; background:#7f9cff; color:white; border:none; border-radius:10px;">
         ⬅ Back to Dashboard
@@ -101,9 +129,27 @@ function unlock() {
     if (password === "1234") {
         document.getElementById("lockBox").style.display = "none";
         document.getElementById("parentContent").style.display = "block";
+        loadNotes(); // Load saved notes when unlocked
     } else {
         error.textContent = "Incorrect password";
     }
+}
+
+function saveNotes() {
+    const notes = document.getElementById("teacherNotes").value;
+    localStorage.setItem("zoeyNotes", notes);
+}
+
+function loadNotes() {
+    const saved = localStorage.getItem("zoeyNotes");
+    if (saved) {
+        document.getElementById("teacherNotes").value = saved;
+    }
+}
+
+function clearNotes() {
+    localStorage.removeItem("zoeyNotes");
+    document.getElementById("teacherNotes").value = "";
 }
 </script>
 
