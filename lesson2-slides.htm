@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Week 2 – Data Detectives: Mean, Mode, Range</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+      color: #4b3558;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slideshow-container {
+      width: 90%;
+      max-width: 900px;
+      height: 90vh;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(255, 122, 196, 0.4);
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    h1, h2 {
+      color: #ff5cad;
+      margin-top: 0;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #7b5a8c;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #ffe6f7;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    button:hover {
+      background: #ff5cad;
+    }
+
+    .page-indicator {
+      text-align: center;
+      font-size: 13px;
+      color: #7b5a8c;
+      margin-top: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #ffb3e6;
+      padding: 6px 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #ffe6f7;
+    }
+
+    .big-number {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ff5cad;
+    }
+
+    .highlight {
+      background: #fff7d6;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .emoji {
+      font-size: 26px;
+    }
+
+    @media (max-width: 600px) {
+      .slideshow-container {
+        padding: 15px 18px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="slideshow-container">
+
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <h1>Week 2 – Data Detectives 🕵🏽‍♀️</h1>
+    <p class="subtitle">Mean • Mode • Range • Dot Plots • Frequency Tables</p>
+    <p><span class="emoji">🎯</span> <strong>Today’s Mission:</strong></p>
+    <ul>
+      <li>Explore <strong>dot plots</strong> and <strong>frequency tables</strong></li>
+      <li>Find <strong>mean, mode, and range</strong></li>
+      <li>Understand <span class="highlight">“fair share”</span> for mean</li>
+    </ul>
+    <p><strong>TEKS Focus:</strong></p>
+    <p>
+      <span class="tag">3.8(A) – Represent data</span>
+      <span class="tag">3.8(B) – Solve with data</span><br>
+      <span class="tag">Prepares for 4.9(A), 4.9(B)</span>
+    </p>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <h2>What Is a Dot Plot?</h2>
+    <p>A <strong>dot plot</strong> shows how many times each number appears in a data set.</p>
+    <p><strong>Example:</strong> Number of jumping jacks in 30 seconds:</p>
+    <p><span class="highlight">5, 7, 7, 8, 10, 5, 6, 7</span></p>
+    <p>Each dot = 1 student. Numbers on the bottom = scores.</p>
+    <p><strong>Ask Zoey:</strong></p>
+    <ul>
+      <li>“What does each dot represent?”</li>
+      <li>“What do the numbers on the bottom represent?”</li>
+    </ul>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide">
+    <h2>Build a Dot Plot Together</h2>
+    <p>Data: <span class="highlight">5, 7, 7, 8, 10, 5, 6, 7</span></p>
+    <p>Draw a number line: 5, 6, 7, 8, 9, 10.</p>
+    <p>Then place dots:</p>
+    <ul>
+      <li>Two dots above 5</li>
+      <li>One dot above 6</li>
+      <li>Three dots above 7</li>
+      <li>One dot above 8</li>
+      <li>One dot above 10</li>
+    </ul>
+    <p><strong>Ask Zoey:</strong></p>
+    <ul>
+      <li>“Which number has the most dots?”</li>
+      <li>“What does that tell us?”</li>
+    </ul>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide">
+    <h2>Frequency Table Magic</h2>
+    <p>A <strong>frequency table</strong> counts how many times each number appears.</p>
+    <table>
+      <tr>
+        <th>Number</th>
+        <th>Frequency</th>
+      </tr>
+      <tr><td>5</td><td>2</td></tr>
+      <tr><td>6</td><td>1</td></tr>
+      <tr><td>7</td><td>3</td></tr>
+      <tr><td>8</td><td>1</td></tr>
+      <tr><td>10</td><td>1</td></tr>
+    </table>
+    <p><strong>Ask Zoey:</strong></p>
+    <ul>
+      <li>“Which number has the highest frequency?”</li>
+      <li>“Which numbers only appear once?”</li>
+    </ul>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide">
+    <h2>Mode: The Most Popular Number</h2>
+    <p><strong>Mode</strong> = the number that appears the most.</p>
+    <p>From our data: <span class="highlight">5, 7, 7, 8, 10, 5, 6, 7</span></p>
+    <ul>
+      <li>5 appears 2 times</li>
+      <li>7 appears 3 times</li>
+      <li>8, 10, 6 appear 1 time</li>
+    </ul>
+    <p class="big-number">Mode = 7</p>
+    <p><strong>Ask Zoey:</strong> “Can a data set have more than one mode?”</p>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide">
+    <h2>Range: How Far Apart Are the Numbers?</h2>
+    <p><strong>Range</strong> = biggest number − smallest number.</p>
+    <p>Biggest = 10, Smallest = 5</p>
+    <p class="big-number">Range = 10 − 5 = 5</p>
+    <p><strong>Ask Zoey:</strong></p>
+    <ul>
+      <li>“What does the range tell us about how spread out the data is?”</li>
+    </ul>
+  </div>
+
+  <!-- Slide 7 -->
+  <div class="slide">
+    <h2>Mean: The Fair-Share Idea</h2>
+    <p><strong>Mean</strong> is like a <span class="highlight">fair share</span>.</p>
+    <p>Imagine each number is a stack of cubes. We “redistribute” cubes until all stacks are equal.</p>
+    <p><strong>Ask Zoey:</strong></p>
+    <ul>
+      <li>“If we share the cubes fairly, what does each person get?”</li>
+      <li>“Why does that represent the mean?”</li>
+    </ul>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide">
+    <h2>Calculate the Mean Together</h2>
+    <p>Data: <span class="highlight">5, 7, 7, 8, 10, 5, 6, 7</span></p>
+    <p>Step 1: Add them all:</p>
+    <p>5 + 7 + 7 + 8 + 10 + 5 + 6 + 7 = <strong>55</strong></p>
+    <p>Step 2: Count how many numbers: <strong>8</strong></p>
+    <p>Step 3: Divide:</p>
+    <p class="big-number">Mean = 55 ÷ 8 ≈ 6.875 ≈ 7</p>
+    <p><strong>Ask Zoey:</strong> “Does the mean match our fair-share idea?”</p>
+  </div>
+
+  <!-- Slide 9 -->
+  <div class="slide">
+    <h2>Real-World Data Challenge</h2>
+    <p>Zoey’s reading minutes this week:</p>
+    <p class="highlight">12, 15, 20, 15, 18, 22, 15</p>
+    <p><strong>Tasks:</strong></p>
+    <ul>
+      <li>Make a dot plot</li>
+      <li>Make a frequency table</li>
+      <li>Find the mode</li>
+      <li>Find the range</li>
+      <li>Find the mean using fair-share thinking</li>
+    </ul>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide">
+    <h2>TEKS Connection</h2>
+    <p><strong>3rd Grade TEKS:</strong></p>
+    <ul>
+      <li><strong>3.8(A)</strong> – Represent data with dot plots and frequency tables</li>
+      <li><strong>3.8(B)</strong> – Solve problems using data</li>
+    </ul>
+    <p><strong>Preparing for 4th Grade:</strong></p>
+    <ul>
+      <li><strong>4.9(A)</strong> – Represent data with frequency tables and dot plots</li>
+      <li><strong>4.9(B)</strong> – Solve with mean, mode, range</li>
+    </ul>
+    <p class="highlight">Tell Zoey: “You’re already doing 4th-grade thinking!”</p>
+  </div>
+
+  <!-- Slide 11 -->
+  <div class="slide">
+    <h2>Exit Ticket</h2>
+    <p>Ask Zoey to answer in her own words:</p>
+    <ol>
+      <li>What is the <strong>mode</strong>?</li>
+      <li>What is the <strong>range</strong>?</li>
+      <li>What does <strong>“fair share”</strong> mean?</li>
+      <li>How do you find the <strong>mean</strong> of a data set?</li>
+    </ol>
+  </div>
+
+  <!-- Slide 12 -->
+  <div class="slide">
+    <h2>Data Detective Badge Unlocked! 🏅</h2>
+    <p class="subtitle">Mean • Mode • Range • Dot Plots • Frequency Tables</p>
+    <p><span class="emoji">🦄</span> “Zoey, you are officially a <strong>Data Detective</strong>!”</p>
+    <p>Next time: we’ll use these skills in new, bigger 4th-grade style problems.</p>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-buttons">
+    <button id="prevBtn">⬅ Back</button>
+    <button id="nextBtn">Next ➡</button>
+  </div>
+  <div class="page-indicator" id="pageIndicator"></div>
+
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageIndicator = document.getElementById('pageIndicator');
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+    pageIndicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === slides.length - 1;
+    prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+    nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentSlide > 0) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentSlide < slides.length - 1) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextBtn.click();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+  });
+
+  showSlide(currentSlide);
+</script>
+
+</body>
+</html>
