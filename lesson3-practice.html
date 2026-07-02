@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 3 – Expanded Form Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    .number-box {
+        background: #ffe6f7;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .drag-area, .drop-area {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .block {
+        background: #ffb3e6;
+        padding: 10px 15px;
+        border-radius: 10px;
+        cursor: grab;
+        font-size: 20px;
+        box-shadow: 0 4px 10px rgba(255, 122, 196, 0.4);
+    }
+
+    .drop-slot {
+        background: #fff7d6;
+        width: 180px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        border: 2px dashed #ff9ecb;
+    }
+
+    .btn {
+        background: #ff7ac4;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        margin-right: 10px;
+    }
+
+    .btn:hover {
+        background: #ff5cad;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+        color: #4b3558;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Expanded Form – Drag & Drop Practice</h2>
+
+    <div class="number-box" id="targetNumber">Loading number...</div>
+
+    <h3 style="color:#7b5a8c;">Drag the correct expanded form pieces into the boxes:</h3>
+
+    <div class="drag-area" id="dragArea"></div>
+
+    <div class="drop-area">
+        <div class="drop-slot" data-place="thousands">Thousands</div>
+        <div class="drop-slot" data-place="hundreds">Hundreds</div>
+        <div class="drop-slot" data-place="tens">Tens</div>
+        <div class="drop-slot" data-place="ones">Ones</div>
+    </div>
+
+    <button class="btn" onclick="checkAnswer()">Check Answer</button>
+    <button class="btn" onclick="resetGame()">Reset</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    let number;
+    let digits;
+    let blocks = [];
+
+    function generateNumber() {
+        number = Math.floor(Math.random() * 9000) + 1000; 
+        digits = {
+            thousands: Math.floor(number / 1000) * 1000,
+            hundreds: Math.floor((number % 1000) / 100) * 100,
+            tens: Math.floor((number % 100) / 10) * 10,
+            ones: number % 10
+        };
+
+        document.getElementById("targetNumber").textContent = number;
+        createBlocks();
+    }
+
+    function createBlocks() {
+        const dragArea = document.getElementById("dragArea");
+        dragArea.innerHTML = "";
+        blocks = [];
+
+        Object.values(digits).forEach(value => {
+            const block = document.createElement("div");
+            block.className = "block";
+            block.textContent = value;
+            block.draggable = true;
+
+            block.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", value);
+            });
+
+            blocks.push(block);
+            dragArea.appendChild(block);
+        });
+    }
+
+    document.querySelectorAll(".drop-slot").forEach(slot => {
+        slot.addEventListener("dragover", e => e.preventDefault());
+
+        slot.addEventListener("drop", e => {
+            const value = e.dataTransfer.getData("text/plain");
+            slot.textContent = value;
+            slot.style.background = "#d6ffe6";
+        });
+    });
+
+    function checkAnswer() {
+        let correct = true;
+
+        document.querySelectorAll(".drop-slot").forEach(slot => {
+            const place = slot.getAttribute("data-place");
+            const expected = digits[place];
+            const actual = parseInt(slot.textContent);
+
+            if (expected !== actual) correct = false;
+        });
+
+        const result = document.getElementById("result");
+        if (correct) {
+            result.textContent = "🎉 Correct! Great job!";
+        } else {
+            result.textContent = "Try again — some pieces are in the wrong place.";
+        }
+    }
+
+    function resetGame() {
+        document.getElementById("result").textContent = "";
+        document.querySelectorAll(".drop-slot").forEach(slot => {
+            slot.textContent = slot.getAttribute("data-place").charAt(0).toUpperCase() + slot.getAttribute("data-place").slice(1);
+            slot.style.background = "#fff7d6";
+        });
+        generateNumber();
+    }
+
+    generateNumber();
+</script>
+
+</body>
+</html>
