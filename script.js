@@ -1,6 +1,10 @@
-function openLesson(week) {
-    alert("This will open Week " + week + " lesson content. We can add full lessons later!");
+// Marks a lesson as complete and saves it to the browser
+// so the dashboard's progress bar and badges can find it.
+function markComplete(lessonName) {
+    localStorage.setItem(lessonName, "complete");
 }
 
-document.getElementById("progressText").innerText =
-    "Zoey has completed 1 out of 12 lessons. Great start!";
+// Used by any legacy "Open Lesson" buttons that pass a week number.
+function openLesson(week) {
+    window.location.href = "lesson" + week + ".html";
+}
