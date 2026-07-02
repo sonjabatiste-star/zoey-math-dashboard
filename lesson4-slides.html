@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lesson 3 – Fractions Slideshow</title>
+<title>Week 4 – Fractions Slideshow</title>
 
 <style>
     body {
@@ -122,9 +122,9 @@
 
     <!-- Slide 1 -->
     <div class="slide active">
-        <h1>Lesson 3 – Fractions 🟣</h1>
+        <h1>Week 4 – Fractions 🟣</h1>
         <p class="subtitle">Unit Fractions • Models • Number Lines</p>
-        <p><strong>Today’s Mission:</strong></p>
+        <p><strong>Today's Mission:</strong></p>
         <ul>
             <li>Understand <strong>unit fractions</strong></li>
             <li>Build <strong>fraction models</strong></li>
@@ -146,8 +146,8 @@
         <div class="fraction-box">🍕 If a pizza is cut into 4 equal slices, each slice is <strong>1/4</strong>.</div>
         <p><strong>Ask Zoey:</strong></p>
         <ul>
-            <li>“What does the top number (numerator) tell us?”</li>
-            <li>“What does the bottom number (denominator) tell us?”</li>
+            <li>"What does the top number (numerator) tell us?"</li>
+            <li>"What does the bottom number (denominator) tell us?"</li>
         </ul>
     </div>
 
@@ -158,8 +158,8 @@
         <div class="fraction-box">Examples: 1/2, 1/3, 1/4, 1/8</div>
         <p><strong>Ask Zoey:</strong></p>
         <ul>
-            <li>“Which is bigger: 1/2 or 1/4?”</li>
-            <li>“Why does a bigger denominator mean smaller pieces?”</li>
+            <li>"Which is bigger: 1/2 or 1/4?"</li>
+            <li>"Why does a bigger denominator mean smaller pieces?"</li>
         </ul>
     </div>
 
@@ -167,3 +167,90 @@
     <div class="slide">
         <h2>Fraction Models</h2>
         <p>We can show fractions using shapes.</p>
+        <div class="fraction-box">🟪 A circle split into equal parts, with some parts shaded, shows a fraction visually.</div>
+        <ul>
+            <li>Count the <strong>total equal parts</strong> — that's the denominator</li>
+            <li>Count the <strong>shaded parts</strong> — that's the numerator</li>
+        </ul>
+        <p><strong>Ask Zoey:</strong> "If 3 out of 5 equal parts are shaded, what fraction is that?"</p>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Comparing Unit Fractions</h2>
+        <p>When the numerator is 1, a <strong>bigger denominator means smaller pieces</strong>.</p>
+        <div class="fraction-box">1/3 is bigger than 1/8, because the whole is split into fewer, larger pieces.</div>
+        <p><strong>Ask Zoey:</strong> "Would you rather have 1/2 of a candy bar or 1/6 of one? Why?"</p>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+        <h2>Fractions on a Number Line</h2>
+        <p>A number line from 0 to 1 can be split into equal parts to show fractions.</p>
+        <div class="fraction-box">0 ──┬──┬──┬── 1<br>&nbsp;&nbsp;1/4&nbsp;&nbsp;2/4&nbsp;&nbsp;3/4</div>
+        <ul>
+            <li>The line is split into <strong>equal jumps</strong></li>
+            <li>Each jump represents <strong>one unit fraction</strong></li>
+        </ul>
+        <p><strong>Ask Zoey:</strong> "Where would 2/4 land on this number line?"</p>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide">
+        <h2>Fraction Star ⭐</h2>
+        <p class="subtitle">Unit Fractions • Models • Number Lines</p>
+        <p style="font-size:22px; text-align:center;">"Zoey, you are officially a <strong>Fraction Fanatic!</strong>"</p>
+        <p style="text-align:center;">Head back to the dashboard to try the practice questions.</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button id="prevBtn">⬅ Back</button>
+        <button id="nextBtn">Next ➡</button>
+    </div>
+    <div class="page-indicator" id="pageIndicator"></div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        pageIndicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+        nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+    });
+
+    showSlide(currentSlide);
+</script>
+
+</body>
+</html>
