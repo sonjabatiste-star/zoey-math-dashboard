@@ -154,17 +154,24 @@ function updateDashboard() {
                              </div>`;
     }
 
-    // Progress bar
-    const percent = (completed / 3) * 100;
+    // Lesson 4
+    if (localStorage.getItem("lesson4") === "complete") {
+        completed++;
+        badges.innerHTML += `<div style="padding:10px; background:#d9f2d9; border-radius:10px;">
+                                🍕 Fraction Fanatic
+                             </div>`;
+    }
+
+    // Progress bar (now out of 4 lessons)
+    const percent = (completed / 4) * 100;
     document.getElementById("progressFill").style.width = percent + "%";
 
     // Text
     document.getElementById("progressText").textContent =
-        `Zoey has completed ${completed} out of 3 lessons.`;
+        `Zoey has completed ${completed} out of 4 lessons.`;
 }
 
 updateDashboard();
 </script>
-
 </body>
 </html>
