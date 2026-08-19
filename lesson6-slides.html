@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 6 – Decimal Place Value</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .slideshow-container {
+        width: 90%;
+        max-width: 900px;
+        height: 90vh;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.4);
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .slide {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .slide.active {
+        display: block;
+    }
+
+    h1, h2 {
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        color: #7b5a8c;
+        margin-bottom: 10px;
+    }
+
+    ul, ol {
+        padding-left: 20px;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #ffe6f7;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 13px;
+        margin-right: 6px;
+        margin-bottom: 4px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    button {
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    button:hover {
+        background: #ff5cad;
+    }
+
+    .page-indicator {
+        text-align: center;
+        font-size: 13px;
+        color: #7b5a8c;
+        margin-top: 5px;
+    }
+
+    .money-box {
+        background: #e6ffea;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .decimal-box {
+        background: #fff7d6;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 22px;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+
+    .grid-model {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 2px;
+        max-width: 260px;
+        margin: 14px auto;
+    }
+
+    .grid-cell {
+        aspect-ratio: 1;
+        border-radius: 2px;
+    }
+
+    .filled { background: #ff9ecb; }
+    .empty { background: #ffe6f7; border: 1px solid #ffb3e6; }
+
+    @media (max-width: 600px) {
+        .slideshow-container {
+            padding: 15px 18px;
+        }
+        h1 {
+            font-size: 22px;
+        }
+        h2 {
+            font-size: 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="slideshow-container">
+
+    <!-- Slide 1 -->
+    <div class="slide active">
+        <h1>Lesson 6 – Decimal Place Value 💰</h1>
+        <p class="subtitle">Tenths • Hundredths • Money Models</p>
+        <p><strong>Today's Mission:</strong></p>
+        <ul>
+            <li>Understand what <strong>tenths</strong> and <strong>hundredths</strong> mean</li>
+            <li>Connect decimals to <strong>money</strong></li>
+            <li>Read and write decimals using <strong>base-10 models</strong></li>
+        </ul>
+        <p><strong>TEKS Focus:</strong></p>
+        <p>
+            <span class="tag">4.2(E)</span>
+            <span class="tag">4.2(H)</span>
+        </p>
+        <p class="subtitle">This is brand new — decimals aren't taught until 4th grade!</p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+        <h2>What Is a Decimal?</h2>
+        <p>A decimal is a way to show part of a whole, using a <strong>decimal point</strong>.</p>
+        <div class="decimal-box">0.7</div>
+        <p>This says "seven tenths" — 7 out of 10 equal parts of a whole.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What do you think comes right after the decimal point?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <h2>Tenths</h2>
+        <p>When a whole is split into 10 equal parts, each part is one <strong>tenth</strong> (0.1).</p>
+        <div class="grid-model" style="grid-template-columns: repeat(10, 1fr); max-width: 320px;">
+            <div class="grid-cell filled"></div><div class="grid-cell filled"></div><div class="grid-cell filled"></div>
+            <div class="grid-cell empty"></div><div class="grid-cell empty"></div><div class="grid-cell empty"></div>
+            <div class="grid-cell empty"></div><div class="grid-cell empty"></div><div class="grid-cell empty"></div>
+            <div class="grid-cell empty"></div>
+        </div>
+        <div class="decimal-box">3 out of 10 shaded = 0.3</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"How would we show 0.6 on this strip?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <h2>Hundredths</h2>
+        <p>When a whole is split into 100 equal parts, each part is one <strong>hundredth</strong> (0.01).</p>
+        <div class="grid-model" id="hundredsGrid"></div>
+        <div class="decimal-box">23 out of 100 shaded = 0.23</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Which is bigger: one tenth or one hundredth?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Decimals & Money</h2>
+        <p>Money is a decimal system! Dollars are wholes, and cents are hundredths.</p>
+        <div class="money-box">$3.45 = 3 dollars, 4 dimes, 5 pennies</div>
+        <div class="decimal-box">3.45 → 3 wholes, 4 tenths, 5 hundredths</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"If you have $2.60, how many dimes is that after the whole dollars?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+        <h2>Reading Decimals</h2>
+        <p>We read the digits after the decimal point by their place value.</p>
+        <div class="decimal-box">0.7 → "seven tenths"</div>
+        <div class="decimal-box">0.45 → "forty-five hundredths"</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"How would you read 0.08?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide">
+        <h2>Place Value Chart</h2>
+        <p>Decimals have their own place value spots, just like whole numbers do.</p>
+        <div class="decimal-box">Ones . Tenths Hundredths<br>&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5</div>
+        <p>In 3.45 — the 4 is in the tenths place, and the 5 is in the hundredths place.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"In 6.29, what place is the 9 in?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide">
+        <h2>Zero as a Placeholder</h2>
+        <p>Sometimes a decimal needs a zero to hold a place.</p>
+        <div class="decimal-box">0.05 = five hundredths (not five tenths!)</div>
+        <p>The 0 right after the decimal point shows there are no tenths.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Why isn't 0.05 the same as 0.5?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide">
+        <h2>Real-World Challenge</h2>
+        <p>Zoey has 4 dollars, 2 dimes, and 7 pennies.</p>
+        <div class="money-box">How would we write this as a decimal?</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What goes in the tenths place? The hundredths place?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+        <h2>TEKS Connection</h2>
+        <ul>
+            <li><strong>4.2(E)</strong> – Represent decimals to the hundredths using models</li>
+            <li><strong>4.2(H)</strong> – Determine the corresponding decimal to the tenths or hundredths place</li>
+        </ul>
+        <p class="subtitle">"You just learned a totally new 4th-grade skill!"</p>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+        <h2>Exit Ticket</h2>
+        <ol>
+            <li>Write "six tenths" as a decimal.</li>
+            <li>What is $5.30 written using place value words?</li>
+            <li>In 7.28, what digit is in the hundredths place?</li>
+            <li>Shade a 10-square strip to show 0.4.</li>
+        </ol>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide">
+        <h2>Decimal Detective ⭐</h2>
+        <p class="subtitle">Tenths • Hundredths • Money Models</p>
+        <p style="font-size:22px; text-align:center;">"Zoey, you are officially a <strong>Decimal Detective!</strong>"</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button id="prevBtn">⬅ Back</button>
+        <button id="nextBtn">Next ➡</button>
+    </div>
+    <div class="page-indicator" id="pageIndicator"></div>
+
+</div>
+
+<script>
+    // Build the 10x10 hundredths grid for Slide 4 (23 shaded)
+    const hundredsGrid = document.getElementById('hundredsGrid');
+    for (let i = 0; i < 100; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell ' + (i < 23 ? 'filled' : 'empty');
+        hundredsGrid.appendChild(cell);
+    }
+
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        pageIndicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+        nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+    });
+
+    showSlide(currentSlide);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 5 – Strip Diagram Builder Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    .story-box {
+        background: #fff7d6;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .drag-area, .drop-area {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .block {
+        background: #ffb3e6;
+        padding: 12px 16px;
+        border-radius: 10px;
+        cursor: grab;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(255, 122, 196, 0.4);
+    }
+
+    .drop-slot {
+        background: #fff0fa;
+        width: 130px;
+        height: 55px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        border: 2px dashed #ff9ecb;
+    }
+
+    .step-label {
+        text-align: center;
+        font-weight: bold;
+        color: #7b5a8c;
+        margin-bottom: 6px;
+    }
+
+    .btn {
+        background: #ff7ac4;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        margin-right: 10px;
+    }
+
+    .btn:hover {
+        background: #ff5cad;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Strip Diagram Builder 🧩</h2>
+
+    <div class="story-box" id="storyBox">Loading problem...</div>
+
+    <p style="text-align:center; color:#7b5a8c;">Drag the correct operation into <strong>Step 1</strong> and <strong>Step 2</strong> to solve the problem in order:</p>
+
+    <div class="drag-area" id="dragArea"></div>
+
+    <div class="drop-area">
+        <div>
+            <div class="step-label">Step 1</div>
+            <div class="drop-slot" id="step1" data-step="1"></div>
+        </div>
+        <div>
+            <div class="step-label">Step 2</div>
+            <div class="drop-slot" id="step2" data-step="2"></div>
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <label>Final Answer: </label>
+        <input type="number" id="finalAnswer" style="font-family:'Comic Sans MS', Arial, sans-serif; font-size:18px; padding:8px; width:90px; border-radius:8px; border:2px solid #ff9ecb; text-align:center;">
+    </div>
+
+    <div style="text-align:center; margin-top:15px;">
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+        <button class="btn" onclick="generateProblem()">New Problem</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" style="color:#ff5cad;">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    let problem;
+
+    const problemBank = [
+        {
+            text: "Zoey has 18 stickers. She buys 2 packs of 6 stickers, then gives away 9. How many does she have now?",
+            steps: [
+                { op: "2 × 6", result: 12, label: "2 × 6" },
+                { op: "18 + 12, then − 9", result: 21, label: "18 + 12 − 9" }
+            ],
+            finalAnswer: 21
+        },
+        {
+            text: "A van holds 8 people. There are 3 full vans, plus 4 extra people. How many people in all?",
+            steps: [
+                { op: "3 × 8", result: 24, label: "3 × 8" },
+                { op: "24 + 4", result: 28, label: "24 + 4" }
+            ],
+            finalAnswer: 28
+        },
+        {
+            text: "Zoey has $20. She earns $15 more from chores, then spends $12 on a toy. How much does she have left?",
+            steps: [
+                { op: "20 + 15", result: 35, label: "20 + 15" },
+                { op: "35 − 12", result: 23, label: "35 − 12" }
+            ],
+            finalAnswer: 23
+        },
+        {
+            text: "There are 5 boxes with 6 pencils each. 7 pencils are broken and thrown away. How many good pencils are left?",
+            steps: [
+                { op: "5 × 6", result: 30, label: "5 × 6" },
+                { op: "30 − 7", result: 23, label: "30 − 7" }
+            ],
+            finalAnswer: 23
+        }
+    ];
+
+    function generateProblem() {
+        problem = problemBank[Math.floor(Math.random() * problemBank.length)];
+        document.getElementById("storyBox").textContent = problem.text;
+        document.getElementById("finalAnswer").value = "";
+        document.getElementById("result").textContent = "";
+
+        buildBlocksAndSlots();
+    }
+
+    function buildBlocksAndSlots() {
+        const dragArea = document.getElementById("dragArea");
+        dragArea.innerHTML = "";
+
+        const step1 = document.getElementById("step1");
+        const step2 = document.getElementById("step2");
+        step1.textContent = "";
+        step2.textContent = "";
+
+        // Build shuffled operation tiles: the two correct steps plus one distractor
+        const distractor = { label: shuffleLabel(problem.steps[0].label) };
+        const tiles = [problem.steps[0].label, problem.steps[1].label, distractor.label];
+        const shuffled = tiles.sort(() => Math.random() - 0.5);
+
+        shuffled.forEach(label => {
+            const block = document.createElement("div");
+            block.className = "block";
+            block.textContent = label;
+            block.draggable = true;
+            block.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", label);
+            });
+            dragArea.appendChild(block);
+        });
+
+        [step1, step2].forEach(slot => {
+            slot.addEventListener("dragover", e => e.preventDefault());
+            slot.addEventListener("drop", e => {
+                const value = e.dataTransfer.getData("text/plain");
+                slot.textContent = value;
+                slot.style.background = "#ffe6f7";
+            });
+        });
+    }
+
+    function shuffleLabel(label) {
+        // Simple distractor: swap the operator to create a plausible wrong tile
+        if (label.includes("×")) return label.replace("×", "+");
+        if (label.includes("+") && label.includes("−")) return label.replace("−", "+");
+        return label.replace("+", "−");
+    }
+
+    function checkAnswer() {
+        const result = document.getElementById("result");
+        const step1Text = document.getElementById("step1").textContent;
+        const step2Text = document.getElementById("step2").textContent;
+        const finalVal = parseInt(document.getElementById("finalAnswer").value);
+
+        const stepsCorrect = step1Text === problem.steps[0].label && step2Text === problem.steps[1].label;
+        const answerCorrect = finalVal === problem.finalAnswer;
+
+        if (stepsCorrect && answerCorrect) {
+            result.textContent = "🎉 Perfect! Both steps and the final answer (" + problem.finalAnswer + ") are correct!";
+            result.style.color = "#4CAF50";
+        } else if (!stepsCorrect) {
+            result.textContent = "Check your steps — make sure Step 1 happens before Step 2.";
+            result.style.color = "#ff4d4d";
+        } else {
+            result.textContent = "Your steps are right, but double-check your final answer.";
+            result.style.color = "#ff4d4d";
+        }
+    }
+
+    generateProblem();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 6 – Decimal Place Value</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: "Comic Sans MS", Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+            color: #4b3558;
+        }
+
+        .question-box {
+            background: #e6ffea;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #9fe6b0;
+        }
+
+        .choice {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 2px solid #9fe6b0;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            background: #f0fff3;
+        }
+
+        .correct {
+            background: #d4ffdf !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .incorrect {
+            background: #ffe0e0 !important;
+            border-color: #ff4d4d !important;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .decimal-box {
+            background: #fff7d6;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .money-box {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px dashed #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        #confetti-container {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow: visible;
+            z-index: 9999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 14px;
+            background-color: #9fe6b0;
+            opacity: 0.9;
+            border-radius: 2px;
+            animation: fall 1.2s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(300px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .finish-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #ffb3e6;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .finish-btn:hover {
+            background: #ff9ecb;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Week 6: Decimal Place Value 💰</h1>
+    <p>Tenths, hundredths, and money models!</p>
+</header>
+
+<section class="profile">
+    <h2>Hi Zoey! Let's practice decimals.</h2>
+</section>
+
+<section class="lessons">
+
+    <!-- Warm Up -->
+    <div class="card">
+        <h3>Warm-Up: Reading a Decimal</h3>
+        <p>How do you read the decimal <strong>0.6</strong>?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">Six hundredths</div>
+            <div class="choice" onclick="check(this, true)">Six tenths</div>
+            <div class="choice" onclick="check(this, false)">Six ones</div>
+            <div class="choice" onclick="check(this, false)">Sixty</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Tenths vs Hundredths -->
+    <div class="card">
+        <h3>Tenths vs. Hundredths</h3>
+        <p>Which is bigger: <strong>0.1</strong> or <strong>0.01</strong>?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, true)">0.1, because tenths pieces are bigger than hundredths pieces</div>
+            <div class="choice" onclick="check(this, false)">0.01, because 01 looks like a bigger number</div>
+            <div class="choice" onclick="check(this, false)">They are equal</div>
+            <div class="choice" onclick="check(this, false)">Cannot tell</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Money Model -->
+    <div class="card">
+        <h3>Decimals & Money</h3>
+        <div class="money-box">Zoey has 2 dollars, 3 dimes, and 5 pennies.</div>
+        <p>What decimal shows this amount of money?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">$2.53</div>
+            <div class="choice" onclick="check(this, true)">$2.35</div>
+            <div class="choice" onclick="check(this, false)">$2.05</div>
+            <div class="choice" onclick="check(this, false)">$23.5</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Place Value -->
+    <div class="card">
+        <h3>Find the Place</h3>
+        <p>In the number <strong>5.79</strong>, what digit is in the hundredths place?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">5</div>
+            <div class="choice" onclick="check(this, false)">7</div>
+            <div class="choice" onclick="check(this, true)">9</div>
+            <div class="choice" onclick="check(this, false)">There isn't one</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Zero as Placeholder -->
+    <div class="card">
+        <h3>Zero as a Placeholder</h3>
+        <p>How do you read <strong>0.05</strong>?</p>
+        <div class="decimal-box">Careful — this one is tricky!</div>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">Five tenths</div>
+            <div class="choice" onclick="check(this, true)">Five hundredths</div>
+            <div class="choice" onclick="check(this, false)">Fifty</div>
+            <div class="choice" onclick="check(this, false)">Five ones</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Exit Ticket -->
+    <div class="card">
+        <h3>Exit Ticket</h3>
+        <p>Zoey has 4 dollars and 7 dimes. Which decimal shows this amount?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">$4.07</div>
+            <div class="choice" onclick="check(this, true)">$4.70</div>
+            <div class="choice" onclick="check(this, false)">$4.7</div>
+            <div class="choice" onclick="check(this, false)">$47.0</div>
+            <div class="feedback"></div>
+        </div>
+        <p style="font-size:13px; color:#7b5a8c;">(Hint: $4.70 and $4.7 mean the same amount, but only one matches how we usually write money with two decimal places!)</p>
+    </div>
+
+</section>
+
+<section class="progress">
+    <button onclick="window.location.href='index.html'">⬅ Back to Dashboard</button>
+    <br>
+    <button class="finish-btn" onclick="markComplete('lesson6'); window.location.href='index.html';">
+        🎉 Finish Lesson
+    </button>
+</section>
+
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+<script>
+function check(element, isCorrect) {
+    const box = element.parentElement;
+    const feedback = box.querySelector(".feedback");
+
+    box.querySelectorAll(".choice").forEach(choice => {
+        choice.classList.remove("correct", "incorrect");
+    });
+
+    if (isCorrect) {
+        element.classList.add("correct");
+        feedback.textContent = "Great job, Zoey! 🎉";
+        feedback.style.color = "#4CAF50";
+        launchConfetti();
+    } else {
+        element.classList.add("incorrect");
+        feedback.textContent = "Try again!";
+        feedback.style.color = "#ff4d4d";
+    }
+}
+
+function launchConfetti() {
+    const container = document.getElementById("confetti-container");
+
+    for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+
+        confetti.style.left = Math.random() * 100 + "vw";
+
+        const colors = ["#9fe6b0", "#d4ffdf", "#fff0fa", "#ffe6ff"];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        confetti.style.animationDelay = (Math.random() * 0.5) + "s";
+
+        container.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 1500);
+    }
+}
+</script>
+
+</body>
+</html>
