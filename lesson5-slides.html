@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 5 – Multi-Step Word Problems</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .slideshow-container {
+        width: 90%;
+        max-width: 900px;
+        height: 90vh;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.4);
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .slide {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .slide.active {
+        display: block;
+    }
+
+    h1, h2 {
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        color: #7b5a8c;
+        margin-bottom: 10px;
+    }
+
+    ul, ol {
+        padding-left: 20px;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #ffe6f7;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 13px;
+        margin-right: 6px;
+        margin-bottom: 4px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    button {
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    button:hover {
+        background: #ff5cad;
+    }
+
+    .page-indicator {
+        text-align: center;
+        font-size: 13px;
+        color: #7b5a8c;
+        margin-top: 5px;
+    }
+
+    .strip-box {
+        background: #fff7d6;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .remainder-box {
+        background: #e6ffea;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Strip diagram bar */
+    .bar {
+        display: flex;
+        width: 100%;
+        max-width: 500px;
+        margin: 14px auto;
+        border: 2px solid #ff5cad;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .bar-part {
+        flex: 1;
+        padding: 14px 0;
+        text-align: center;
+        font-weight: bold;
+        border-right: 2px solid #ff5cad;
+    }
+
+    .bar-part:last-child {
+        border-right: none;
+    }
+
+    .bar-part.pink { background: #ffd1f2; }
+    .bar-part.blue { background: #d1e8ff; }
+    .bar-part.leftover { background: #ffe0e0; }
+
+    @media (max-width: 600px) {
+        .slideshow-container {
+            padding: 15px 18px;
+        }
+        h1 {
+            font-size: 22px;
+        }
+        h2 {
+            font-size: 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="slideshow-container">
+
+    <!-- Slide 1 -->
+    <div class="slide active">
+        <h1>Lesson 5 – Multi-Step Word Problems 🧩</h1>
+        <p class="subtitle">Strip Diagrams • Two-Step Thinking • Interpreting Remainders</p>
+        <p><strong>Today's Mission:</strong></p>
+        <ul>
+            <li>Use <strong>strip diagrams</strong> to picture a word problem</li>
+            <li>Solve problems that take <strong>more than one step</strong></li>
+            <li>Decide what to do with a <strong>remainder</strong></li>
+        </ul>
+        <p><strong>TEKS Focus:</strong></p>
+        <p>
+            <span class="tag">3.4(A)</span>
+            <span class="tag">3.5(A)</span><br>
+            <span class="tag">Prepares for 4.4(H)</span>
+        </p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+        <h2>What Is a Strip Diagram?</h2>
+        <p>A strip diagram is a bar that we split into parts to show a problem.</p>
+        <div class="bar">
+            <div class="bar-part pink">?</div>
+        </div>
+        <p>The whole bar stands for the <strong>total</strong>. We break it into pieces to show what we know and what we're looking for.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What do you think the bar represents in a problem?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <h2>One Step vs. Two Steps</h2>
+        <p><strong>One-step:</strong> Sam has 5 apples and gets 3 more. How many now?</p>
+        <div class="strip-box">5 + 3 = 8</div>
+        <p><strong>Two-step:</strong> Sam has 5 apples, gets 3 more, then gives away 4. How many now?</p>
+        <div class="strip-box">5 + 3 = 8 &nbsp;&nbsp;→&nbsp;&nbsp; 8 − 4 = 4</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Why do we need two number sentences for the second problem?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <h2>Modeling With a Strip Diagram</h2>
+        <p>Zoey has 24 stickers. She buys 2 more packs of 6 stickers each, then gives 10 away.</p>
+        <div class="bar">
+            <div class="bar-part pink">24</div>
+            <div class="bar-part blue">+12</div>
+            <div class="bar-part leftover">−10</div>
+        </div>
+        <div class="strip-box">24 + 12 = 36 &nbsp;&nbsp;→&nbsp;&nbsp; 36 − 10 = 26</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Which step should we do first? Why?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Multiplication + Addition</h2>
+        <p>A van holds 8 people. There are 3 full vans and 5 extra people who need a ride.</p>
+        <div class="strip-box">3 × 8 = 24 &nbsp;&nbsp;→&nbsp;&nbsp; 24 + 5 = 29</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What is the question really asking us to find?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+        <h2>What Is a Remainder?</h2>
+        <p>When we divide and numbers don't split evenly, the leftover amount is the <strong>remainder</strong>.</p>
+        <div class="remainder-box">13 ÷ 4 = 3 remainder 1</div>
+        <p>4 groups of 3, with 1 left over.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Can you show 13 split into groups of 4 with counters or drawings?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide">
+        <h2>Interpreting Remainders: Round Up</h2>
+        <p>29 kids are going on a field trip. Each van holds 8 kids. How many vans are needed?</p>
+        <div class="remainder-box">29 ÷ 8 = 3 remainder 5 → need <strong>4 vans</strong></div>
+        <p>Even though the remainder is small, we still need a whole extra van!</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Why can't we leave those 5 kids without a van?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide">
+        <h2>Interpreting Remainders: Drop It</h2>
+        <p>Zoey has 29 stickers and wants to put them in bags of 8. How many <em>full</em> bags can she make?</p>
+        <div class="remainder-box">29 ÷ 8 = 3 remainder 5 → only <strong>3 full bags</strong></div>
+        <p>Here, the leftover 5 doesn't make a full bag, so we drop it.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"How is this different from the van problem?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide">
+        <h2>Try It Together</h2>
+        <p>Zoey earns $6 per chore. She does 4 chores, then spends $9 on a toy. How much money does she have left?</p>
+        <div class="strip-box">4 × 6 = 24 &nbsp;&nbsp;→&nbsp;&nbsp; 24 − 9 = 15</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What is the first step? What is the second step?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+        <h2>TEKS Connection</h2>
+        <ul>
+            <li><strong>3.4(A)</strong> – Solve one- and two-step problems using strategies based on place value</li>
+            <li><strong>3.5(A)</strong> – Represent problems using strip diagrams and equations</li>
+        </ul>
+        <p class="subtitle">"You're building the skills for 4.4(H) — multi-step problems with all four operations!"</p>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+        <h2>Exit Ticket</h2>
+        <ol>
+            <li>Draw a strip diagram for: Zoey has 15 marbles, gets 9 more, then loses 6. How many now?</li>
+            <li>26 ÷ 4 = ___ remainder ___</li>
+            <li>28 students need rides in vans that hold 6 each. How many vans are needed?</li>
+            <li>18 cookies are shared into bags of 5. How many <em>full</em> bags can be made?</li>
+        </ol>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide">
+        <h2>Word Problem Wizard ⭐</h2>
+        <p class="subtitle">Strip Diagrams • Two-Step Problems • Remainders</p>
+        <p style="font-size:22px; text-align:center;">"Zoey, you are officially a <strong>Word Problem Wizard!</strong>"</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button id="prevBtn">⬅ Back</button>
+        <button id="nextBtn">Next ➡</button>
+    </div>
+    <div class="page-indicator" id="pageIndicator"></div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        pageIndicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+        nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+    });
+
+    showSlide(currentSlide);
+</script>
+
+</body>
+</html>
