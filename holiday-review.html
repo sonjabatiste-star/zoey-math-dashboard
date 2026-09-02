@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Practice for Long Holiday Weekends</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+        min-height: 100vh;
+    }
+
+    header {
+        text-align: center;
+        padding: 25px 20px 10px 20px;
+    }
+
+    header h1 {
+        color: #ff5cad;
+        margin-bottom: 4px;
+    }
+
+    header p {
+        color: #7b5a8c;
+        margin-top: 0;
+    }
+
+    .wrap {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 10px 20px 60px 20px;
+    }
+
+    .progress-track {
+        background: #ffe6f7;
+        border-radius: 20px;
+        height: 20px;
+        width: 100%;
+        margin-bottom: 8px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        background: linear-gradient(90deg, #ff9ecb, #ff5cad);
+        height: 100%;
+        width: 0%;
+        border-radius: 20px;
+        transition: width 0.4s;
+    }
+
+    .progress-text {
+        text-align: center;
+        font-size: 14px;
+        color: #7b5a8c;
+        margin-bottom: 20px;
+    }
+
+    .score-chip {
+        display: inline-block;
+        background: #fff7d6;
+        border-radius: 999px;
+        padding: 4px 14px;
+        font-size: 13px;
+        margin-left: 8px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.3);
+        padding: 25px;
+    }
+
+    .topic-tag {
+        display: inline-block;
+        background: #ffe6f7;
+        color: #ff5cad;
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .prompt {
+        font-size: 19px;
+        margin-bottom: 18px;
+        line-height: 1.4;
+    }
+
+    .helper-box {
+        background: #fff7d6;
+        padding: 10px 14px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .choice {
+        background: #fff0fa;
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: 10px;
+        border: 2px solid #ffcce9;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .choice:hover {
+        background: #ffe6f7;
+    }
+
+    .choice.correct {
+        background: #d4ffdf !important;
+        border-color: #4CAF50 !important;
+    }
+
+    .choice.incorrect {
+        background: #ffe0e0 !important;
+        border-color: #ff4d4d !important;
+    }
+
+    .choice.disabled {
+        pointer-events: none;
+        opacity: 0.75;
+    }
+
+    .feedback {
+        margin-top: 14px;
+        font-weight: bold;
+        font-size: 16px;
+        min-height: 22px;
+    }
+
+    .next-btn {
+        margin-top: 18px;
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        display: none;
+    }
+
+    .next-btn:hover {
+        background: #ff5cad;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #ff5cad;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    /* ---------- Completion banner ---------- */
+    .banner-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(75, 53, 88, 0.55);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .banner-overlay.show {
+        display: flex;
+    }
+
+    .banner-card {
+        background: linear-gradient(135deg, #fff0fa, #ffe6f7 60%, #fff7d6);
+        border-radius: 24px;
+        padding: 40px 30px;
+        max-width: 460px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(255, 92, 173, 0.5);
+        border: 4px solid #ffb3e6;
+        position: relative;
+    }
+
+    .banner-title {
+        font-size: 30px;
+        color: #ff5cad;
+        margin: 10px 0 6px 0;
+    }
+
+    .banner-sub {
+        font-size: 17px;
+        color: #7b5a8c;
+        margin-bottom: 18px;
+    }
+
+    .banner-medal {
+        font-size: 60px;
+        line-height: 1;
+    }
+
+    .banner-score {
+        background: white;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #ff5cad;
+        margin-bottom: 18px;
+    }
+
+    .banner-btn {
+        background: linear-gradient(90deg, #ff7ac4, #ff5cad);
+        color: white;
+        border: none;
+        padding: 12px 26px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    .banner-btn:hover {
+        background: #ff3d9e;
+    }
+
+    #confetti-container {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        overflow: visible;
+        z-index: 1000;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 9px;
+        height: 16px;
+        opacity: 0.95;
+        border-radius: 2px;
+        animation: fall 1.6s linear forwards;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+        .banner-title { font-size: 24px; }
+        .banner-medal { font-size: 48px; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎉 Practice for Long Holiday Weekends</h1>
+    <p>A big review mixing Weeks 1–5 — factors, data & mean, rounding, fractions, and word problems!</p>
+</header>
+
+<div class="wrap">
+
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">Question 1 of 25<span class="score-chip" id="scoreChip">Score: 0</span></div>
+
+    <div class="card" id="quizCard">
+        <!-- question content injected here -->
+    </div>
+
+    <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<!-- Completion Banner -->
+<div class="banner-overlay" id="bannerOverlay">
+    <div class="banner-card">
+        <div class="banner-medal">🏆</div>
+        <div class="banner-title">Holiday Math Champion!</div>
+        <div class="banner-sub">Zoey reviewed every skill from Weeks 1–5 — factors, mean, rounding, fractions, AND multi-step word problems!</div>
+        <div class="banner-score" id="finalScoreText">Score: 0 / 0</div>
+        <button class="banner-btn" onclick="window.location.href='index.html'">Back to Dashboard</button>
+    </div>
+</div>
+
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+<script>
+    // ---------------------------------------------------------------
+    // Question bank: cumulative review of Lessons 1-5
+    // ---------------------------------------------------------------
+    const allQuestions = [
+        // ----- Lesson 1: Factors & Multiples -----
+        { topic: "Factors & Multiples", prompt: "What are the factor pairs of 18?", choices: ["1×18, 2×9, 3×6", "1×18, 2×8, 3×7", "1×18, 3×5, 6×3", "1×18, 2×9, 4×5"], correct: 0 },
+        { topic: "Factors & Multiples", prompt: "Which number is a factor of 24?", choices: ["5", "7", "6", "9"], correct: 2 },
+        { topic: "Factors & Multiples", prompt: "Is 17 prime or composite?", choices: ["Prime", "Composite", "Neither", "Both"], correct: 0 },
+        { topic: "Factors & Multiples", prompt: "What is the first multiple of 7 that is greater than 20?", choices: ["21", "24", "27", "28"], correct: 0 },
+        { topic: "Factors & Multiples", prompt: "How many factor pairs does 20 have?", choices: ["2", "3", "4", "5"], correct: 2 },
+
+        // ----- Lesson 2: Data & Mean -----
+        { topic: "Data & Mean", prompt: "Find the mean of: 4, 8, 6, 6", helper: "Add them up, then divide by how many numbers there are.", choices: ["5", "6", "7", "8"], correct: 1 },
+        { topic: "Data & Mean", prompt: "Find the mean of: 10, 12, 14", choices: ["11", "12", "13", "14"], correct: 1 },
+        { topic: "Data & Mean", prompt: "If 5 kids have 3, 5, 5, 6, 6 pencils, what is the mean?", choices: ["4", "5", "6", "25"], correct: 1 },
+        { topic: "Data & Mean", prompt: "What does the mean of a data set represent?", choices: ["The most common value", "The middle value when sorted", "The 'fair share' if everything were split evenly", "The biggest value"], correct: 2 },
+        { topic: "Data & Mean", prompt: "Find the mean of: 2, 4, 6, 8, 10", choices: ["5", "6", "7", "8"], correct: 1 },
+
+        // ----- Lesson 3: Rounding & Place Value -----
+        { topic: "Rounding & Place Value", prompt: "Round 384 to the nearest ten.", choices: ["380", "390", "400", "300"], correct: 0 },
+        { topic: "Rounding & Place Value", prompt: "Round 651 to the nearest hundred.", choices: ["600", "650", "700", "660"], correct: 2 },
+        { topic: "Rounding & Place Value", prompt: "What is the value of the 7 in 2,745?", choices: ["7", "70", "700", "7,000"], correct: 2 },
+        { topic: "Rounding & Place Value", prompt: "Round 125 to the nearest ten.", choices: ["120", "130", "100", "200"], correct: 1 },
+        { topic: "Rounding & Place Value", prompt: "Which benchmark number is 468 closest to (nearest hundred)?", choices: ["400", "450", "500", "470"], correct: 2 },
+
+        // ----- Lesson 4: Fractions -----
+        { topic: "Fractions", prompt: "Which fraction is equivalent to 1/2?", choices: ["2/5", "3/6", "2/3", "1/4"], correct: 1 },
+        { topic: "Fractions", prompt: "What is 1/4 + 2/4?", choices: ["3/8", "3/4", "1/2", "2/4"], correct: 1 },
+        { topic: "Fractions", prompt: "On a number line from 0 to 1, where would 3/4 be located?", choices: ["Very close to 0", "About halfway", "Close to 1, past the halfway point", "Exactly at 1"], correct: 2 },
+        { topic: "Fractions", prompt: "Which is greater: 2/3 or 1/3?", choices: ["2/3", "1/3", "They are equal", "Cannot tell"], correct: 0 },
+        { topic: "Fractions", prompt: "What is 3/5 − 1/5?", choices: ["2/5", "2/10", "4/5", "3/10"], correct: 0 },
+
+        // ----- Lesson 5: Multi-Step Word Problems -----
+        { topic: "Multi-Step Word Problems", prompt: "Zoey has 15 marbles, gets 9 more, then loses 6. How many now?", helper: "Strip diagram: 15 + 9, then − 6", choices: ["18", "24", "30", "9"], correct: 0 },
+        { topic: "Multi-Step Word Problems", prompt: "26 ÷ 4 = ? remainder ?", choices: ["6 remainder 2", "5 remainder 6", "6 remainder 0", "7 remainder 1"], correct: 0 },
+        { topic: "Multi-Step Word Problems", prompt: "28 students need rides in vans that hold 6 each. How many vans are needed for everyone?", helper: "28 ÷ 6 = 4 remainder 4 — round up!", choices: ["4 vans", "5 vans", "6 vans", "4 remainder 4 vans"], correct: 1 },
+        { topic: "Multi-Step Word Problems", prompt: "18 cookies are shared into bags of 5. How many FULL bags can be made?", helper: "18 ÷ 5 = 3 remainder 3", choices: ["3 full bags", "4 full bags", "5 full bags", "18 full bags"], correct: 0 },
+        { topic: "Multi-Step Word Problems", prompt: "A van holds 8 people. 3 full vans plus 5 extra people need a ride. How many people in all?", helper: "3 × 8, then + 5", choices: ["13", "21", "29", "40"], correct: 2 },
+
+        // ----- A few extra mixed bonus questions to reach 28 -----
+        { topic: "Factors & Multiples", prompt: "Which number is NOT a factor of 30?", choices: ["5", "6", "8", "10"], correct: 2 },
+        { topic: "Rounding & Place Value", prompt: "Round 749 to the nearest hundred.", choices: ["700", "740", "750", "800"], correct: 3 },
+        { topic: "Fractions", prompt: "Which fraction is closest to 1 whole?", choices: ["1/4", "1/2", "3/4", "5/6"], correct: 3 }
+    ];
+
+    // Shuffle question order each time the page loads
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    const questions = shuffleArray(allQuestions);
+    const totalQuestions = questions.length;
+    let currentIndex = 0;
+    let score = 0;
+
+    const quizCard = document.getElementById("quizCard");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const scoreChip = document.getElementById("scoreChip");
+
+    function renderQuestion() {
+        const q = questions[currentIndex];
+
+        progressFill.style.width = ((currentIndex) / totalQuestions) * 100 + "%";
+        progressText.innerHTML = `Question ${currentIndex + 1} of ${totalQuestions}` +
+            `<span class="score-chip" id="scoreChip">Score: ${score}</span>`;
+
+        let html = `<div class="topic-tag">${q.topic}</div>`;
+        html += `<div class="prompt">${q.prompt}</div>`;
+        if (q.helper) {
+            html += `<div class="helper-box">${q.helper}</div>`;
+        }
+
+        q.choices.forEach((choice, i) => {
+            html += `<div class="choice" data-index="${i}" onclick="answer(this, ${i})">${choice}</div>`;
+        });
+
+        html += `<div class="feedback" id="feedback"></div>`;
+        html += `<button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question ➡</button>`;
+
+        quizCard.innerHTML = html;
+    }
+
+    function answer(element, chosenIndex) {
+        const q = questions[currentIndex];
+        const feedback = document.getElementById("feedback");
+        const nextBtn = document.getElementById("nextBtn");
+
+        document.querySelectorAll(".choice").forEach(c => c.classList.add("disabled"));
+
+        if (chosenIndex === q.correct) {
+            element.classList.add("correct");
+            feedback.textContent = "Great job! 🎉";
+            feedback.style.color = "#4CAF50";
+            score++;
+        } else {
+            element.classList.add("incorrect");
+            document.querySelector(`.choice[data-index="${q.correct}"]`).classList.add("correct");
+            feedback.textContent = "Not quite — here's the right answer highlighted. You've got this!";
+            feedback.style.color = "#ff4d4d";
+        }
+
+        nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < totalQuestions) {
+            renderQuestion();
+        } else {
+            finishReview();
+        }
+    }
+
+    function finishReview() {
+        progressFill.style.width = "100%";
+        progressText.innerHTML = `Question ${totalQuestions} of ${totalQuestions}` +
+            `<span class="score-chip">Score: ${score}</span>`;
+
+        quizCard.innerHTML = `<div style="text-align:center;">
+                                 <p style="font-size:20px;">You finished the whole review! 🎊</p>
+                                 <p style="color:#7b5a8c;">Loading your results...</p>
+                               </div>`;
+
+        // Mark this cumulative review as complete for the dashboard
+        markComplete("holidayReview");
+        localStorage.setItem("holidayReviewScore", score + "/" + totalQuestions);
+
+        setTimeout(showBanner, 700);
+    }
+
+    function showBanner() {
+        document.getElementById("finalScoreText").textContent = `Score: ${score} / ${totalQuestions}`;
+        document.getElementById("bannerOverlay").classList.add("show");
+        launchConfetti();
+    }
+
+    function launchConfetti() {
+        const container = document.getElementById("confetti-container");
+        const colors = ["#ff9ecb", "#ffb3e6", "#fff7d6", "#d1e8ff", "#d9f2d9", "#e0d1ff"];
+
+        for (let i = 0; i < 90; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti-piece");
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = (Math.random() * 0.6) + "s";
+            container.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 2200);
+        }
+    }
+
+    renderQuestion();
+</script>
+
+</body>
+</html>
