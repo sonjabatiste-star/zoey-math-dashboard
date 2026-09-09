@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 2 – Mean Builder Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(122, 196, 255, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #4d9fff;
+        margin-top: 0;
+    }
+
+    .data-box {
+        background: #e6f5ff;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .instructions {
+        text-align: center;
+        color: #4d3d5a;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .stack-area {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: flex-end;
+        min-height: 220px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .stack {
+        width: 70px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stack-drop-zone {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        min-height: 200px;
+        width: 70px;
+        justify-content: flex-start;
+        border-radius: 8px;
+        padding: 4px 0;
+        transition: background 0.2s;
+    }
+
+    .stack-drop-zone.drag-over {
+        background: #d6ecff;
+        outline: 3px dashed #4d9fff;
+    }
+
+    .cube {
+        width: 60px;
+        height: 22px;
+        background: #7ac4ff;
+        border-radius: 5px;
+        margin-bottom: 3px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        cursor: grab;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .cube:active {
+        cursor: grabbing;
+    }
+
+    .cube.dragging {
+        opacity: 0.4;
+    }
+
+    .stack-label {
+        margin-top: 8px;
+        font-weight: bold;
+        font-size: 15px;
+        background: #fff7d6;
+        border-radius: 999px;
+        padding: 3px 12px;
+    }
+
+    .btn {
+        background: #4d9fff;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(77, 159, 255, 0.4);
+    }
+
+    .btn:hover {
+        background: #2b86f0;
+    }
+
+    .answer-row {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    input[type="number"] {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        font-size: 18px;
+        padding: 8px;
+        width: 80px;
+        border-radius: 8px;
+        border: 2px solid #7ac4ff;
+        text-align: center;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .controls-row {
+        text-align: center;
+        margin-top: 15px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Mean Builder ⚖️</h2>
+
+    <div class="data-box" id="dataPrompt">Loading data...</div>
+    <p class="instructions">
+        🖱️ <strong>Drag the top cube</strong> from a tall stack and drop it onto a shorter stack
+        to move cubes around. Make every stack the <strong>same height</strong> —
+        that equal height IS the mean! Then type the mean below.
+    </p>
+
+    <div class="stack-area" id="stackArea"></div>
+
+    <div class="answer-row">
+        <label>What is the mean? </label>
+        <input type="number" id="meanInput">
+        <button class="btn" onclick="checkAnswer()">Check</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="controls-row">
+        <button class="btn" onclick="generateData()">New Data Set</button>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" style="color:#4d9fff;">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    let values = [];
+    let sum, count, meanValue;
+    let draggedFromStack = null;
+
+    function generateData() {
+        count = 4;
+        // Pick values that sum evenly for a clean whole-number mean
+        const bank = [
+            [4, 6, 8, 2],
+            [5, 7, 9, 3],
+            [10, 14, 12, 4],
+            [6, 6, 10, 2],
+            [3, 5, 7, 9],
+            [8, 4, 6, 6],
+            [2, 10, 6, 6]
+        ];
+        values = [...bank[Math.floor(Math.random() * bank.length)]];
+        sum = values.reduce((a, b) => a + b, 0);
+        meanValue = sum / count;
+
+        document.getElementById("dataPrompt").textContent =
+            "Zoey's data: " + values.join(", ") + " — drag cubes to make it fair!";
+        document.getElementById("meanInput").value = "";
+        document.getElementById("result").textContent = "";
+
+        renderStacks();
+    }
+
+    function renderStacks() {
+        const stackArea = document.getElementById("stackArea");
+        stackArea.innerHTML = "";
+
+        values.forEach((val, stackIndex) => {
+            const stackWrap = document.createElement("div");
+            stackWrap.className = "stack";
+
+            const dropZone = document.createElement("div");
+            dropZone.className = "stack-drop-zone";
+            dropZone.setAttribute("data-stack", stackIndex);
+
+            // Build cubes, topmost cube (last rendered due to column-reverse) is draggable
+            for (let c = 0; c < val; c++) {
+                const cube = document.createElement("div");
+                cube.className = "cube";
+                // Only the very top cube (index val-1, the last one added) is draggable
+                if (c === val - 1) {
+                    cube.draggable = true;
+                    cube.textContent = "drag";
+                    cube.addEventListener("dragstart", e => {
+                        draggedFromStack = stackIndex;
+                        cube.classList.add("dragging");
+                        e.dataTransfer.effectAllowed = "move";
+                    });
+                    cube.addEventListener("dragend", () => {
+                        cube.classList.remove("dragging");
+                    });
+                }
+                dropZone.appendChild(cube);
+            }
+
+            // Drop zone handlers
+            dropZone.addEventListener("dragover", e => {
+                e.preventDefault();
+                dropZone.classList.add("drag-over");
+            });
+            dropZone.addEventListener("dragleave", () => {
+                dropZone.classList.remove("drag-over");
+            });
+            dropZone.addEventListener("drop", e => {
+                e.preventDefault();
+                dropZone.classList.remove("drag-over");
+                const targetIndex = parseInt(dropZone.getAttribute("data-stack"));
+
+                if (draggedFromStack !== null && draggedFromStack !== targetIndex && values[draggedFromStack] > 0) {
+                    values[draggedFromStack] -= 1;
+                    values[targetIndex] += 1;
+                    renderStacks();
+                }
+                draggedFromStack = null;
+            });
+
+            stackWrap.appendChild(dropZone);
+
+            const label = document.createElement("div");
+            label.className = "stack-label";
+            label.textContent = val;
+            stackWrap.appendChild(label);
+
+            stackArea.appendChild(stackWrap);
+        });
+    }
+
+    function checkAnswer() {
+        const input = parseFloat(document.getElementById("meanInput").value);
+        const result = document.getElementById("result");
+
+        const allEqual = values.every(v => v === values[0]);
+
+        if (input === meanValue && allEqual) {
+            result.textContent = "🎉 Perfect! All stacks are equal at " + meanValue + " — that's the mean!";
+            result.style.color = "#4CAF50";
+        } else if (input === meanValue && !allEqual) {
+            result.textContent = "Your number is right! Now drag cubes until all the stacks are that same height too.";
+            result.style.color = "#ff9ecb";
+        } else {
+            result.textContent = "Not quite — try dragging cubes to equalize the stacks, then recompute the mean (total ÷ number of stacks).";
+            result.style.color = "#ff4d4d";
+        }
+    }
+
+    generateData();
+</script>
+
+</body>
+</html>
