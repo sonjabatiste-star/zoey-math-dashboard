@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rounding & Expanded Notation Review</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+    }
+
+    header {
+        text-align: center;
+        padding: 25px 20px 10px 20px;
+    }
+
+    header h1 {
+        color: #ff5cad;
+        margin-bottom: 4px;
+    }
+
+    header p {
+        color: #7b5a8c;
+        margin-top: 0;
+    }
+
+    .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 10px 20px 60px 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.3);
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    h2 {
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    h3.section-sub {
+        color: #4d9fff;
+        margin-bottom: 4px;
+    }
+
+    /* ---- Rule boxes ---- */
+    .rule-box {
+        background: #e6fff0;
+        border: 3px solid #4CAF50;
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin: 14px 0;
+        text-align: center;
+    }
+
+    .rule-box h4 {
+        color: #2e9e4a;
+        margin-top: 0;
+        margin-bottom: 6px;
+    }
+
+    .rule-box p {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .mistake-box {
+        background: #fff0f0;
+        border: 3px solid #ff6b6b;
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin: 14px 0;
+    }
+
+    .mistake-box h4 {
+        color: #e04343;
+        margin-top: 0;
+        font-size: 17px;
+    }
+
+    .wrong-line {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: #c94040;
+        margin: 6px 0;
+    }
+
+    .right-line {
+        font-size: 18px;
+        color: #2e9e4a;
+        font-weight: bold;
+        margin: 6px 0;
+    }
+
+    /* ---- Number line for rounding ---- */
+    .number-line {
+        position: relative;
+        height: 40px;
+        margin: 40px 20px 30px 20px;
+        border-top: 4px solid #ff5cad;
+    }
+
+    .tick {
+        position: absolute;
+        top: -6px;
+        width: 2px;
+        height: 14px;
+        background: #ff5cad;
+    }
+
+    .tick-label {
+        position: absolute;
+        top: 12px;
+        font-size: 12px;
+        transform: translateX(-50%);
+        color: #7b5a8c;
+    }
+
+    .rline-point {
+        position: absolute;
+        top: -34px;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+        color: #ff5cad;
+    }
+
+    .rline-point .dot {
+        width: 12px;
+        height: 12px;
+        background: #ff5cad;
+        border-radius: 50%;
+        margin: 4px auto 0 auto;
+    }
+
+    /* ---- Steps ---- */
+    .steps {
+        counter-reset: step;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .steps li {
+        position: relative;
+        padding-left: 40px;
+        margin-bottom: 14px;
+        font-size: 16px;
+    }
+
+    .steps li::before {
+        counter-increment: step;
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: -2px;
+        background: #ff9ecb;
+        color: white;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    /* ---- Worked examples ---- */
+    .example-box {
+        background: #f0f7ff;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 14px 0;
+        text-align: center;
+    }
+
+    .example-number {
+        font-size: 22px;
+        color: #4d9fff;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .example-result {
+        font-size: 19px;
+        font-weight: bold;
+        color: #2e9e4a;
+        margin-top: 4px;
+    }
+
+    .place-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .place-chip {
+        background: white;
+        border: 2px solid #4d9fff;
+        border-radius: 8px;
+        padding: 6px 9px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .place-chip .digit {
+        font-size: 17px;
+        font-weight: bold;
+        display: block;
+    }
+
+    .zero-chip {
+        border-color: #ffb3b3;
+        opacity: 0.6;
+    }
+
+    /* ---- Quiz ---- */
+    .progress-track {
+        background: #ffe6f7;
+        border-radius: 20px;
+        height: 18px;
+        width: 100%;
+        margin-bottom: 6px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        background: linear-gradient(90deg, #ff9ecb, #ff5cad);
+        height: 100%;
+        width: 0%;
+        border-radius: 20px;
+        transition: width 0.4s;
+    }
+
+    .progress-text {
+        text-align: center;
+        font-size: 14px;
+        color: #7b5a8c;
+        margin-bottom: 16px;
+    }
+
+    .score-chip {
+        display: inline-block;
+        background: #fff7d6;
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 12px;
+        margin-left: 8px;
+    }
+
+    .topic-tag {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .topic-tag.round {
+        background: #e6f5ff;
+        color: #2b86f0;
+    }
+
+    .topic-tag.expand {
+        background: #f0e6ff;
+        color: #8e5cff;
+    }
+
+    .prompt {
+        font-size: 19px;
+        margin-bottom: 16px;
+        text-align: center;
+    }
+
+    .choice {
+        background: #fff0fa;
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: 10px;
+        border: 2px solid #ffcce9;
+        cursor: pointer;
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .choice:hover {
+        background: #ffe6f7;
+    }
+
+    .choice.correct {
+        background: #d4ffdf !important;
+        border-color: #4CAF50 !important;
+    }
+
+    .choice.incorrect {
+        background: #ffe0e0 !important;
+        border-color: #ff4d4d !important;
+    }
+
+    .choice.disabled {
+        pointer-events: none;
+        opacity: 0.85;
+    }
+
+    .feedback {
+        margin-top: 14px;
+        font-weight: bold;
+        font-size: 15px;
+        min-height: 40px;
+        text-align: center;
+    }
+
+    .next-btn {
+        display: block;
+        margin: 18px auto 0 auto;
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        display: none;
+    }
+
+    .next-btn:hover {
+        background: #ff5cad;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #ff5cad;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    /* ---- Completion banner ---- */
+    .banner-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(75, 53, 88, 0.55);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .banner-overlay.show {
+        display: flex;
+    }
+
+    .banner-card {
+        background: linear-gradient(135deg, #fff0fa, #ffe6f7 60%, #fff7d6);
+        border-radius: 24px;
+        padding: 40px 30px;
+        max-width: 440px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(255, 92, 173, 0.5);
+        border: 4px solid #ffb3e6;
+    }
+
+    .banner-medal {
+        font-size: 56px;
+        line-height: 1;
+    }
+
+    .banner-title {
+        font-size: 25px;
+        color: #ff5cad;
+        margin: 10px 0 6px 0;
+    }
+
+    .banner-sub {
+        font-size: 15px;
+        color: #7b5a8c;
+        margin-bottom: 16px;
+    }
+
+    .banner-score {
+        background: white;
+        border-radius: 14px;
+        padding: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff5cad;
+        margin-bottom: 16px;
+    }
+
+    .banner-btn {
+        background: linear-gradient(90deg, #ff7ac4, #ff5cad);
+        color: white;
+        border: none;
+        padding: 12px 26px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    .banner-btn:hover {
+        background: #ff3d9e;
+    }
+
+    #confetti-container {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        overflow: visible;
+        z-index: 1000;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 9px;
+        height: 16px;
+        opacity: 0.95;
+        border-radius: 2px;
+        animation: fall 1.6s linear forwards;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔢 Rounding & Expanded Notation Review</h1>
+    <p>Rounding to the nearest ten, hundred & thousand — mixed with expanded notation up to the ten-thousands place</p>
+</header>
+
+<div class="wrap">
+
+    <!-- ============== ROUNDING REVIEW ============== -->
+    <div class="card">
+        <h2>Part 1: Rounding Review</h2>
+
+        <h3 class="section-sub">The Golden Rule</h3>
+        <div class="rule-box">
+            <h4>Look one place to the RIGHT of what you're rounding to</h4>
+            <p>0, 1, 2, 3, 4 → round DOWN (that place stays the same)</p>
+            <p>5, 6, 7, 8, 9 → round UP (that place goes up by one)</p>
+            <p>Every digit after the rounding place becomes a <strong>zero</strong>.</p>
+        </div>
+
+        <h3 class="section-sub">Rounding to the Nearest Thousand</h3>
+        <p>Round <strong>42,637</strong> to the nearest thousand.</p>
+        <div class="number-line" id="lineThousand"></div>
+        <div class="example-result">42,637 rounds to 43,000</div>
+        <p style="text-align:center; color:#7b5a8c; font-size:14px;">
+            Look at the hundreds digit (6). Since 6 ≥ 5, round the thousands digit up from 2 to 3, and everything after becomes 0.
+        </p>
+
+        <h3 class="section-sub">Rounding to the Nearest Hundred</h3>
+        <div class="example-box">
+            <div class="example-number">15,342</div>
+            <p>Look at the tens digit: 4. Since 4 &lt; 5, round down — the hundreds digit stays the same.</p>
+            <div class="example-result">15,342 rounds to 15,300</div>
+        </div>
+
+        <h3 class="section-sub">Rounding to the Nearest Ten</h3>
+        <div class="example-box">
+            <div class="example-number">7,835</div>
+            <p>Look at the ones digit: 5. Since 5 ≥ 5, round up — the tens digit goes from 3 to 4.</p>
+            <div class="example-result">7,835 rounds to 7,840</div>
+        </div>
+
+        <div class="mistake-box">
+            <h4>❌ Watch Out!</h4>
+            <div class="wrong-line">Rounding 15,342 to the nearest hundred → 15,000 ❌</div>
+            <div class="right-line">15,342 rounds to 15,300 ✔️</div>
+            <p style="font-size:14px; margin-top:8px;">
+                Only round to the place that was asked for — don't accidentally round all the way to the thousands!
+            </p>
+        </div>
+    </div>
+
+    <!-- ============== EXPANDED NOTATION REVIEW ============== -->
+    <div class="card">
+        <h2>Part 2: Expanded Notation Review (Ten-Thousands)</h2>
+        <p>Same golden rule as before: <strong>if a digit is 0, skip that place completely</strong> — never add an extra zero.</p>
+
+        <div class="example-box">
+            <div class="example-number">45,203</div>
+            <div class="place-row">
+                <div class="place-chip"><span class="digit">4</span>ten thousands</div>
+                <div class="place-chip"><span class="digit">5</span>thousands</div>
+                <div class="place-chip"><span class="digit">2</span>hundreds</div>
+                <div class="place-chip zero-chip"><span class="digit">0</span>tens</div>
+                <div class="place-chip"><span class="digit">3</span>ones</div>
+            </div>
+            <div class="example-result">45,203 = 40,000 + 5,000 + 200 + 3</div>
+        </div>
+
+        <div class="example-box">
+            <div class="example-number">80,040</div>
+            <div class="place-row">
+                <div class="place-chip"><span class="digit">8</span>ten thousands</div>
+                <div class="place-chip zero-chip"><span class="digit">0</span>thousands</div>
+                <div class="place-chip zero-chip"><span class="digit">0</span>hundreds</div>
+                <div class="place-chip"><span class="digit">4</span>tens</div>
+                <div class="place-chip zero-chip"><span class="digit">0</span>ones</div>
+            </div>
+            <div class="example-result">80,040 = 80,000 + 40</div>
+        </div>
+
+        <div class="mistake-box">
+            <h4>❌ The Trap, Again</h4>
+            <div class="wrong-line">80,040 = 80,000 + 000 + 00 + 40 + 0 ❌</div>
+            <div class="right-line">80,040 = 80,000 + 40 ✔️</div>
+        </div>
+    </div>
+
+    <!-- ============== PRACTICE QUIZ ============== -->
+    <div class="card">
+        <h2>Mixed Practice — 24 Questions</h2>
+        <p style="text-align:center; color:#7b5a8c; margin-top:-6px;">
+            Questions alternate between rounding and expanded notation, all using numbers up to the ten-thousands place.
+        </p>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Question 1 of 24<span class="score-chip" id="scoreChip">Score: 0</span></div>
+
+        <div id="quizArea"></div>
+    </div>
+
+    <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<!-- Completion Banner -->
+<div class="banner-overlay" id="bannerOverlay">
+    <div class="banner-card">
+        <div class="banner-medal">🔢</div>
+        <div class="banner-title">Rounding & Notation Master!</div>
+        <div class="banner-sub">Zoey practiced rounding and expanded notation up to the ten-thousands place!</div>
+        <div class="banner-score" id="finalScoreText">Score: 0 / 0</div>
+        <button class="banner-btn" onclick="window.location.href='index.html'">Back to Dashboard</button>
+    </div>
+</div>
+
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+<script>
+    const EXTRA_ZERO_MSG = "Careful — that has an extra zero! Skip any place where the digit is 0; don't write a term for it.";
+    const ROUND_TOO_FAR_MSG = "Careful — that rounded to the wrong place! Re-check which place value the question asked for.";
+    const ROUND_WRONG_DIR_MSG = "Careful — check the digit right after the rounding place. 5 or more rounds up; below 5 rounds down.";
+
+    const allQuestions = [
+        // ----- ROUNDING -----
+        { topic: "round", prompt: "Round 42,637 to the nearest thousand.", choices: [
+            { text: "43,000", correct: true },
+            { text: "42,000", wrongType: "dir" },
+            { text: "42,700", wrongType: "far" },
+            { text: "40,000", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 15,342 to the nearest hundred.", choices: [
+            { text: "15,000", wrongType: "far" },
+            { text: "15,400", wrongType: "dir" },
+            { text: "15,300", correct: true },
+            { text: "15,350", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 7,835 to the nearest ten.", choices: [
+            { text: "7,830", wrongType: "dir" },
+            { text: "7,840", correct: true },
+            { text: "7,800", wrongType: "far" },
+            { text: "7,900", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 63,482 to the nearest thousand.", choices: [
+            { text: "64,000", wrongType: "dir" },
+            { text: "63,000", correct: true },
+            { text: "63,500", wrongType: "far" },
+            { text: "60,000", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 9,650 to the nearest hundred.", choices: [
+            { text: "9,600", wrongType: "dir" },
+            { text: "9,700", correct: true },
+            { text: "9,000", wrongType: "far" },
+            { text: "9,650", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 24,096 to the nearest ten.", choices: [
+            { text: "24,090", wrongType: "dir" },
+            { text: "24,100", correct: true },
+            { text: "24,000", wrongType: "far" },
+            { text: "25,000", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 56,499 to the nearest thousand.", choices: [
+            { text: "57,000", wrongType: "dir" },
+            { text: "56,000", correct: true },
+            { text: "56,500", wrongType: "far" },
+            { text: "60,000", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 3,275 to the nearest hundred.", choices: [
+            { text: "3,200", wrongType: "dir" },
+            { text: "3,300", correct: true },
+            { text: "3,000", wrongType: "far" },
+            { text: "3,280", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 81,024 to the nearest ten.", choices: [
+            { text: "81,020", correct: true },
+            { text: "81,030", wrongType: "dir" },
+            { text: "81,000", wrongType: "far" },
+            { text: "82,000", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 19,500 to the nearest thousand.", choices: [
+            { text: "19,000", wrongType: "dir" },
+            { text: "20,000", correct: true },
+            { text: "19,500", wrongType: "far" },
+            { text: "19,600", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 6,148 to the nearest hundred.", choices: [
+            { text: "6,100", correct: true },
+            { text: "6,200", wrongType: "dir" },
+            { text: "6,000", wrongType: "far" },
+            { text: "6,150", wrongType: "far" }
+        ]},
+        { topic: "round", prompt: "Round 47,762 to the nearest thousand.", choices: [
+            { text: "47,000", wrongType: "dir" },
+            { text: "48,000", correct: true },
+            { text: "47,800", wrongType: "far" },
+            { text: "50,000", wrongType: "far" }
+        ]},
+
+        // ----- EXPANDED NOTATION -----
+        { topic: "expand", prompt: "Write 45,203 in expanded form.", choices: [
+            { text: "40,000 + 5,000 + 200 + 3", correct: true },
+            { text: "40,000 + 5,000 + 200 + 00 + 3", wrongType: "zero" },
+            { text: "40,000 + 5,000 + 20 + 3", wrongType: "place" },
+            { text: "4,000 + 5,000 + 200 + 3", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Write 80,040 in expanded form.", choices: [
+            { text: "80,000 + 000 + 00 + 40 + 0", wrongType: "zero" },
+            { text: "80,000 + 40", correct: true },
+            { text: "80,000 + 400", wrongType: "place" },
+            { text: "8,000 + 40", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Write 63,009 in expanded form.", choices: [
+            { text: "60,000 + 3,000 + 9", correct: true },
+            { text: "60,000 + 3,000 + 00 + 9", wrongType: "zero" },
+            { text: "60,000 + 3,000 + 90", wrongType: "place" },
+            { text: "6,000 + 3,000 + 9", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Write 20,504 in expanded form.", choices: [
+            { text: "20,000 + 000 + 500 + 0 + 4", wrongType: "zero" },
+            { text: "20,000 + 500 + 4", correct: true },
+            { text: "20,000 + 50 + 4", wrongType: "place" },
+            { text: "2,000 + 500 + 4", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Write 70,600 in expanded form.", choices: [
+            { text: "70,000 + 600 + 00", wrongType: "zero" },
+            { text: "70,000 + 600", correct: true },
+            { text: "70,000 + 60", wrongType: "place" },
+            { text: "7,000 + 600", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "What number is 30,000 + 4,000 + 7?", choices: [
+            { text: "34,007", correct: true },
+            { text: "34,0007", wrongType: "zero" },
+            { text: "34,070", wrongType: "place" },
+            { text: "304,007", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "What number is 50,000 + 900?", choices: [
+            { text: "50,900", correct: true },
+            { text: "50,0900", wrongType: "zero" },
+            { text: "5,900", wrongType: "place" },
+            { text: "59,000", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Write 90,020 in expanded form.", choices: [
+            { text: "90,000 + 000 + 20 + 0", wrongType: "zero" },
+            { text: "90,000 + 200", wrongType: "place" },
+            { text: "90,000 + 20", correct: true },
+            { text: "9,000 + 20", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Which is the correct expanded form for 36,050?", choices: [
+            { text: "30,000 + 6,000 + 000 + 50 + 0", wrongType: "zero" },
+            { text: "30,000 + 6,000 + 50", correct: true },
+            { text: "30,000 + 6,000 + 500", wrongType: "place" },
+            { text: "3,000 + 6,000 + 50", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "What number is 60,000 + 7,000 + 30 + 2?", choices: [
+            { text: "67,032", correct: true },
+            { text: "6,732", wrongType: "place" },
+            { text: "670,032", wrongType: "place" },
+            { text: "67,0032", wrongType: "zero" }
+        ]},
+        { topic: "expand", prompt: "Write 10,008 in expanded form.", choices: [
+            { text: "10,000 + 000 + 00 + 8", wrongType: "zero" },
+            { text: "10,000 + 8", correct: true },
+            { text: "10,000 + 80", wrongType: "place" },
+            { text: "1,000 + 8", wrongType: "place" }
+        ]},
+        { topic: "expand", prompt: "Which expanded form is correct for 52,300?", choices: [
+            { text: "50,000 + 2,000 + 300 + 00", wrongType: "zero" },
+            { text: "50,000 + 2,000 + 30", wrongType: "place" },
+            { text: "50,000 + 2,000 + 300", correct: true },
+            { text: "5,000 + 2,000 + 300", wrongType: "place" }
+        ]}
+    ];
+
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    const questions = shuffleArray(allQuestions).map(q => ({
+        topic: q.topic,
+        prompt: q.prompt,
+        choices: shuffleArray(q.choices)
+    }));
+
+    const totalQuestions = questions.length;
+    let currentIndex = 0;
+    let score = 0;
+
+    const quizArea = document.getElementById("quizArea");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+
+    function renderQuestion() {
+        const q = questions[currentIndex];
+
+        progressFill.style.width = (currentIndex / totalQuestions) * 100 + "%";
+        progressText.innerHTML = `Question ${currentIndex + 1} of ${totalQuestions}` +
+            `<span class="score-chip">Score: ${score}</span>`;
+
+        const tagClass = q.topic === "round" ? "round" : "expand";
+        const tagText = q.topic === "round" ? "Rounding" : "Expanded Notation";
+
+        let html = `<div class="topic-tag ${tagClass}">${tagText}</div>`;
+        html += `<div class="prompt">${q.prompt}</div>`;
+
+        q.choices.forEach((choice, i) => {
+            html += `<div class="choice" data-index="${i}" onclick="answer(this, ${i})">${choice.text}</div>`;
+        });
+
+        html += `<div class="feedback" id="feedback"></div>`;
+        html += `<button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question ➡</button>`;
+
+        quizArea.innerHTML = html;
+    }
+
+    function answer(element, chosenIndex) {
+        const q = questions[currentIndex];
+        const chosen = q.choices[chosenIndex];
+        const feedback = document.getElementById("feedback");
+        const nextBtn = document.getElementById("nextBtn");
+
+        document.querySelectorAll(".choice").forEach(c => c.classList.add("disabled"));
+
+        const correctIdx = q.choices.findIndex(c => c.correct);
+
+        if (chosen.correct) {
+            element.classList.add("correct");
+            feedback.textContent = "Great job! ✅";
+            feedback.style.color = "#4CAF50";
+            score++;
+        } else {
+            element.classList.add("incorrect");
+            document.querySelector(`.choice[data-index="${correctIdx}"]`).classList.add("correct");
+
+            if (chosen.wrongType === "zero") {
+                feedback.textContent = "❌ " + EXTRA_ZERO_MSG;
+            } else if (chosen.wrongType === "far") {
+                feedback.textContent = "❌ " + ROUND_TOO_FAR_MSG;
+            } else if (chosen.wrongType === "dir") {
+                feedback.textContent = "❌ " + ROUND_WRONG_DIR_MSG;
+            } else {
+                feedback.textContent = "Not quite — check the place value carefully and try the next one!";
+            }
+            feedback.style.color = "#ff4d4d";
+        }
+
+        nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < totalQuestions) {
+            renderQuestion();
+        } else {
+            finishReview();
+        }
+    }
+
+    function finishReview() {
+        progressFill.style.width = "100%";
+        progressText.innerHTML = `Question ${totalQuestions} of ${totalQuestions}` +
+            `<span class="score-chip">Score: ${score}</span>`;
+
+        quizArea.innerHTML = `<div style="text-align:center;">
+                                 <p style="font-size:19px;">All done! 🎊</p>
+                                 <p style="color:#7b5a8c;">Loading your results...</p>
+                               </div>`;
+
+        markComplete("roundingExpandedReview");
+        localStorage.setItem("roundingExpandedReviewScore", score + "/" + totalQuestions);
+
+        setTimeout(showBanner, 700);
+    }
+
+    function showBanner() {
+        document.getElementById("finalScoreText").textContent = `Score: ${score} / ${totalQuestions}`;
+        document.getElementById("bannerOverlay").classList.add("show");
+        launchConfetti();
+    }
+
+    function launchConfetti() {
+        const container = document.getElementById("confetti-container");
+        const colors = ["#ff9ecb", "#ffb3e6", "#fff7d6", "#d1e8ff", "#d9f2d9"];
+
+        for (let i = 0; i < 80; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti-piece");
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = (Math.random() * 0.6) + "s";
+            container.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 2200);
+        }
+    }
+
+    // Build the "round to nearest thousand" number line for 42,637 -> 43,000
+    const lineThousand = document.getElementById("lineThousand");
+    for (let i = 0; i <= 10; i++) {
+        const percent = i * 10;
+        const tick = document.createElement("div");
+        tick.className = "tick";
+        tick.style.left = percent + "%";
+        lineThousand.appendChild(tick);
+
+        const label = document.createElement("div");
+        label.className = "tick-label";
+        label.style.left = percent + "%";
+        label.textContent = (i === 0) ? "42,000" : (i === 10 ? "43,000" : "");
+        lineThousand.appendChild(label);
+    }
+    const pointStart = document.createElement("div");
+    pointStart.className = "rline-point";
+    pointStart.style.left = "0%";
+    pointStart.innerHTML = "42,000<div class='dot'></div>";
+    lineThousand.appendChild(pointStart);
+
+    const pointMid = document.createElement("div");
+    pointMid.className = "rline-point";
+    pointMid.style.left = "63.7%";
+    pointMid.innerHTML = "42,637<div class='dot'></div>";
+    lineThousand.appendChild(pointMid);
+
+    const pointEnd = document.createElement("div");
+    pointEnd.className = "rline-point";
+    pointEnd.style.left = "100%";
+    pointEnd.innerHTML = "43,000<div class='dot'></div>";
+    lineThousand.appendChild(pointEnd);
+
+    renderQuestion();
+</script>
+
+</body>
+</html>
