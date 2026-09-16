@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 8 – Decimal Aligner Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(38, 166, 154, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #1a8f82;
+        margin-top: 0;
+    }
+
+    .prompt-box {
+        background: #d6f5f0;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .instructions {
+        text-align: center;
+        color: #4d3d5a;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .stack-display {
+        font-family: monospace, "Comic Sans MS";
+        font-size: 28px;
+        text-align: center;
+        margin: 20px auto;
+        max-width: 300px;
+    }
+
+    .num-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+
+    .digit-slot {
+        width: 36px;
+        height: 44px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .digit-slot.given {
+        background: #f0f0f0;
+    }
+
+    .digit-slot.blank {
+        background: #fff7d6;
+        border: 2px dashed #ffb3e6;
+    }
+
+    .decimal-dot {
+        width: 12px;
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        color: #1a8f82;
+    }
+
+    .op-symbol {
+        font-size: 26px;
+        color: #1a8f82;
+        width: 30px;
+        text-align: center;
+    }
+
+    .drag-area {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+        justify-content: center;
+    }
+
+    .block {
+        background: #4dd0c4;
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        cursor: grab;
+        font-size: 20px;
+        box-shadow: 0 4px 10px rgba(38, 166, 154, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .answer-row {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    input[type="number"] {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        font-size: 18px;
+        padding: 8px;
+        width: 100px;
+        border-radius: 8px;
+        border: 2px solid #4dd0c4;
+        text-align: center;
+    }
+
+    .btn {
+        background: #1a8f82;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(38, 166, 154, 0.4);
+        margin-right: 10px;
+    }
+
+    .btn:hover {
+        background: #14746a;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Decimal Aligner 📏</h2>
+
+    <div class="prompt-box" id="promptBox">Loading problem...</div>
+    <p class="instructions">
+        One number is missing a digit in its last column. Drag the correct
+        <strong>0</strong> tile into the blank so both numbers line up — then type the answer.
+    </p>
+
+    <div class="stack-display" id="stackDisplay"></div>
+
+    <div class="drag-area" id="dragArea"></div>
+
+    <div class="answer-row">
+        <label id="answerLabel">Answer: </label>
+        <input type="number" id="answerInput" step="0.01">
+        <button class="btn" onclick="checkAnswer()">Check</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div style="text-align:center; margin-top:15px;">
+        <button class="btn" onclick="generateProblem()">New Problem</button>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" style="color:#1a8f82;">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    let problem;
+    let blankFilled = false;
+
+    const problemBank = [
+        { a: "3.4", b: "2.75", op: "+", answer: 6.15, shortIndex: 0 },   // a needs padding
+        { a: "5.6", b: "2.35", op: "−", answer: 3.25, shortIndex: 0 },
+        { a: "4.25", b: "1.7", op: "+", answer: 5.95, shortIndex: 1 },   // b needs padding
+        { a: "9.5", b: "3.28", op: "−", answer: 6.22, shortIndex: 0 },
+        { a: "6.8", b: "4.15", op: "+", answer: 10.95, shortIndex: 0 },
+        { a: "7.45", b: "2.6", op: "−", answer: 4.85, shortIndex: 1 }
+    ];
+
+    function generateProblem() {
+        problem = problemBank[Math.floor(Math.random() * problemBank.length)];
+        blankFilled = false;
+
+        document.getElementById("promptBox").textContent =
+            `${problem.a} ${problem.op} ${problem.b} = ?`;
+        document.getElementById("answerLabel").textContent = "Answer: ";
+        document.getElementById("answerInput").value = "";
+        document.getElementById("result").textContent = "";
+
+        buildStack();
+        buildDragTiles();
+    }
+
+    function splitNumber(numStr) {
+        // Returns { onesDigit, tenthsDigit, hundredthsDigit (or null if missing) }
+        const [wholePart, decPart] = numStr.split(".");
+        return {
+            ones: wholePart,
+            tenths: decPart[0],
+            hundredths: decPart.length > 1 ? decPart[1] : null
+        };
+    }
+
+    function buildStack() {
+        const stackDisplay = document.getElementById("stackDisplay");
+        stackDisplay.innerHTML = "";
+
+        const numA = splitNumber(problem.a);
+        const numB = splitNumber(problem.b);
+        const rows = [
+            { num: numA, isShort: problem.shortIndex === 0 },
+            { num: numB, isShort: problem.shortIndex === 1 }
+        ];
+
+        rows.forEach((row, i) => {
+            const numRow = document.createElement("div");
+            numRow.className = "num-row";
+
+            if (i === 1) {
+                const op = document.createElement("div");
+                op.className = "op-symbol";
+                op.textContent = problem.op;
+                numRow.appendChild(op);
+            } else {
+                const spacer = document.createElement("div");
+                spacer.className = "op-symbol";
+                numRow.appendChild(spacer);
+            }
+
+            const onesSlot = document.createElement("div");
+            onesSlot.className = "digit-slot given";
+            onesSlot.textContent = row.num.ones;
+            numRow.appendChild(onesSlot);
+
+            const dot = document.createElement("div");
+            dot.className = "decimal-dot";
+            dot.textContent = ".";
+            numRow.appendChild(dot);
+
+            const tenthsSlot = document.createElement("div");
+            tenthsSlot.className = "digit-slot given";
+            tenthsSlot.textContent = row.num.tenths;
+            numRow.appendChild(tenthsSlot);
+
+            const hundredthsSlot = document.createElement("div");
+            if (row.num.hundredths === null) {
+                hundredthsSlot.className = "digit-slot blank";
+                hundredthsSlot.setAttribute("data-row", i);
+                hundredthsSlot.addEventListener("dragover", e => e.preventDefault());
+                hundredthsSlot.addEventListener("drop", e => {
+                    const value = e.dataTransfer.getData("text/plain");
+                    if (value === "0") {
+                        hundredthsSlot.textContent = "0";
+                        hundredthsSlot.classList.remove("blank");
+                        hundredthsSlot.classList.add("given");
+                        blankFilled = true;
+                    }
+                });
+            } else {
+                hundredthsSlot.className = "digit-slot given";
+                hundredthsSlot.textContent = row.num.hundredths;
+            }
+            numRow.appendChild(hundredthsSlot);
+
+            stackDisplay.appendChild(numRow);
+        });
+    }
+
+    function buildDragTiles() {
+        const dragArea = document.getElementById("dragArea");
+        dragArea.innerHTML = "";
+
+        // One correct "0" tile, plus a couple of decoy digit tiles
+        const tileValues = ["0", "5", "7"].sort(() => Math.random() - 0.5);
+
+        tileValues.forEach(value => {
+            const block = document.createElement("div");
+            block.className = "block";
+            block.textContent = value;
+            block.draggable = true;
+            block.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", value);
+            });
+            dragArea.appendChild(block);
+        });
+    }
+
+    function checkAnswer() {
+        const input = parseFloat(document.getElementById("answerInput").value);
+        const result = document.getElementById("result");
+
+        if (!blankFilled) {
+            result.textContent = "First, drag the correct tile into the blank box to line up the columns!";
+            result.style.color = "#ff4d4d";
+            return;
+        }
+
+        if (Math.abs(input - problem.answer) < 0.001) {
+            result.textContent = "🎉 Perfect! " + problem.a + " " + problem.op + " " + problem.b + " = " + problem.answer;
+            result.style.color = "#4CAF50";
+        } else {
+            result.textContent = "Not quite — double check your column addition or subtraction and try again.";
+            result.style.color = "#ff4d4d";
+        }
+    }
+
+    generateProblem();
+</script>
+
+</body>
+</html>

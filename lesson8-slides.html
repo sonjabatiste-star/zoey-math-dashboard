@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 8 – Adding & Subtracting Decimals</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .slideshow-container {
+        width: 90%;
+        max-width: 900px;
+        height: 90vh;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(38, 166, 154, 0.4);
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .slide {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .slide.active {
+        display: block;
+    }
+
+    h1, h2 {
+        color: #1a8f82;
+        margin-top: 0;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        color: #7b5a8c;
+        margin-bottom: 10px;
+    }
+
+    ul, ol {
+        padding-left: 20px;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #d6f5f0;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 13px;
+        margin-right: 6px;
+        margin-bottom: 4px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    button {
+        background: linear-gradient(90deg, #26a69a, #4dd0c4);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(38, 166, 154, 0.5);
+    }
+
+    button:hover {
+        background: #1a8f82;
+    }
+
+    .page-indicator {
+        text-align: center;
+        font-size: 13px;
+        color: #7b5a8c;
+        margin-top: 5px;
+    }
+
+    .decimal-box {
+        background: #fff7d6;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .money-box {
+        background: #e6ffea;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .mistake-box {
+        background: #fff0f0;
+        border: 3px solid #ff6b6b;
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin: 12px 0;
+    }
+
+    .mistake-box h4 {
+        color: #e04343;
+        margin-top: 0;
+    }
+
+    .wrong-line {
+        text-decoration: line-through;
+        color: #c94040;
+        font-size: 18px;
+    }
+
+    .right-line {
+        color: #2e9e4a;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    /* Column addition visual */
+    .column-stack {
+        font-family: monospace, "Comic Sans MS";
+        font-size: 26px;
+        text-align: right;
+        max-width: 220px;
+        margin: 16px auto;
+        border-bottom: 3px solid #1a8f82;
+        padding-bottom: 6px;
+    }
+
+    .column-stack div {
+        letter-spacing: 3px;
+    }
+
+    .column-stack .op {
+        color: #1a8f82;
+    }
+
+    .estimate-box {
+        background: #f0e6ff;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+        .slideshow-container {
+            padding: 15px 18px;
+        }
+        h1 {
+            font-size: 22px;
+        }
+        h2 {
+            font-size: 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="slideshow-container">
+
+    <!-- Slide 1 -->
+    <div class="slide active">
+        <h1>Lesson 8 – Adding & Subtracting Decimals 💵</h1>
+        <p class="subtitle">Lining Up Decimal Points • Estimating • Money Problems</p>
+        <p><strong>Today's Mission:</strong></p>
+        <ul>
+            <li><strong>Add</strong> and <strong>subtract</strong> decimals using a standard algorithm</li>
+            <li>Line up decimal points correctly</li>
+            <li><strong>Estimate first</strong> to check that an answer makes sense</li>
+        </ul>
+        <p><strong>TEKS Focus:</strong></p>
+        <p><span class="tag">4.4(A)</span></p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide">
+        <h2>The #1 Rule: Line Up the Decimal Points</h2>
+        <p>Before adding or subtracting decimals, stack them so the decimal points are directly on top of each other.</p>
+        <div class="column-stack">
+            <div>&nbsp;&nbsp;3.45</div>
+            <div class="op">+ 2.70</div>
+        </div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Why do you think lining up the decimal points matters so much?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide">
+        <h2>A Helpful Trick: Adding a Trailing Zero</h2>
+        <p>To add 3.45 + 2.7, first give 2.7 a hundredths digit by writing it as 2.70.</p>
+        <div class="column-stack">
+            <div>&nbsp;&nbsp;3.45</div>
+            <div class="op">+ 2.70</div>
+        </div>
+        <p><strong>This does NOT change the value</strong> — 2.7 and 2.70 are the exact same amount. It just makes the columns line up neatly.</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Is 2.7 the same amount of money as 2.70? Why?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide">
+        <h2>Wait — Isn't This the "Extra Zero" We Avoid?</h2>
+        <div class="mistake-box">
+            <h4>Two different rules for two different jobs!</h4>
+            <p><strong>Expanded notation:</strong> <span class="wrong-line">4,000 + 200 + 00 + 5</span> — never add extra zeros here.</p>
+            <p><strong>Column addition/subtraction:</strong> <span class="right-line">2.7 → 2.70</span> — adding a trailing zero here is allowed, because it doesn't change the value, it just fills an empty column.</p>
+        </div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"What's different about these two situations?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+        <h2>Adding Decimals: Worked Example</h2>
+        <div class="column-stack">
+            <div>&nbsp;&nbsp;3.45</div>
+            <div class="op">+ 2.70</div>
+            <div>&nbsp;&nbsp;6.15</div>
+        </div>
+        <p>Add just like whole numbers, column by column, right to left — then bring the decimal point straight down!</p>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Where does the decimal point go in the answer?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide">
+        <h2>Subtracting Decimals: Worked Example</h2>
+        <p>Subtract 2.35 from 5.6. First, rewrite 5.6 as 5.60.</p>
+        <div class="column-stack">
+            <div>&nbsp;&nbsp;5.60</div>
+            <div class="op">− 2.35</div>
+            <div>&nbsp;&nbsp;3.25</div>
+        </div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Why did we need to rewrite 5.6 as 5.60 before subtracting?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide">
+        <h2>Estimate First!</h2>
+        <p>Before solving, round each decimal to the nearest whole number to check if your final answer makes sense.</p>
+        <div class="estimate-box">3.45 + 2.70 → about 3 + 3 = 6 &nbsp;&nbsp;(actual answer: 6.15 ✓ makes sense!)</div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"If your exact answer was 61.5 instead of 6.15, would the estimate help you catch that mistake?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 8 -->
+    <div class="slide">
+        <h2>Real-World: Money</h2>
+        <p>Zoey has $12.50. She spends $4.75 on a snack. How much does she have left?</p>
+        <div class="money-box">Estimate: 13 − 5 = about $8</div>
+        <div class="column-stack">
+            <div>12.50</div>
+            <div class="op">− 4.75</div>
+            <div>&nbsp;7.75</div>
+        </div>
+        <p><strong>Ask Zoey:</strong></p>
+        <ul>
+            <li>"Does $7.75 seem reasonable compared to our estimate of about $8?"</li>
+        </ul>
+    </div>
+
+    <!-- Slide 9 -->
+    <div class="slide">
+        <h2>TEKS Connection</h2>
+        <ul>
+            <li><strong>4.4(A)</strong> – Add and subtract whole numbers and decimals to the hundredths place using the standard algorithm</li>
+        </ul>
+        <p class="subtitle">"Lining up decimal points carefully is the key to getting these right every time!"</p>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+        <h2>Exit Ticket</h2>
+        <ol>
+            <li>4.3 + 2.65 = ?</li>
+            <li>8.2 − 3.75 = ?</li>
+            <li>Estimate first, then solve: 15.4 + 6.9</li>
+            <li>Zoey has $20. She spends $8.45. How much is left?</li>
+        </ol>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+        <h2>Decimal Addition & Subtraction Star ⭐</h2>
+        <p class="subtitle">Lining Up Points • Estimating • Money Problems</p>
+        <p style="font-size:22px; text-align:center;">"Zoey, you are officially a <strong>Decimal Addition & Subtraction Star!</strong>"</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button id="prevBtn">⬅ Back</button>
+        <button id="nextBtn">Next ➡</button>
+    </div>
+    <div class="page-indicator" id="pageIndicator"></div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        pageIndicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+        nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+    });
+
+    showSlide(currentSlide);
+</script>
+
+</body>
+</html>

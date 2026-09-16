@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 9 – Area Model Builder Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #e07b00;
+        margin-top: 0;
+    }
+
+    .prompt-box {
+        background: #ffe9cc;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .drag-area {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+        justify-content: center;
+    }
+
+    .block {
+        background: #ffb74d;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 10px;
+        cursor: grab;
+        font-size: 17px;
+        box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+    }
+
+    .drop-area {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .drop-slot {
+        background: #fff7d6;
+        width: 170px;
+        height: 65px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        border: 2px dashed #ffb74d;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .slot-title {
+        text-align: center;
+        font-weight: bold;
+        color: #7b5a8c;
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .answer-row {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    input[type="number"] {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        font-size: 18px;
+        padding: 8px;
+        width: 90px;
+        border-radius: 8px;
+        border: 2px solid #ffb74d;
+        text-align: center;
+    }
+
+    .btn {
+        background: #e07b00;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(255, 152, 0, 0.4);
+        margin-right: 10px;
+    }
+
+    .btn:hover {
+        background: #b86200;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Area Model Builder 🧱</h2>
+
+    <div class="prompt-box" id="promptBox">Loading problem...</div>
+
+    <p style="text-align:center; color:#7b5a8c;">Drag the correct partial product into each part of the area model:</p>
+
+    <div class="drag-area" id="dragArea"></div>
+
+    <div class="drop-area">
+        <div>
+            <div class="slot-title" id="tensLabel">Tens Part</div>
+            <div class="drop-slot" id="tensSlot" data-part="tens"></div>
+        </div>
+        <div>
+            <div class="slot-title" id="onesLabel">Ones Part</div>
+            <div class="drop-slot" id="onesSlot" data-part="ones"></div>
+        </div>
+    </div>
+
+    <div class="answer-row">
+        <label>Final Product: </label>
+        <input type="number" id="finalAnswer">
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div style="text-align:center; margin-top:15px;">
+        <button class="btn" onclick="generateProblem()">New Problem</button>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" style="color:#e07b00;">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    let problem;
+
+    const problemBank = [
+        { tens: 20, ones: 3, factor: 4 },   // 23 x 4
+        { tens: 40, ones: 7, factor: 6 },   // 47 x 6
+        { tens: 30, ones: 4, factor: 6 },   // 34 x 6
+        { tens: 60, ones: 8, factor: 3 },   // 68 x 3
+        { tens: 20, ones: 4, factor: 7 },   // 24 x 7
+        { tens: 50, ones: 2, factor: 5 }    // 52 x 5
+    ];
+
+    function generateProblem() {
+        const p = problemBank[Math.floor(Math.random() * problemBank.length)];
+        const wholeNumber = p.tens + p.ones;
+
+        problem = {
+            tensProduct: p.tens * p.factor,
+            onesProduct: p.ones * p.factor,
+            factor: p.factor,
+            wholeNumber: wholeNumber,
+            finalAnswer: (p.tens + p.ones) * p.factor
+        };
+
+        document.getElementById("promptBox").textContent =
+            `${problem.wholeNumber} × ${problem.factor} = ?`;
+        document.getElementById("tensLabel").textContent = `${p.tens} × ${problem.factor}`;
+        document.getElementById("onesLabel").textContent = `${p.ones} × ${problem.factor}`;
+        document.getElementById("finalAnswer").value = "";
+        document.getElementById("result").textContent = "";
+
+        buildBlocksAndSlots();
+    }
+
+    function buildBlocksAndSlots() {
+        const dragArea = document.getElementById("dragArea");
+        const tensSlot = document.getElementById("tensSlot");
+        const onesSlot = document.getElementById("onesSlot");
+
+        dragArea.innerHTML = "";
+        tensSlot.textContent = "";
+        onesSlot.textContent = "";
+
+        // Correct tiles plus one distractor (a plausible but wrong product)
+        const distractor = problem.tensProduct + problem.factor;
+        const tileValues = [problem.tensProduct, problem.onesProduct, distractor].sort(() => Math.random() - 0.5);
+
+        tileValues.forEach(value => {
+            const block = document.createElement("div");
+            block.className = "block";
+            block.textContent = value;
+            block.draggable = true;
+            block.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", value);
+            });
+            dragArea.appendChild(block);
+        });
+
+        [tensSlot, onesSlot].forEach(slot => {
+            slot.addEventListener("dragover", e => e.preventDefault());
+            slot.addEventListener("drop", e => {
+                const value = e.dataTransfer.getData("text/plain");
+                slot.textContent = value;
+                slot.style.background = "#ffe9cc";
+            });
+        });
+    }
+
+    function checkAnswer() {
+        const result = document.getElementById("result");
+        const tensText = document.getElementById("tensSlot").textContent;
+        const onesText = document.getElementById("onesSlot").textContent;
+        const finalVal = parseInt(document.getElementById("finalAnswer").value);
+
+        const partsCorrect = parseInt(tensText) === problem.tensProduct && parseInt(onesText) === problem.onesProduct;
+        const answerCorrect = finalVal === problem.finalAnswer;
+
+        if (partsCorrect && answerCorrect) {
+            result.textContent = "🎉 Perfect! Both parts and the final product (" + problem.finalAnswer + ") are correct!";
+            result.style.color = "#4CAF50";
+        } else if (!partsCorrect) {
+            result.textContent = "Check the two area model parts — make sure each matches its multiplication problem.";
+            result.style.color = "#ff4d4d";
+        } else {
+            result.textContent = "The area model parts are right, but double-check your final product.";
+            result.style.color = "#ff4d4d";
+        }
+    }
+
+    generateProblem();
+</script>
+
+</body>
+</html>
