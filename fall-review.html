@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🍂 Fall Review Quest – Zoey's Math</title>
+<style>
+:root{--pink:#ff8fc7;--lav:#8c9eff;--ink:#4b3558;--orange:#e8743b;--gold:#f6b93b;--ok:#2e9e4f;--bad:#d9453d;}
+*{box-sizing:border-box}
+body{font-family:"Comic Sans MS","Comic Sans",Arial,sans-serif;margin:0;padding:16px;color:var(--ink);
+ background:linear-gradient(to bottom right,#ffe6f2,#fff1e0,#ffe6ff);min-height:100vh}
+.wrap{max-width:920px;margin:auto}
+.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 8px 20px rgba(232,116,59,.25);margin-bottom:16px}
+h1{margin:0;text-align:center;color:var(--orange)}
+h2{margin-top:0;color:#a8421a}
+.sub{text-align:center;margin:6px 0 0}
+.btn{background:var(--orange);color:#fff;border:none;padding:11px 20px;border-radius:999px;cursor:pointer;font:inherit;font-size:16px;box-shadow:0 3px 8px rgba(0,0,0,.2);margin:4px}
+.btn:hover{filter:brightness(.92)}
+.btn.alt{background:var(--lav)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--lav)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.st{background:#fff7ec;border:3px solid #f3c79c;border-radius:18px;padding:14px;position:relative}
+.st.done{background:#eefbe9;border-color:#9fd69a}
+.st .em{font-size:34px}
+.st h3{margin:4px 0;font-size:17px}
+.tek{font-size:12px;color:#8a6a55}
+.stamp{position:absolute;top:10px;right:12px;font-weight:bold;font-size:14px;color:var(--ok)}
+.bar{height:10px;background:#eee;border-radius:6px;overflow:hidden;margin:6px 0}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.q{font-size:19px;line-height:1.5}
+.vis{background:#fff7d6;border-radius:12px;padding:10px;margin:10px 0;text-align:center;overflow-x:auto}
+.choices{display:grid;gap:8px;margin:12px 0}
+.choice{background:#fff;border:2px solid var(--lav);border-radius:12px;padding:12px;font:inherit;font-size:18px;cursor:pointer;text-align:left;color:var(--ink)}
+.choice.sel{background:#e3e6ff;border-color:#4a56b0}
+.choice.right{background:#d4ffdf!important;border-color:var(--ok)!important}
+.choice.wrong{background:#ffe0e0!important;border-color:var(--bad)!important}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;font-size:.9em}
+.fr span:first-child{border-bottom:2px solid currentColor;padding:0 4px}
+.frow{margin:10px 0;font-size:18px}
+.fin{font:inherit;font-size:18px;width:110px;padding:7px;border:2px solid var(--lav);border-radius:8px;text-align:center}
+.fin.right{background:#d4ffdf;border-color:var(--ok)}.fin.wrong{background:#ffe0e0;border-color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;min-height:48px;padding:8px;background:#f3f4ff;border-radius:12px}
+.tile{background:var(--lav);color:#fff;padding:10px 16px;border-radius:10px;font-size:18px;cursor:grab;user-select:none;box-shadow:0 3px 8px rgba(92,107,192,.4);border:3px solid transparent}
+.tile.sel{border-color:var(--gold);transform:scale(1.08)}
+.slotrow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:8px 0;font-size:18px}
+.slot{min-width:90px;min-height:46px;border:3px dashed var(--lav);border-radius:10px;background:#fff7d6;display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;cursor:pointer}
+.slot.over{background:#ffe9a8}.slot.right{border-color:var(--ok);background:#d4ffdf}.slot.wrong{border-color:var(--bad);background:#ffe0e0}
+.slot .tile{margin:0;padding:6px 12px}
+.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:min(320px,90%);margin:10px auto;touch-action:none;user-select:none}
+.cell{aspect-ratio:1;background:#fff;border:1px solid #9aa5e8;cursor:pointer}
+.cell.on{background:var(--orange)}
+.dp{display:flex;justify-content:center;gap:0;margin:10px auto;max-width:560px;touch-action:manipulation}
+.dpcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:190px;border-bottom:3px solid var(--ink);position:relative;cursor:pointer}
+.dpcol:hover{background:#fff3e0}
+.dpcol .dot{width:22px;height:22px;border-radius:50%;background:var(--orange);margin:2px 0;border:2px solid #fff}
+.dplab{flex:1;text-align:center;font-weight:bold;border-top:0}
+.dprow{display:flex;max-width:560px;margin:0 auto}
+.dprow .dplab{flex:1}
+.fb{margin-top:12px;padding:12px;border-radius:12px;font-size:17px;display:none}
+.fb.show{display:block}.fb.g{background:#e4f8e8}.fb.y{background:#fff3cc}.fb.r{background:#ffe6e3}
+.strip{display:flex;max-width:460px;margin:6px auto;border:3px solid #4a56b0}
+.strip>div{flex:1;text-align:center;padding:8px 2px;border-right:2px solid #4a56b0;background:#e3e6ff}
+.strip>div:last-child{border-right:0;background:#ffe0f0}
+.amod{display:flex;max-width:340px;margin:6px auto}
+.amod>div{border:3px solid #4a56b0;padding:14px 6px;background:#e3e6ff;text-align:center}
+table.sl{margin:8px auto;border-collapse:collapse;font-size:18px}
+table.sl td{padding:4px 12px}table.sl td:first-child{border-right:3px solid var(--ink);text-align:right;font-weight:bold}
+.hidden{display:none}
+.big{font-size:44px;text-align:center}
+.banner{background:linear-gradient(135deg,#ffd27a,#ff9ecb,#c1a8ff);border-radius:22px;padding:24px;text-align:center;color:#4a1f43;box-shadow:0 10px 30px rgba(232,116,59,.5);border:4px solid #fff}
+.banner h2{color:#4a1f43;font-size:30px;margin:6px 0}
+table.rep{width:100%;border-collapse:collapse}
+table.rep td,table.rep th{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:15px}
+.leaf{position:fixed;top:-30px;font-size:26px;pointer-events:none;animation:fall 3.2s linear forwards;z-index:9999}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.8}}
+a{color:#4a56b0}
+@media print{.btn,.noprint{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🍂 Fall Review Quest 🍁</h1>
+  <p class="sub">Travel through 9 stations, collect stamps, and earn your Fall Review Champion banner!</p>
+  <div id="app"></div>
+  <p style="text-align:center"><a href="index.html">⬅ Back to Dashboard</a></p>
+</div>
+<div id="leafbox"></div>
+
+<script>
+(function(){
+"use strict";
+/* ================= helpers ================= */
+const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[R(0,a.length-1)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;};
+const fmt=n=>Number(n).toLocaleString('en-US');
+const d2=h=>(h/100).toFixed(2);
+const dshort=h=>h%10===0?(h/100).toFixed(1):(h/100).toFixed(2);
+const frac=(n,d)=>'<span class="fr"><span>'+n+'</span><span>'+d+'</span></span>';
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const rnd10=(n,p)=>Math.floor((n+p/2)/p)*p;
+const NAMES=['Maya','Jin','Ava','Leo','Nora','Eli','Sofia','Marcus','Ivy','Theo'];
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+
+/* mc from numeric correct + distractors [{v,fb}] */
+function mcNums(correct,ds,f,expl){
+  const seen=new Set([correct]);const cs=[{t:f(correct),ok:true}];
+  ds.forEach(d=>{if(cs.length<4&&d.v>0&&!seen.has(d.v)){seen.add(d.v);cs.push({t:f(d.v),ok:false,fb:d.fb||''});}});
+  let step=1;
+  while(cs.length<4){[correct+step,correct-step].forEach(v=>{if(cs.length<4&&v>0&&!seen.has(v)){seen.add(v);cs.push({t:f(v),ok:false,fb:''});}});step++;}
+  return shuf(cs);
+}
+const termsStr=ts=>ts.map(t=>'('+t.d+' × '+fmt(t.p)+')').join(' + ');
+
+/* ================= item builders ================= */
+/* ---- S1 place value & expanded notation ---- */
+function randDigits(len,nonzeroCount){
+  const pos=[0];const rest=shuf([...Array(len-1).keys()].map(i=>i+1)).slice(0,nonzeroCount-1);
+  const set=new Set(pos.concat(rest));
+  return [...Array(len).keys()].map(i=>set.has(i)?R(1,9):0);
+}
+function s1_dragWhole(){
+  const len=5,digits=randDigits(len,R(3,4));
+  const places=[10000,1000,100,10,1];
+  const num=Number(digits.join(''));
+  const slots=[],tiles=[];const nz=digits.map((d,i)=>({d,p:places[i]})).filter(t=>t.d);
+  nz.forEach((t,i)=>{slots.push({pre:'(',post:'× '+fmt(t.p)+')'+(i<nz.length-1?' +':''),ans:String(t.d)});tiles.push({k:String(t.d),h:String(t.d)});});
+  tiles.push({k:'0',h:'0'});tiles.push({k:String(R(1,9)),h:null});tiles[tiles.length-1].h=tiles[tiles.length-1].k;
+  return {type:'drag',tek:'4.2(B)',
+    prompt:'Build the <b>expanded notation</b> for <b>'+fmt(num)+'</b>. Only digits that are worth something get a spot — zeros are just placeholders!',
+    slots,tiles:shuf(tiles),explain:fmt(num)+' = '+termsStr(nz)+'. Zeros keep the other digits in the right place, so they do not need their own term.'};
+}
+function s1_standard(){
+  const len=R(5,6),digits=randDigits(len,3);
+  const places=[1,10,100,1000,10000,100000].slice(0,len).reverse();
+  const nz=digits.map((d,i)=>({d,p:places[i]})).filter(t=>t.d);
+  const num=Number(digits.join(''));
+  return {type:'fill',tek:'4.2(B)',
+    prompt:'Write this expanded notation as a standard number:<div class="vis">'+termsStr(nz)+'</div>',
+    fields:[{pre:'Standard form:',ans:num,fb:v=>{const s=String(v).replace(/\D/g,'');return s.length>String(num).length?'Too many digits! That is extra zeros. The biggest place is '+fmt(Math.max(...nz.map(t=>t.p)))+', so the number has exactly '+String(num).length+' digits.':(s.length<String(num).length?'Too few digits — a missing place needs a 0 placeholder.':'Check each digit against its place.');}}],
+    explain:termsStr(nz)+' = '+fmt(num)+'. Put each digit in its place and fill any empty place with 0.'};
+}
+function s1_mc(){
+  const len=6,digits=randDigits(len,3);
+  const places=[100000,10000,1000,100,10,1];
+  const nz=digits.map((d,i)=>({d,p:places[i]})).filter(t=>t.d);
+  const num=Number(digits.join(''));
+  const opts=[{t:termsStr(nz),ok:true}];
+  const seen=new Set([opts[0].t]);
+  const add=(ts,fb)=>{const s=termsStr(ts);if(!seen.has(s)){seen.add(s);opts.push({t:s,ok:false,fb});}};
+  add(nz.map(t=>({d:t.d,p:t.p*10})),'Every term has an extra zero. Check the place of each digit.');
+  add(nz.map((t,i)=>i===nz.length-1?{d:t.d,p:t.p*10}:t),'The last term is in the wrong place — check the value of that digit.');
+  let sw=nz.map(t=>({...t}));
+  if(sw[0].d!==sw[1].d){const a=sw[0].d;sw[0].d=sw[1].d;sw[1].d=a;}else{sw[sw.length-1].d=sw[sw.length-1].d%9+1;}
+  add(sw,'The digits do not match the number. Re-read each digit.');
+  let k=1;while(opts.length<4){add(nz.map((t,i)=>i===0?{d:t.d,p:t.p*(k+1===10?1:10)}:t),'Look at the leading place.');k++;if(k>3)break;}
+  return {type:'mc',tek:'4.2(B)',prompt:'Which shows <b>'+fmt(num)+'</b> in expanded notation?',choices:shuf(opts),
+    explain:fmt(num)+' = '+termsStr(nz)+'.'};
+}
+function s1_dragDec(){
+  const ones=R(1,9),t=R(0,9),h=t===0?R(1,9):R(0,9);
+  const digits=[ones,t,h],places=['1','0.1','0.01'];
+  const num=ones+'.'+t+h;
+  const nz=digits.map((d,i)=>({d,p:places[i]})).filter(x=>x.d);
+  const slots=nz.map((x,i)=>({pre:'(',post:'× '+x.p+')'+(i<nz.length-1?' +':''),ans:String(x.d)}));
+  const tiles=nz.map(x=>({k:String(x.d),h:String(x.d)}));
+  tiles.push({k:'0',h:'0'});tiles.push({k:String(R(1,9)),h:null});tiles[tiles.length-1].h=tiles[tiles.length-1].k;
+  return {type:'drag',tek:'4.2(B)',prompt:'Build the expanded notation for <b>'+num+'</b>.',slots,tiles:shuf(tiles),
+    explain:num+' = '+nz.map(x=>'('+x.d+' × '+x.p+')').join(' + ')+'. Decimal places work the same way — tenths and hundredths.'};
+}
+/* ---- S2 rounding ---- */
+const PN={10:'ten',100:'hundred',1000:'thousand',10000:'ten thousand'};
+function s2_mc(){
+  const p=pick([10,100,1000,10000]);let n;do{n=R(1200,98000);}while(n%p===0);
+  const c=rnd10(n,p),fl=Math.floor(n/p)*p,ce=fl+p;
+  return {type:'mc',tek:'4.2(D)',prompt:'Round <b>'+fmt(n)+'</b> to the nearest <b>'+PN[p]+'</b>.',
+    choices:mcNums(c,[{v:c===fl?ce:fl,fb:'You rounded the wrong direction. Look at the digit to the right — 5 or more rounds up.'},
+      {v:rnd10(n,p*10),fb:'That rounds to a bigger place than asked.'},{v:rnd10(n,Math.max(1,p/10)),fb:'That rounds to a smaller place than asked.'}],fmt),
+    explain:fmt(n)+' is between '+fmt(fl)+' and '+fmt(ce)+'. It is closer to '+fmt(c)+'.'};
+}
+function s2_fill(){
+  const p=pick([10,100,1000]);let n;do{n=R(1200,9800);}while(n%p===0);
+  const fl=Math.floor(n/p)*p;
+  return {type:'fill',tek:'4.2(C)',prompt:'Use the number line idea. Where does <b>'+fmt(n)+'</b> live when rounding to the nearest '+PN[p]+'?',
+    fields:[{pre:fmt(n)+' is between',ans:fl},{pre:'and',ans:fl+p},{pre:'It rounds to',ans:rnd10(n,p)}],
+    explain:'Find the two '+PN[p]+'s around the number, then pick the closer one. The halfway point rounds up.'};
+}
+function s2_est(){
+  const plus=Math.random()<.5;let a,b;
+  do{a=R(2100,9800);b=R(1100,a-500);}while(a%1000<100||b%1000<100||(a-b)<1500||rnd10(a,1000)-rnd10(b,1000)<=0);
+  const ra=rnd10(a,1000),rb=rnd10(b,1000);
+  const c=plus?ra+rb:ra-rb,ex=plus?a+b:a-b;
+  return {type:'mc',tek:'4.4(G)',prompt:'Estimate <b>'+fmt(a)+(plus?' + ':' − ')+fmt(b)+'</b> by rounding each number to the nearest thousand.',
+    choices:mcNums(c,[{v:ex,fb:'That is the exact answer, not an estimate.'},
+      {v:plus?rnd10(a,100)+rnd10(b,100):rnd10(a,100)-rnd10(b,100),fb:'You rounded to hundreds. The question asked for thousands.'},
+      {v:plus?ra+b:ra-b,fb:'You only rounded one of the numbers.'}],fmt),
+    explain:fmt(a)+' → '+fmt(ra)+' and '+fmt(b)+' → '+fmt(rb)+'. Then '+fmt(ra)+(plus?' + ':' − ')+fmt(rb)+' = '+fmt(c)+'.'};
+}
+function s2_multi(){
+  const T=R(2,8)*1000;
+  const good=[T-500,T+R(1,499)];
+  const bad=[T-501-R(0,200),T+500+R(0,300)];
+  const extra=Math.random()<.5?{v:T-R(0,499),ok:true}:{v:T+R(501,900),ok:false};
+  let items=[{v:good[0],ok:true},{v:good[1],ok:true},{v:bad[0],ok:false},{v:bad[1],ok:false},extra];
+  const seen=new Set();items=items.filter(i=>!seen.has(i.v)&&seen.add(i.v));
+  return {type:'multi',tek:'4.2(D)',prompt:'Select <b>all</b> numbers that round to <b>'+fmt(T)+'</b> when rounded to the nearest thousand.',
+    choices:shuf(items).map(i=>({t:fmt(i.v),ok:i.ok})),
+    explain:'Numbers from '+fmt(T-500)+' up to '+fmt(T+499)+' round to '+fmt(T)+'. Exactly halfway ('+fmt(T-500)+') rounds UP.'};
+}
+/* ---- S3 decimals ---- */
+function s3_grid(){
+  const tenths=Math.random()<.4;const h=tenths?R(2,9)*10:R(11,89);
+  if(!tenths&&h%10===0)return s3_grid();
+  return {type:'grid',tek:'4.2(E)',target:h,
+    prompt:'Shade the model to show <b>'+d2(h).replace(/0$/,tenths?'':'0')+'</b>. The whole grid is 1 whole (100 squares).',
+    hint:'Hint: each full column of 10 squares is 1 tenth (0.1); each single square is 1 hundredth (0.01).',
+    explain:d2(h)+' = '+h+' hundredths, so '+h+' of the 100 squares are shaded.'};
+}
+function s3_compare(){
+  const t=R(3,8),a=t*10;const longerSmaller=Math.random()<.5;
+  let b=longerSmaller?a-R(1,9):a+R(1,9);
+  const big=a>b?'>':'<';let x=a,y=b;if(Math.random()<.5){x=b;y=a;}
+  const sym=x>y?'>':'<';
+  const fb='Write both with hundredths: '+d2(x)+' and '+d2(y)+'. Compare '+x+' hundredths to '+y+' hundredths.';
+  return {type:'mc',tek:'4.2(F)',fixed:true,prompt:'Which symbol makes this true?<div class="vis" style="font-size:28px">'+dshort(x)+' &nbsp;<b>?</b>&nbsp; '+dshort(y)+'</div>',
+    choices:['<','=','>'].map(s=>({t:s,ok:s===sym,fb})),explain:d2(x)+' vs '+d2(y)+': '+x+' hundredths '+(x>y?'is greater than ':'is less than ')+y+' hundredths. A longer decimal is not always bigger!'};
+}
+function s3_frac(){
+  const pool=[];
+  let t=R(1,9);pool.push({dec:'0.'+t,k:t+'/10',h:frac(t,10)});
+  let u=R(1,9);pool.push({dec:'0.0'+u,k:u+'/100',h:frac(u,100)});
+  let w=R(1,4),t2=R(1,9);pool.push({dec:w+'.'+t2,k:w+' '+t2+'/10',h:w+frac(t2,10)});
+  let tt=R(1,9),uu=R(1,9);pool.push({dec:'0.'+tt+uu,k:tt+''+uu+'/100',h:frac(tt+''+uu,100)});
+  const ks=new Set(pool.map(p=>p.k)),ds=new Set(pool.map(p=>p.dec));
+  if(ks.size<4||ds.size<4)return s3_frac();
+  return {type:'drag',tek:'4.2(G)',prompt:'Match each <b>decimal</b> to the fraction or mixed number that names it.',
+    slots:shuf(pool).map(p=>({pre:'<b>'+p.dec+'</b> =',post:'',ans:p.k})),tiles:shuf(pool.map(p=>({k:p.k,h:p.h}))),
+    explain:'One decimal place = tenths, two decimal places = hundredths. The whole number part stays in front.'};
+}
+function s3_order(){
+  let v;do{const base=R(2,8)*10;v=[base,base+R(1,9),base-R(1,9),R(11,99)];}while(new Set(v).size<4);
+  const sorted=v.slice().sort((a,b)=>a-b);
+  return {type:'drag',tek:'4.2(F)',prompt:'Put these decimals in order from <b>least to greatest</b>.',
+    slots:sorted.map((h,i)=>({pre:['Least','2nd','3rd','Greatest'][i],post:'',ans:String(h)})),
+    tiles:shuf(v).map(h=>({k:String(h),h:dshort(h)})),
+    explain:'In order: '+sorted.map(dshort).join(' < ')+'. Compare in hundredths: '+sorted.join(', ')+'.'};
+}
+/* ---- S4 add/subtract decimals ---- */
+function s4_add(){
+  const n=pick(NAMES);let a=R(150,899),b=R(120,599);
+  const fbA=v=>'Line up the decimal points (cents under cents) and regroup. '+d2(a)+' + '+d2(b)+'.';
+  return {type:'fill',tek:'4.4(A)',prompt:n+' buys a notebook for <b>$'+d2(a)+'</b> and a pen for <b>$'+d2(b)+'</b>. How much does '+n+' spend in all?',
+    fields:[{pre:'$',ans:(a+b)/100,fb:fbA}],explain:'$'+d2(a)+' + $'+d2(b)+' = $'+d2(a+b)+'.'};
+}
+function s4_sub(){
+  const n=pick(NAMES),pay=pick([1000,2000,500]);let x;do{x=R(pay===500?135:235,pay===500?495:895);}while(x%10===0);
+  return {type:'fill',tek:'4.4(A)',prompt:n+' pays with <b>$'+d2(pay)+'</b> for a toy that costs <b>$'+d2(x)+'</b>. How much change should '+n+' get?',
+    fields:[{pre:'$',ans:(pay-x)/100,fb:v=>'Subtract carefully across the zeros: '+d2(pay)+' − '+d2(x)+'. Check by adding your answer to '+d2(x)+'.'}],
+    explain:'$'+d2(pay)+' − $'+d2(x)+' = $'+d2(pay-x)+'. Check: '+d2(pay-x)+' + '+d2(x)+' = '+d2(pay)+'.'};
+}
+function s4_word(){
+  const n=pick(NAMES);let a,bt;do{a=R(110,290);bt=R(3,9)*10;}while(a%10===0);
+  const c=a+bt;
+  return {type:'mc',tek:'4.4(A)',prompt:n+' ran <b>'+d2(a)+'</b> miles on Monday and <b>'+(bt/100).toFixed(1)+'</b> miles on Tuesday. How many miles did '+n+' run in all?',
+    choices:mcNums(c/100,[{v:(a+bt/10)/100,fb:'You lined up the digits instead of the decimal points ('+(bt/100).toFixed(1)+' is tenths, not hundredths).'},
+      {v:(c+10)/100,fb:'Check your regrouping in the tenths place.'},{v:(c-100)/100,fb:'You forgot to carry into the ones place.'}],x=>x.toFixed(2)),
+    explain:d2(a)+' + '+d2(bt)+' = '+d2(c)+' miles. Write '+(bt/100).toFixed(1)+' as '+d2(bt)+' so the places line up.'};
+}
+function s4_est(){
+  let a,b;do{a=R(450,990);b=R(110,490);}while(a%100<50||b%100>=50);
+  const A=Math.round(a/100),B=Math.round(b/100);
+  return {type:'mc',tek:'4.4(G)',prompt:'Which is the best <b>estimate</b> of <b>'+d2(a)+' + '+d2(b)+'</b> (round each to the nearest whole number)?',
+    choices:mcNums(A+B,[{v:Math.floor(a/100)+Math.floor(b/100),fb:'You dropped the decimals instead of rounding.'},{v:A+B+1,fb:'Check which way each number rounds.'},{v:(A+B)*10,fb:'Too big — check the place value.'}],String),
+    explain:d2(a)+' ≈ '+A+' and '+d2(b)+' ≈ '+B+', so the estimate is '+(A+B)+'.'};
+}
+/* ---- S5 fractions ---- */
+function s5_compare(){
+  let n1,d1,n2,d2_,fb;
+  if(Math.random()<.5){const d=R(5,12);n1=R(1,d-1);do{n2=R(1,d-1);}while(n2===n1);d1=d2_=d;fb='Same size pieces — more pieces is more.';}
+  else{const n=R(1,5);d1=R(n+1,9);do{d2_=R(n+1,9);}while(d2_===d1);n1=n2=n;fb='Same number of pieces, but bigger denominators mean SMALLER pieces.';}
+  const sym=n1/d1>n2/d2_?'>':'<';
+  return {type:'mc',tek:'4.3(D)',fixed:true,prompt:'Which symbol makes this true?<div class="vis" style="font-size:28px">'+frac(n1,d1)+' &nbsp;<b>?</b>&nbsp; '+frac(n2,d2_)+'</div>',
+    choices:['<','=','>'].map(s=>({t:s,ok:s===sym,fb})),explain:n1+'/'+d1+' '+sym+' '+n2+'/'+d2_+'. '+fb};
+}
+function s5_multi(){
+  const ds=shuf([4,6,8,10,12]);const out=[];
+  const d0=ds[0];out.push({n:Math.max(1,Math.floor((d0-1)/2)),d:d0,ok:d0>=3});
+  const mk=(d,ok)=>{const lo=Math.max(1,ok?1:Math.floor(d/2)+1),hi=ok?Math.ceil(d/2)-1:d-1;return {n:R(lo,Math.max(lo,hi)),d,ok};};
+  const arr=[mk(ds[0],true),mk(ds[1],true),{n:ds[2]/2,d:ds[2],ok:false},mk(ds[3],false),mk(ds[4],false)];
+  const seen=new Set();const f=arr.filter(a=>{const s=a.n+'/'+a.d;if(seen.has(s))return false;seen.add(s);return true;});
+  return {type:'multi',tek:'4.3(D)',prompt:'Select <b>all</b> fractions that are <b>less than '+frac(1,2)+'</b>.',
+    choices:shuf(f).map(a=>({h:frac(a.n,a.d),ok:a.n*2<a.d})),
+    explain:'Compare to the benchmark ½: a fraction is less than ½ when the numerator is less than half of the denominator. A fraction like 3/6 is exactly ½.'};
+}
+function s5_fill(){
+  const d=R(5,12);let n1=R(2,d-3),n2=R(1,d-n1-1);const plus=Math.random()<.5;
+  if(!plus){n1=R(3,d-1);n2=R(1,n1-1);}
+  const num=plus?n1+n2:n1-n2;
+  return {type:'fill',tek:'4.3(E)',prompt:'Solve: <div class="vis" style="font-size:26px">'+frac(n1,d)+(plus?' + ':' − ')+frac(n2,d)+' = ?</div>',
+    fields:[{pre:'Numerator:',ans:num},{pre:'Denominator:',ans:d,fb:v=>'The denominator stays the same — you are counting pieces of the same size.'}],
+    explain:n1+'/'+d+(plus?' + ':' − ')+n2+'/'+d+' = '+num+'/'+d+'. Add or subtract the numerators; the denominator stays '+d+'.'};
+}
+function s5_decomp(){
+  const d=R(6,10),n=R(4,d-1);let k=R(1,n-1);
+  const s=(a,b)=>frac(a,d)+' + '+frac(b,d);
+  const cs=[{h:s(k,n-k),ok:true}];
+  [n-1,n+1,n-2].forEach(sum=>{let a=R(1,sum-1);cs.push({h:s(a,sum-a),ok:false,fb:'Those add up to '+sum+'/'+d+', not '+n+'/'+d+'.'});});
+  return {type:'mc',tek:'4.3(B)',prompt:'Which shows '+frac(n,d)+' <b>decomposed</b> into a sum of fractions?',choices:shuf(cs),
+    explain:'Numerators must add to '+n+' while the denominator stays '+d+'.'};
+}
+/* ---- S6 factors & multiplication ---- */
+function divisors(n){const r=[];for(let i=2;i<=n/2;i++)if(n%i===0)r.push(i);return r;}
+function s6_factors(){
+  const N=pick([24,30,36,40,42,48]);const ds=divisors(N);
+  const good=shuf(ds).slice(0,3);
+  const nonf=[];for(let i=2;i<N;i++)if(N%i!==0&&i<N)nonf.push(i);
+  const bad=shuf(nonf).slice(0,1).concat([N*2]);
+  return {type:'multi',tek:'4.4(B)',prompt:'Select <b>all</b> the factors of <b>'+N+'</b>.',
+    choices:shuf(good.map(v=>({t:String(v),ok:true})).concat(bad.map(v=>({t:String(v),ok:false})))),
+    explain:'A factor divides '+N+' evenly. Factors of '+N+': 1, '+divisors(N).join(', ')+', '+N+'. '+(N*2)+' is a multiple, not a factor.'};
+}
+function s6_area(){
+  const a=R(3,9),t=R(2,9),o=R(3,9),m=t*10+o;
+  const p1=a*t*10,p2=a*o,tot=p1+p2;
+  const tiles=[p1,p2,tot];[a*t,a+o,tot+a,a*t*10+a].forEach(v=>{if(!tiles.includes(v)&&tiles.length<6)tiles.push(v);});
+  return {type:'drag',tek:'4.4(D)',prompt:'Build the area model for <b>'+a+' × '+m+'</b>. Break '+m+' into '+(t*10)+' + '+o+'.',
+    slots:[{pre:a+' × '+(t*10)+' =',post:'',ans:String(p1)},{pre:a+' × '+o+' =',post:'',ans:String(p2)},{pre:'Add the parts: total =',post:'',ans:String(tot)}],
+    tiles:shuf(tiles).map(v=>({k:String(v),h:String(v)})),
+    explain:a+' × '+m+' = ('+a+' × '+(t*10)+') + ('+a+' × '+o+') = '+p1+' + '+p2+' = '+tot+'. Notice '+a+' × '+(t*10)+' is '+p1+', not '+(a*t)+' — keep the zero!'};
+}
+function s6_fill(){
+  const a=R(3,7),h=R(2,6),t=R(2,8),o=R(2,8),m=h*100+t*10+o;
+  return {type:'fill',tek:'4.4(C)',prompt:'Use partial products to solve <b>'+a+' × '+fmt(m)+'</b>.',
+    fields:[{pre:a+' × '+h*100+' =',ans:a*h*100},{pre:a+' × '+t*10+' =',ans:a*t*10},{pre:a+' × '+o+' =',ans:a*o},{pre:'Total =',ans:a*m}],
+    explain:a+' × '+m+' = '+a*h*100+' + '+a*t*10+' + '+a*o+' = '+fmt(a*m)+'.'};
+}
+function s6_amod(){
+  const a=R(3,8),t=R(2,6)*10,o=R(3,9);
+  const vis='<div style="display:flex;align-items:center;justify-content:center;gap:8px"><b>'+a+'</b><div class="amod" style="margin:0;width:260px"><div style="flex:3">'+t+'</div><div style="flex:1">'+o+'</div></div></div>';
+  const cs=[{t:'('+a+' × '+t+') + ('+a+' × '+o+')',ok:true},
+    {t:'('+a+' × '+t+') + '+o,ok:false,fb:'Both parts need to be multiplied by '+a+'.'},
+    {t:'('+a+' + '+t+') × '+o,ok:false,fb:'The model shows two multiplications that are added.'},
+    {t:'('+a+' × '+t/10+') + ('+a+' × '+o+')',ok:false,fb:'The '+t+' means '+t+', not '+t/10+' — watch the zero!'}];
+  return {type:'mc',tek:'4.4(D)',prompt:'Which expression matches this <b>area model</b>?<div class="vis">'+vis+'</div>',choices:shuf(cs),
+    explain:'The total area is the sum of the two rectangles: '+a+' × '+t+' and '+a+' × '+o+'.'};
+}
+/* ---- S7 division ---- */
+function s7_area(){
+  const d=R(3,8),bq=pick([20,30,40,50,200,300]),sq=R(2,9);
+  const dividend=d*(bq+sq);
+  return {type:'fill',tek:'4.4(E)',prompt:'Solve <b>'+fmt(dividend)+' ÷ '+d+'</b> with friendly pieces: '+fmt(dividend)+' = '+fmt(d*bq)+' + '+d*sq+'.',
+    fields:[{pre:fmt(d*bq)+' ÷ '+d+' =',ans:bq},{pre:d*sq+' ÷ '+d+' =',ans:sq},{pre:'Answer =',ans:bq+sq}],
+    explain:'Divide each friendly piece, then add: '+bq+' + '+sq+' = '+(bq+sq)+'. Check: '+(bq+sq)+' × '+d+' = '+fmt(dividend)+'.'};
+}
+function s7_remainder(){
+  const d=R(3,9),q=R(10,30),r=R(1,d-1),n=q*d+r;
+  return {type:'fill',tek:'4.4(F)',prompt:'Solve <b>'+n+' ÷ '+d+'</b>. Write the quotient and the remainder.',
+    fields:[{pre:'Quotient:',ans:q},{pre:'Remainder:',ans:r,fb:v=>'The remainder must be smaller than '+d+'.'}],
+    explain:q+' × '+d+' = '+q*d+', and '+n+' − '+q*d+' = '+r+'. So '+n+' ÷ '+d+' = '+q+' R'+r+'.'};
+}
+function s7_interpret(){
+  const k=R(4,8),q=R(5,12),r=R(1,k-1),n=q*k+r;const up=Math.random()<.5;
+  const thing=pick(['pencils','stickers','cookies']),cont=pick(['boxes','bags','packs']);
+  const c=up?q+1:q;
+  return {type:'mc',tek:'4.4(H)',prompt:'A teacher has <b>'+n+' '+thing+'</b>. Each '+cont.slice(0,-1)+' holds <b>'+k+'</b>. '+(up?'How many '+cont+' are needed to hold <b>all</b> the '+thing+'?':'How many <b>full</b> '+cont+' can she make?'),
+    choices:mcNums(c,[{v:up?q:q+1,fb:up?'The leftover '+r+' still need a '+cont.slice(0,-1)+'.':'The extra '+cont.slice(0,-1)+' would not be full.'},{v:r,fb:'That is the remainder, not the number of '+cont+'.'},{v:q-1,fb:'Check your division.'}],String),
+    explain:n+' ÷ '+k+' = '+q+' R'+r+'. '+(up?'The remainder needs one more '+cont.slice(0,-1)+', so '+(q+1)+'.':'Only '+q+' are full.')};
+}
+function s7_check(){
+  const d=R(3,9),q=R(12,60),n=q*d;
+  const cs=[{t:q+' × '+d+' = '+n,ok:true},{t:q+' + '+d+' = '+(q+d),ok:false,fb:'To check division, use multiplication.'},{t:n+' × '+d+' = '+n*d,ok:false,fb:'Multiply the answer by the divisor, not the dividend.'},{t:n+' − '+d+' = '+(n-d),ok:false,fb:'Division is checked with multiplication.'}];
+  return {type:'mc',tek:'4.4(E)',prompt:'A student says <b>'+n+' ÷ '+d+' = '+q+'</b>. Which equation <b>checks</b> the answer?',choices:shuf(cs),
+    explain:'Quotient × divisor should give the dividend: '+q+' × '+d+' = '+n+'.'};
+}
+/* ---- S8 multi-step ---- */
+function s8_equation(){
+  const G=R(2,4),E=R(3,9),T=G*E+R(5,20),n=pick(NAMES),thing=pick(['stickers','marbles','cards']);
+  let vis='<div style="text-align:center;font-weight:bold">'+T+'</div><div class="strip">';
+  for(let i=0;i<G;i++)vis+='<div>'+E+'</div>';vis+='<div>s</div></div>';
+  const cs=[{t:'s = '+T+' − '+G+' × '+E,ok:true},{t:'s = '+T+' − '+G+' + '+E,ok:false,fb:'The '+G+' friends each get '+E+', so multiply '+G+' × '+E+' first.'},
+    {t:'s = ('+T+' − '+G+') × '+E,ok:false,fb:'Subtract the total given away ('+G+' × '+E+'), not '+G+'.'},{t:'s = '+T+' + '+G+' × '+E,ok:false,fb:'Giving away means subtract.'}];
+  return {type:'mc',tek:'4.5(A)',prompt:n+' has <b>'+T+' '+thing+'</b>. '+n+' gives <b>'+G+' friends '+E+' '+thing+' each</b>. Let <b>s</b> be the number left. Which equation matches the strip diagram?<div class="vis">'+vis+'</div>',
+    choices:shuf(cs),explain:'First '+G+' × '+E+' = '+G*E+' given away. Then '+T+' − '+G*E+' = '+(T-G*E)+' left.'};
+}
+function s8_two(){
+  const n=pick(NAMES);let t,p,g,tot,e;
+  if(Math.random()<.5){t=R(3,8);p=R(6,12);tot=t*p;g=R(5,tot-10);
+    return {type:'fill',tek:'4.5(A)',prompt:n+' buys <b>'+t+' packs</b> of cards with <b>'+p+' cards</b> in each pack, then gives away <b>'+g+' cards</b>. How many cards are left?',
+      fields:[{pre:'Cards bought (step 1):',ans:tot},{pre:'Cards left (step 2):',ans:tot-g}],explain:t+' × '+p+' = '+tot+', then '+tot+' − '+g+' = '+(tot-g)+'.'};}
+  t=R(3,8);p=R(6,12);tot=t*p;e=R(5,25);
+  return {type:'fill',tek:'4.5(A)',prompt:n+' has <b>'+t+' boxes</b> of beads with <b>'+p+' beads</b> in each box. Then '+n+' finds <b>'+e+' more beads</b>. How many beads now?',
+    fields:[{pre:'Beads in boxes (step 1):',ans:tot},{pre:'Total beads (step 2):',ans:tot+e}],explain:t+' × '+p+' = '+tot+', then '+tot+' + '+e+' = '+(tot+e)+'.'};
+}
+function s8_order(){
+  let t,p,X,b;do{t=R(3,9);p=R(4,9);X=t*p;b=pick([2,3,4,6]);}while(X%b!==0);
+  const s1=t+' × '+p+' = '+X,s2=X+' ÷ '+b+' = '+X/b;
+  const tiles=[s1,s2,t+' + '+p+' = '+(t+p),X+' × '+b+' = '+X*b];
+  return {type:'drag',tek:'4.5(A)',prompt:'A baker makes <b>'+t+' trays</b> of <b>'+p+' muffins</b>, then packs them <b>'+b+' to a box</b>. Put the two equations in order to find the number of boxes.',
+    slots:[{pre:'Step 1:',post:'',ans:s1},{pre:'Step 2:',post:'',ans:s2}],tiles:shuf(tiles).map(s=>({k:s,h:s})),
+    explain:'Find the total muffins first ('+s1+'), then group them ('+s2+'). So '+X/b+' boxes.'};
+}
+/* ---- S9 data ---- */
+function dpHTML(counts,lo,rows){
+  let h='<div class="dp">';counts.forEach(c=>{h+='<div class="dpcol" style="cursor:default;min-height:'+(rows*28)+'px">'+'<div class="dot"></div>'.repeat(c)+'</div>';});
+  h+='</div><div class="dprow">'+counts.map((c,i)=>'<div class="dplab">'+(lo+i)+'</div>').join('')+'</div>';return h;
+}
+function s9_dot(){
+  const lo=0,hi=6,n=R(9,12);let data;
+  do{data=[...Array(n)].map(()=>R(1,5));}while(new Set(data).size<3);
+  return {type:'dotplot',tek:'4.9(A)',lo,hi,data,prompt:'Students counted the pets at home: <b>'+data.join(', ')+'</b>. Tap a column to add a dot (tap a dot to remove it) to build the dot plot.',
+    explain:'Each data value gets one dot above its number. Count your dots — you should have '+n+' in all.'};
+}
+function s9_stem(){
+  let vals;do{vals=[...Array(8)].map(()=>R(11,48));}while(new Set(vals).size<7||Math.max(...vals)-Math.min(...vals)<12);
+  const stems={};vals.sort((a,b)=>a-b).forEach(v=>{const s=Math.floor(v/10);(stems[s]=stems[s]||[]).push(v%10);});
+  let tb='<table class="sl">';for(let s=1;s<=4;s++)tb+='<tr><td>'+s+'</td><td>'+(stems[s]||[]).join('&nbsp;&nbsp;')+'</td></tr>';tb+='</table><div style="font-size:14px">Key: 2 | 3 means 23</div>';
+  const lo=vals[0],hi=vals[vals.length-1];
+  return {type:'fill',tek:'4.9(B)',prompt:'Read the <b>stem-and-leaf plot</b>.<div class="vis">'+tb+'</div>',
+    fields:[{pre:'Greatest value:',ans:hi},{pre:'Least value:',ans:lo},{pre:'Greatest − least:',ans:hi-lo}],
+    explain:'The stem is the tens digit and the leaf is the ones digit. Greatest = '+hi+', least = '+lo+', difference = '+(hi-lo)+'.'};
+}
+function s9_mean(){
+  const n=4;let a,v;
+  do{const m=R(4,10);a=[R(2,12),R(2,12),R(2,12)];const last=n*m-a.reduce((x,y)=>x+y,0);v=a.concat(last);if(last<1||last>14)v=null;}while(!v);
+  const sum=v.reduce((x,y)=>x+y,0);
+  return {type:'fill',tek:'Data',prompt:'Four friends scored <b>'+v.join(', ')+'</b> points. Find the <b>mean</b> (the fair-share average).',
+    fields:[{pre:'Add them (total):',ans:sum},{pre:'Divide by 4 (mean):',ans:sum/4}],
+    explain:'Mean = total ÷ number of values = '+sum+' ÷ 4 = '+sum/4+'.'};
+}
+function s9_read(){
+  const lo=1,counts=[R(1,6),R(1,6),R(1,6),R(1,6),R(1,6)];
+  const i=R(0,4),j=R(0,4);
+  if(counts[j]>=counts[i]){return s9_read();}
+  const c=counts[i]-counts[j];
+  return {type:'mc',tek:'4.9(B)',prompt:'The dot plot shows how many books students read. How many <b>more</b> students read <b>'+(lo+i)+'</b> books than <b>'+(lo+j)+'</b> books?<div class="vis">'+dpHTML(counts,lo,Math.max(...counts))+'</div>',
+    choices:mcNums(c,[{v:counts[i]+counts[j],fb:'You added the two columns. "How many more" means subtract.'},{v:counts[i],fb:'That is just one column. Compare both.'},{v:counts[j]+1,fb:'Count the dots carefully in each column.'}],String),
+    explain:counts[i]+' − '+counts[j]+' = '+c+'.'};
+}
+
+/* ================= stations ================= */
+const STATIONS=[
+ {id:'s1',em:'🔢',name:'Place Value & Expanded Notation',tek:'TEKS 4.2(B)',tip:'Remember: zeros are placeholders — never add extra zeros to the expanded form!',
+  links:[['Week 3 slides','lesson3-slides.html'],['Expanded Notation Review','expanded-notation-review.html']],build:()=>[s1_dragWhole(),s1_standard(),s1_mc(),s1_dragDec()]},
+ {id:'s2',em:'🎯',name:'Rounding & Estimating',tek:'TEKS 4.2(C)(D), 4.4(G)',tip:'Look at the digit to the RIGHT. 5 or more? Round up!',
+  links:[['Week 3 slides','lesson3-slides.html'],['Rounding Review','rounding-expanded-review.html']],build:()=>[s2_mc(),s2_fill(),s2_est(),s2_multi()]},
+ {id:'s3',em:'🟧',name:'Decimals',tek:'TEKS 4.2(E)(F)(G)',tip:'Tenths and hundredths. Add a zero to compare: 0.4 = 0.40.',
+  links:[['Week 6 slides','lesson6-slides.html'],['Week 7 slides','lesson7-slides.html']],build:()=>[s3_grid(),s3_compare(),s3_frac(),s3_order()]},
+ {id:'s4',em:'💵',name:'Add & Subtract Decimals',tek:'TEKS 4.4(A), 4.4(G)',tip:'Line up the decimal points before you add or subtract.',
+  links:[['Week 8 slides','lesson8-slides.html']],build:()=>[s4_add(),s4_sub(),s4_word(),s4_est()]},
+ {id:'s5',em:'🍕',name:'Fractions',tek:'TEKS 4.3(B)(D)(E)',tip:'Same denominator? Compare numerators. Same numerator? Smaller denominator = bigger piece.',
+  links:[['Week 4 slides','lesson4-slides.html'],['Week 4 extra practice','lesson4-practice.html']],build:()=>[s5_compare(),s5_multi(),s5_fill(),s5_decomp()]},
+ {id:'s6',em:'✖️',name:'Factors & Multiplication',tek:'TEKS 4.4(B)(C)(D)',tip:'Break big numbers into friendly parts (tens and ones) and keep your zeros!',
+  links:[['Week 1 lesson','lesson1.html'],['Week 9 slides','lesson9-slides.html'],['Multiplication Fluency','multiplication-fluency.html']],build:()=>[s6_factors(),s6_area(),s6_amod(),s6_fill()]},
+ {id:'s7',em:'➗',name:'Division & Remainders',tek:'TEKS 4.4(E)(F)(H)',tip:'Check division with multiplication. The remainder is always smaller than the divisor.',
+  links:[['Week 10 slides','lesson10-slides.html'],['Week 5 slides','lesson5-slides.html']],build:()=>[s7_area(),s7_remainder(),s7_interpret(),s7_check()]},
+ {id:'s8',em:'🧩',name:'Multi-Step Problems & Strip Diagrams',tek:'TEKS 4.5(A), 4.4(H)',tip:'Draw a strip diagram. Do the first step, then the second step.',
+  links:[['Week 5 slides','lesson5-slides.html'],['Week 5 practice','lesson5-practice.html']],build:()=>[s8_equation(),s8_two(),s8_order()]},
+ {id:'s9',em:'📊',name:'Data: Dot Plots, Stem-and-Leaf, Mean',tek:'TEKS 4.9(A)(B)',tip:'One dot per data value. Stems are the tens; leaves are the ones.',
+  links:[['Week 2 slides','lesson2-slides.html'],['Week 2 practice','lesson2-practice.html']],build:()=>[s9_dot(),s9_stem(),s9_mean(),s9_read()]}
+];
+
+/* ================= item renderers ================= */
+function numOf(v){const s=String(v).replace(/[$,\s]/g,'');if(s===''||isNaN(Number(s)))return NaN;return Number(s);}
+function renderItem(it,host){
+  host.innerHTML='';
+  const q=el('div','q',it.prompt);host.appendChild(q);
+  let ctl;
+  if(it.type==='mc')ctl=rMC(it,host);
+  else if(it.type==='multi')ctl=rMulti(it,host);
+  else if(it.type==='fill')ctl=rFill(it,host);
+  else if(it.type==='drag')ctl=rDrag(it,host);
+  else if(it.type==='grid')ctl=rGrid(it,host);
+  else if(it.type==='dotplot')ctl=rDot(it,host);
+  return ctl;
+}
+function rMC(it,host){
+  const w=el('div','choices');let sel=-1,locked=false;
+  const cs=it.fixed?it.choices:it.choices;
+  cs.forEach((c,i)=>{const b=el('button','choice',c.h||esc(c.t));b.type='button';
+    b.onclick=()=>{if(locked)return;sel=i;[...w.children].forEach((x,j)=>x.classList.toggle('sel',j===i));};w.appendChild(b);});
+  host.appendChild(w);
+  return {check(){if(sel<0)return null;locked=true;
+    [...w.children].forEach((b,i)=>{b.classList.remove('sel');if(cs[i].ok)b.classList.add('right');else if(i===sel)b.classList.add('wrong');});
+    return {score:cs[sel].ok?1:0,fb:cs[sel].ok?'':(cs[sel].fb||'')};}};
+}
+function rMulti(it,host){
+  const w=el('div','choices');let locked=false;const on=it.choices.map(()=>false);
+  it.choices.forEach((c,i)=>{const b=el('button','choice',c.h||esc(c.t));b.type='button';
+    b.onclick=()=>{if(locked)return;on[i]=!on[i];b.classList.toggle('sel',on[i]);};w.appendChild(b);});
+  host.appendChild(el('div','tek','Choose every answer that fits.'));host.appendChild(w);
+  return {check(){if(!on.some(Boolean))return null;locked=true;let err=0;
+    [...w.children].forEach((b,i)=>{b.classList.remove('sel');const c=it.choices[i];if(c.ok!==on[i])err++;
+      if(c.ok)b.classList.add('right');else if(on[i])b.classList.add('wrong');});
+    return {score:err===0?1:(err===1?.5:0),fb:err?'Check which ones belong — look for ones you missed or ones that do not fit.':''};}};
+}
+function rFill(it,host){
+  const ins=[];
+  it.fields.forEach(f=>{const r=el('div','frow');r.appendChild(el('span',null,(f.pre||'')+' '));
+    const inp=el('input','fin');inp.type='text';inp.inputMode='decimal';inp.autocomplete='off';ins.push(inp);r.appendChild(inp);
+    if(f.post)r.appendChild(el('span',null,' '+f.post));host.appendChild(r);});
+  return {check(){if(ins.every(i=>i.value.trim()===''))return null;let ok=0;const msgs=[];
+    ins.forEach((inp,i)=>{const f=it.fields[i],v=numOf(inp.value);const good=!isNaN(v)&&Math.abs(v-f.ans)<1e-6;
+      inp.classList.add(good?'right':'wrong');inp.disabled=true;if(good)ok++;else{if(f.fb&&inp.value.trim()!=='')msgs.push(f.fb(inp.value));
+        inp.value=inp.value+'  ➜ '+(Number.isInteger(f.ans)?fmt(f.ans):f.ans);}});
+    const n=ins.length;return {score:ok===n?1:(ok>0?.5:0),fb:msgs.join(' ')};}};
+}
+function rDrag(it,host){
+  const pool=el('div','pool');const placed=it.slots.map(()=>-1);let selT=-1,locked=false;
+  const tiles=it.tiles.map((t,i)=>({id:i,k:t.k,h:t.h}));
+  const rows=[],slotEls=[];
+  function mkTile(t){const e=el('div','tile',t.h);e.dataset.id=t.id;e.draggable=true;
+    e.addEventListener('dragstart',ev=>{if(locked){ev.preventDefault();return;}ev.dataTransfer.setData('text/plain',String(t.id));});
+    e.addEventListener('click',ev=>{ev.stopPropagation();if(locked)return;selT=(selT===t.id)?-1:t.id;paint();});return e;}
+  function place(si,tid){const old=placed.indexOf(tid);if(old>=0)placed[old]=-1;placed[si]=tid;selT=-1;paint();}
+  it.slots.forEach((s,si)=>{const r=el('div','slotrow');if(s.pre)r.appendChild(el('span',null,s.pre));
+    const sl=el('div','slot');sl.dataset.slot=si;
+    sl.addEventListener('dragover',e=>{e.preventDefault();sl.classList.add('over');});
+    sl.addEventListener('dragleave',()=>sl.classList.remove('over'));
+    sl.addEventListener('drop',e=>{e.preventDefault();sl.classList.remove('over');if(locked)return;const tid=Number(e.dataTransfer.getData('text/plain'));if(!isNaN(tid))place(si,tid);});
+    sl.addEventListener('click',()=>{if(locked)return;if(selT>=0)place(si,selT);else if(placed[si]>=0){placed[si]=-1;paint();}});
+    slotEls.push(sl);r.appendChild(sl);if(s.post)r.appendChild(el('span',null,s.post));rows.push(r);host.appendChild(r);});
+  host.appendChild(el('div','tek','Tap a tile, then tap a box (or drag it). Tap a filled box to take the tile back.'));
+  host.appendChild(pool);
+  pool.addEventListener('dragover',e=>e.preventDefault());
+  pool.addEventListener('drop',e=>{e.preventDefault();if(locked)return;const tid=Number(e.dataTransfer.getData('text/plain'));const o=placed.indexOf(tid);if(o>=0){placed[o]=-1;paint();}});
+  function paint(){pool.innerHTML='';tiles.forEach(t=>{if(!placed.includes(t.id)){const e=mkTile(t);if(t.id===selT)e.classList.add('sel');pool.appendChild(e);}});
+    slotEls.forEach((sl,i)=>{sl.innerHTML='';if(placed[i]>=0){const e=mkTile(tiles[placed[i]]);sl.appendChild(e);}});}
+  paint();
+  return {check(){if(placed.every(p=>p<0))return null;locked=true;let ok=0;
+    slotEls.forEach((sl,i)=>{const good=placed[i]>=0&&tiles[placed[i]].k===it.slots[i].ans;sl.classList.add(good?'right':'wrong');if(good)ok++;});
+    const n=it.slots.length;return {score:ok===n?1:(ok>0?.5:0),fb:ok===n?'':'Some tiles are in the wrong box (marked red).'};}};
+}
+function rGrid(it,host){
+  const g=el('div','grid');const cells=[];let paintOn=true,down=false,locked=false;
+  for(let i=0;i<100;i++){const c=el('div','cell');c.dataset.i=i;cells.push(c);g.appendChild(c);}
+  const set=(c,v)=>c.classList.toggle('on',v);
+  g.addEventListener('pointerdown',e=>{if(locked)return;const c=e.target.closest&&e.target.closest('.cell');if(!c)return;down=true;paintOn=!c.classList.contains('on');set(c,paintOn);upd();if(e.preventDefault&&e.cancelable)e.preventDefault();});
+  g.addEventListener('pointermove',e=>{if(!down||locked||!document.elementFromPoint)return;const c=document.elementFromPoint(e.clientX,e.clientY);if(c&&c.classList&&c.classList.contains('cell')&&g.contains(c)){set(c,paintOn);upd();}});
+  const end=()=>{down=false;};window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+  host.appendChild(g);const cnt=el('div','tek','Squares shaded: 0');cnt.style.textAlign='center';host.appendChild(cnt);host.appendChild(el('div','tek',it.hint||''));
+  const upd=()=>{cnt.textContent='Squares shaded: '+cells.filter(c=>c.classList.contains('on')).length;};
+  return {check(){const n=cells.filter(c=>c.classList.contains('on')).length;if(n===0)return null;locked=true;
+    const near=Math.abs(n-it.target)<=2;
+    return {score:n===it.target?1:(near?.5:0),fb:n===it.target?'':'You shaded '+n+' squares, but you need '+it.target+'.'};}};
+}
+function rDot(it,host){
+  const cnt=[];for(let v=it.lo;v<=it.hi;v++)cnt.push(0);let locked=false;
+  const dp=el('div','dp'),cols=[];
+  cnt.forEach((_,i)=>{const c=el('div','dpcol');c.dataset.v=it.lo+i;
+    c.addEventListener('click',()=>{if(locked||cnt[i]>=10)return;cnt[i]++;paint();});cols.push(c);dp.appendChild(c);});
+  const lab=el('div','dprow',cnt.map((_,i)=>'<div class="dplab">'+(it.lo+i)+'</div>').join(''));
+  host.appendChild(dp);host.appendChild(lab);
+  const total=el('div','tek','Dots: 0');total.style.textAlign='center';host.appendChild(total);
+  function paint(){cols.forEach((c,i)=>{c.innerHTML='';for(let k=0;k<cnt[i];k++){const d=el('div','dot');d.addEventListener('click',e=>{e.stopPropagation();if(locked)return;cnt[i]--;paint();});c.appendChild(d);}});
+    total.textContent='Dots: '+cnt.reduce((a,b)=>a+b,0);}
+  return {check(){if(cnt.every(x=>x===0))return null;locked=true;
+    const exp=cnt.map((_,i)=>it.data.filter(v=>v===it.lo+i).length);let wrong=0;exp.forEach((e,i)=>{if(e!==cnt[i])wrong++;});
+    return {score:wrong===0?1:(wrong===1?.5:0),fb:wrong?'Some columns do not match the data. Count how many times each number appears.':''};}};
+}
+
+/* ================= state ================= */
+let state={};
+function loadState(){try{state=JSON.parse(lsGet('fallReviewState')||'{}')||{};}catch(e){state={};}}
+function saveState(){lsSet('fallReviewState',JSON.stringify(state));
+  const done=STATIONS.filter(s=>state[s.id]);
+  if(done.length===STATIONS.length){const pct=overall();lsSet('fallReview','complete');lsSet('fallReviewScore',String(pct));}}
+function overall(){let s=0,m=0;STATIONS.forEach(st=>{if(state[st.id]){s+=state[st.id].score;m+=state[st.id].max;}});return m?Math.round(s/m*100):0;}
+const app=document.getElementById('app');
+
+/* ================= screens ================= */
+function showMap(){
+  app.innerHTML='';
+  const doneN=STATIONS.filter(s=>state[s.id]).length;
+  const top=el('div','card');
+  top.innerHTML='<div class="top"><div><b>🍁 Your Passport:</b> '+doneN+' of '+STATIONS.length+' stamps collected</div><div class="noprint"></div></div><div class="bar"><i style="width:'+Math.round(doneN/STATIONS.length*100)+'%"></i></div>'
+   +'<div class="tek">Each station has a few questions like the real STAAR test. You get one try per question, then you see why. Do the stations in any order!</div>';
+  const nb=top.querySelector('.noprint');
+  const rb=el('button','btn alt','📋 Report Card');rb.onclick=showReport;nb.appendChild(rb);
+  app.appendChild(top);
+  const map=el('div','map');
+  STATIONS.forEach((s,i)=>{const r=state[s.id];const c=el('div','st'+(r?' done':''));
+    c.innerHTML=(r?'<div class="stamp">⭐ '+Math.round(r.score/r.max*100)+'%</div>':'')+'<div class="em">'+s.em+'</div><h3>Station '+(i+1)+': '+s.name+'</h3><div class="tek">'+s.tek+'</div>';
+    const b=el('button','btn',r?'🔁 Play Again':'▶ Start');b.dataset.station=s.id;b.onclick=()=>play(s);c.appendChild(b);map.appendChild(c);});
+  app.appendChild(map);
+  if(doneN===STATIONS.length){const bn=el('div','card');bn.appendChild(banner());app.appendChild(bn);}
+}
+function banner(){
+  const b=el('div','banner');
+  const pct=overall();
+  b.innerHTML='<div class="big">🏆🍂🍁</div><h2>FALL REVIEW CHAMPION!</h2><p style="font-size:20px">Zoey completed all 9 stations with an overall score of <b>'+pct+'%</b>!</p><p>Fractions, decimals, factors, division, data — you reviewed it ALL. Be proud! 🎉</p>';
+  return b;
+}
+function play(st){
+  const items=st.build();const res=[];let idx=0;
+  function next(){
+    if(idx>=items.length)return finish();
+    const it=items[idx];app.innerHTML='';
+    const head=el('div','card');
+    head.innerHTML='<div class="top"><b>'+st.em+' '+st.name+'</b><span class="tek">Question '+(idx+1)+' of '+items.length+' · '+it.tek+'</span></div><div class="bar"><i style="width:'+Math.round(idx/items.length*100)+'%"></i></div><div class="tek">💡 '+st.tip+'</div>';
+    app.appendChild(head);
+    const card=el('div','card');const host=el('div');card.appendChild(host);
+    const ctl=renderItem(it,host);
+    const fb=el('div','fb');const actions=el('div');actions.style.textAlign='center';
+    const chk=el('button','btn','✔ Check');chk.id='chk';const nx=el('button','btn alt hidden',idx===items.length-1?'Finish Station ▶':'Next ▶');nx.id='nxt';
+    const msg=el('div','tek','');msg.style.textAlign='center';
+    chk.onclick=()=>{const r=ctl.check();if(!r){msg.textContent='Make a choice or fill something in first!';return;}
+      msg.textContent='';res.push(r.score);chk.classList.add('hidden');nx.classList.remove('hidden');
+      fb.className='fb show '+(r.score===1?'g':(r.score>0?'y':'r'));
+      fb.innerHTML=(r.score===1?'✅ <b>Correct!</b> ':(r.score>0?'🟡 <b>Almost — half credit.</b> ':'❌ <b>Not quite.</b> '))+(r.fb?esc(r.fb)+' ':'')+'<div style="margin-top:6px">📝 '+it.explain+'</div>';
+      if(r.score===1)leaves(8);};
+    nx.onclick=()=>{idx++;next();};
+    actions.appendChild(chk);actions.appendChild(nx);card.appendChild(fb);card.appendChild(msg);card.appendChild(actions);app.appendChild(card);
+    const q=el('div','card noprint');q.style.textAlign='center';const ex=el('button','btn ghost','🗺 Back to Map (lose this try)');ex.onclick=showMap;q.appendChild(ex);app.appendChild(q);
+    window.scrollTo(0,0);
+  }
+  function finish(){
+    const score=res.reduce((a,b)=>a+b,0);const was=STATIONS.every(s=>state[s.id]);
+    const prev=state[st.id];const pct=score/items.length;
+    if(!prev||pct>=prev.score/prev.max)state[st.id]={score,max:items.length,at:Date.now()};
+    saveState();
+    app.innerHTML='';const c=el('div','card');c.style.textAlign='center';
+    const p=Math.round(score/items.length*100);
+    c.innerHTML='<div class="big">'+(p>=80?'🌟':p>=50?'🍂':'💪')+'</div><h2>Station complete!</h2><p style="font-size:22px"><b>'+score+' / '+items.length+'</b> ('+p+'%)</p><p>'+(p>=80?'Awesome work — stamp earned!':p>=50?'Good job! A little more practice will make this shine.':'Great effort! Review the lesson links on your Report Card and try again.')+'</p>';
+    const b1=el('button','btn','🗺 Back to Map');b1.onclick=()=>{if(!was&&STATIONS.every(s=>state[s.id]))showReport();else showMap();};
+    const b2=el('button','btn alt','🔁 Replay (new numbers)');b2.onclick=()=>play(st);
+    c.appendChild(b1);c.appendChild(b2);app.appendChild(c);
+    if(p>=80)leaves(24);
+  }
+  next();
+}
+function showReport(){
+  app.innerHTML='';const c=el('div','card');
+  const all=STATIONS.every(s=>state[s.id]);
+  c.innerHTML='<h2>📋 Zoey\'s Fall Review Report Card</h2>';
+  let t='<table class="rep"><tr><th>Station</th><th>Score</th><th></th></tr>';const strong=[],focus=[];
+  STATIONS.forEach(s=>{const r=state[s.id];if(!r){t+='<tr><td>'+s.em+' '+s.name+'</td><td colspan="2" class="tek">Not played yet</td></tr>';return;}
+    const p=Math.round(r.score/r.max*100);(p>=80?strong:focus).push(s);
+    t+='<tr><td>'+s.em+' '+s.name+'<div class="tek">'+s.tek+'</div></td><td><b>'+p+'%</b><div class="bar"><i style="width:'+p+'%"></i></div></td><td>'+(p>=80?'⭐ Strong':'🔎 Review')+'</td></tr>';});
+  t+='</table>';c.insertAdjacentHTML('beforeend',t);
+  c.insertAdjacentHTML('beforeend','<p><b>Overall (stations played):</b> '+overall()+'%</p>');
+  if(strong.length)c.insertAdjacentHTML('beforeend','<p>⭐ <b>Strengths:</b> '+strong.map(s=>s.name).join('; ')+'</p>');
+  if(focus.length){let h='<p>🔎 <b>Focus areas (below 80%) — revisit these:</b></p><ul>';
+    focus.forEach(s=>{h+='<li><b>'+s.name+':</b> '+s.links.map(l=>'<a href="'+l[1]+'">'+l[0]+'</a>').join(' · ')+'</li>';});h+='</ul>';c.insertAdjacentHTML('beforeend',h);}
+  const nav=el('div','noprint');nav.style.textAlign='center';
+  const b1=el('button','btn','🗺 Back to Map');b1.onclick=showMap;const b2=el('button','btn alt','🖨 Print');b2.onclick=()=>window.print();
+  const b3=el('button','btn ghost','Reset Progress');b3.onclick=()=>{if(confirm('Erase all Fall Review progress?')){state={};lsSet('fallReviewState','{}');try{localStorage.removeItem('fallReview');localStorage.removeItem('fallReviewScore');}catch(e){}showMap();}};
+  nav.appendChild(b1);nav.appendChild(b2);nav.appendChild(b3);c.appendChild(nav);app.appendChild(c);
+  if(all){const bc=el('div','card');bc.appendChild(banner());app.appendChild(bc);leaves(40);}
+}
+function leaves(n){const box=document.getElementById('leafbox');const L=['🍂','🍁','🎃','⭐'];
+  for(let i=0;i<n;i++){const e=el('div','leaf',pick(L));e.style.left=R(0,95)+'vw';e.style.animationDelay=(Math.random()*1.2)+'s';box.appendChild(e);setTimeout(()=>e.remove(),5000);}}
+
+window.FallReview={STATIONS,renderItem,state:()=>state};
+loadState();showMap();
+})();
+</script>
+</body>
+</html>
