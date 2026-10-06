@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 10 – Division Area Model Builder Practice</title>
+
+<style>
+    body {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        margin: 0;
+        padding: 20px;
+        color: #4b3558;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: auto;
+        box-shadow: 0 8px 20px rgba(92, 107, 192, 0.4);
+    }
+
+    h2 {
+        text-align: center;
+        color: #4a56b0;
+        margin-top: 0;
+    }
+
+    .prompt-box {
+        background: #e3e6ff;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .split-box {
+        background: #fff7d6;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 17px;
+        margin-bottom: 20px;
+    }
+
+    .drag-area {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+        justify-content: center;
+    }
+
+    .block {
+        background: #8c9eff;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 10px;
+        cursor: grab;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(92, 107, 192, 0.4);
+    }
+
+    .drop-area {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .drop-slot {
+        background: #fff7d6;
+        width: 170px;
+        height: 65px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        border: 2px dashed #8c9eff;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .slot-title {
+        text-align: center;
+        font-weight: bold;
+        color: #7b5a8c;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .answer-row {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    input[type="number"] {
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        font-size: 18px;
+        padding: 8px;
+        width: 90px;
+        border-radius: 8px;
+        border: 2px solid #8c9eff;
+        text-align: center;
+    }
+
+    .btn {
+        background: #4a56b0;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 3px 8px rgba(92, 107, 192, 0.4);
+        margin-right: 10px;
+    }
+
+    .btn:hover {
+        background: #38428c;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Division Area Model Builder 🧱</h2>
+
+    <div class="prompt-box" id="promptBox">Loading problem...</div>
+    <div class="split-box" id="splitBox"></div>
+
+    <p style="text-align:center; color:#7b5a8c;">Drag the correct quotient into each part of the area model:</p>
+
+    <div class="drag-area" id="dragArea"></div>
+
+    <div class="drop-area">
+        <div>
+            <div class="slot-title" id="bigLabel">Big Part</div>
+            <div class="drop-slot" id="bigSlot"></div>
+        </div>
+        <div>
+            <div class="slot-title" id="smallLabel">Small Part</div>
+            <div class="drop-slot" id="smallSlot"></div>
+        </div>
+    </div>
+
+    <div class="answer-row">
+        <label>Final Answer (add the two parts): </label>
+        <input type="number" id="finalAnswer">
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div style="text-align:center; margin-top:15px;">
+        <button class="btn" onclick="generateProblem()">New Problem</button>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" style="color:#4a56b0;">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    let problem;
+
+    // big and small are the "friendly pieces" of the dividend; both divide evenly by div
+    const problemBank = [
+        { big: 60,   small: 18, div: 3 },   // 78 ÷ 3   = 20 + 6   = 26
+        { big: 120,  small: 36, div: 6 },   // 156 ÷ 6  = 20 + 6   = 26
+        { big: 1200, small: 48, div: 4 },   // 1,248 ÷ 4 = 300 + 12 = 312
+        { big: 80,   small: 16, div: 4 },   // 96 ÷ 4   = 20 + 4   = 24
+        { big: 900,  small: 27, div: 3 },   // 927 ÷ 3  = 300 + 9  = 309
+        { big: 140,  small: 21, div: 7 },   // 161 ÷ 7  = 20 + 3   = 23
+        { big: 400,  small: 32, div: 8 },   // 432 ÷ 8  = 50 + 4   = 54
+        { big: 2400, small: 18, div: 6 }    // 2,418 ÷ 6 = 400 + 3 = 403
+    ];
+
+    const bigSlot = document.getElementById("bigSlot");
+    const smallSlot = document.getElementById("smallSlot");
+
+    // Attach drop handlers once (not every time a new problem loads)
+    [bigSlot, smallSlot].forEach(slot => {
+        slot.addEventListener("dragover", e => e.preventDefault());
+        slot.addEventListener("drop", e => {
+            e.preventDefault();
+            const value = e.dataTransfer.getData("text/plain");
+            slot.textContent = value;
+            slot.style.background = "#e3e6ff";
+        });
+    });
+
+    function generateProblem() {
+        const p = problemBank[Math.floor(Math.random() * problemBank.length)];
+        const bigQ = p.big / p.div;
+        const smallQ = p.small / p.div;
+
+        problem = {
+            bigQ: bigQ,
+            smallQ: smallQ,
+            dividend: p.big + p.small,
+            div: p.div,
+            finalAnswer: bigQ + smallQ
+        };
+
+        document.getElementById("promptBox").textContent =
+            `${problem.dividend.toLocaleString()} ÷ ${problem.div} = ?`;
+        document.getElementById("splitBox").textContent =
+            `Friendly pieces: ${problem.dividend.toLocaleString()} = ${p.big.toLocaleString()} + ${p.small.toLocaleString()}`;
+        document.getElementById("bigLabel").textContent = `${p.big.toLocaleString()} ÷ ${p.div}`;
+        document.getElementById("smallLabel").textContent = `${p.small.toLocaleString()} ÷ ${p.div}`;
+        document.getElementById("finalAnswer").value = "";
+        document.getElementById("result").textContent = "";
+
+        buildBlocks();
+    }
+
+    function buildBlocks() {
+        const dragArea = document.getElementById("dragArea");
+        dragArea.innerHTML = "";
+        bigSlot.textContent = "";
+        smallSlot.textContent = "";
+        bigSlot.style.background = "#fff7d6";
+        smallSlot.style.background = "#fff7d6";
+
+        // Two correct tiles plus a distractor that is a plausible wrong quotient
+        let distractor = problem.bigQ + problem.div;
+        if (distractor === problem.smallQ || distractor === problem.bigQ) distractor += 1;
+
+        const tileValues = [problem.bigQ, problem.smallQ, distractor].sort(() => Math.random() - 0.5);
+
+        tileValues.forEach(value => {
+            const block = document.createElement("div");
+            block.className = "block";
+            block.textContent = value;
+            block.draggable = true;
+            block.addEventListener("dragstart", e => {
+                e.dataTransfer.setData("text/plain", value);
+            });
+            dragArea.appendChild(block);
+        });
+    }
+
+    function checkAnswer() {
+        const result = document.getElementById("result");
+        const bigText = bigSlot.textContent;
+        const smallText = smallSlot.textContent;
+        const finalVal = parseInt(document.getElementById("finalAnswer").value);
+
+        const partsCorrect = parseInt(bigText) === problem.bigQ && parseInt(smallText) === problem.smallQ;
+        const answerCorrect = finalVal === problem.finalAnswer;
+
+        if (partsCorrect && answerCorrect) {
+            result.textContent = "🎉 Perfect! Both parts and the final answer (" + problem.finalAnswer + ") are correct! Check it: " +
+                problem.finalAnswer + " × " + problem.div + " = " + problem.dividend.toLocaleString();
+            result.style.color = "#4CAF50";
+        } else if (!partsCorrect) {
+            result.textContent = "Check the two parts — each tile should match the division problem above its box.";
+            result.style.color = "#ff4d4d";
+        } else {
+            result.textContent = "The parts are right, but double-check your final answer — add the two parts together.";
+            result.style.color = "#ff4d4d";
+        }
+    }
+
+    generateProblem();
+</script>
+
+</body>
+</html>

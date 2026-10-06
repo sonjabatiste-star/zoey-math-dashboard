@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Week 10 – Division (Up to 4-Digit ÷ 1-Digit)</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: "Comic Sans MS", Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+            color: #4b3558;
+        }
+
+        .question-box {
+            background: #e3e6ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #8c9eff;
+        }
+
+        .choice {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 2px solid #8c9eff;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            background: #f3f4ff;
+        }
+
+        .correct {
+            background: #d4ffdf !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .incorrect {
+            background: #ffe0e0 !important;
+            border-color: #ff4d4d !important;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .fact-box {
+            background: #fff7d6;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .area-model {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin: 14px auto;
+            max-width: 340px;
+        }
+
+        .area-part {
+            border: 3px solid #4a56b0;
+            border-radius: 8px;
+            padding: 10px 6px;
+            text-align: center;
+            background: #e3e6ff;
+            font-size: 14px;
+        }
+
+        .area-part.big { flex: 2; }
+        .area-part.small { flex: 1; }
+
+        #confetti-container {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow: visible;
+            z-index: 9999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 14px;
+            background-color: #8c9eff;
+            opacity: 0.9;
+            border-radius: 2px;
+            animation: fall 1.2s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(300px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .finish-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #ffb3e6;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .finish-btn:hover {
+            background: #ff9ecb;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Week 10: Division (Up to 4-Digit ÷ 1-Digit) ➗</h1>
+    <p>Friendly pieces, area models, remainders, and checking with multiplication!</p>
+</header>
+
+<section class="profile">
+    <h2>Hi Zoey! Let's break big numbers into friendly pieces.</h2>
+</section>
+
+<section class="lessons">
+
+    <!-- Warm Up -->
+    <div class="card">
+        <h3>Warm-Up: Friendly Pieces</h3>
+        <p>36 is broken into 30 + 6. What is 36 ÷ 3?</p>
+        <div class="fact-box">30 ÷ 3 = 10 &nbsp;and&nbsp; 6 ÷ 3 = 2</div>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">11</div>
+            <div class="choice" onclick="check(this, true)">12</div>
+            <div class="choice" onclick="check(this, false)">13</div>
+            <div class="choice" onclick="check(this, false)">18</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Area Model -->
+    <div class="card">
+        <h3>Area Model</h3>
+        <div class="area-model">
+            <div class="area-part big">60 ÷ 3 = 20</div>
+            <div class="area-part small">18 ÷ 3 = 6</div>
+        </div>
+        <p>What is 78 ÷ 3?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">24</div>
+            <div class="choice" onclick="check(this, false)">25</div>
+            <div class="choice" onclick="check(this, true)">26</div>
+            <div class="choice" onclick="check(this, false)">206</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- 4-digit -->
+    <div class="card">
+        <h3>Bigger Numbers</h3>
+        <p>1,248 = 1,200 + 48. What is 1,248 ÷ 4?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">302</div>
+            <div class="choice" onclick="check(this, true)">312</div>
+            <div class="choice" onclick="check(this, false)">320</div>
+            <div class="choice" onclick="check(this, false)">342</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Check with multiplication -->
+    <div class="card">
+        <h3>Check With Multiplication</h3>
+        <p>A student says 84 ÷ 4 = 21. Which multiplication shows how to check it?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, true)">21 × 4 = 84</div>
+            <div class="choice" onclick="check(this, false)">21 + 4 = 25</div>
+            <div class="choice" onclick="check(this, false)">84 × 4 = 336</div>
+            <div class="choice" onclick="check(this, false)">21 × 84 = 1,764</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Remainder -->
+    <div class="card">
+        <h3>Remainders</h3>
+        <p>What is 95 ÷ 4?</p>
+        <div class="fact-box">95 = 80 + 15</div>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">23</div>
+            <div class="choice" onclick="check(this, false)">24 R1</div>
+            <div class="choice" onclick="check(this, true)">23 R3</div>
+            <div class="choice" onclick="check(this, false)">22 R7</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Word Problem -->
+    <div class="card">
+        <h3>Real-World: Cookie Boxes</h3>
+        <p>Zoey packs 156 cookies evenly into 6 boxes. How many cookies go in each box?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">25</div>
+            <div class="choice" onclick="check(this, true)">26</div>
+            <div class="choice" onclick="check(this, false)">27</div>
+            <div class="choice" onclick="check(this, false)">36</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Exit Ticket -->
+    <div class="card">
+        <h3>Exit Ticket</h3>
+        <p>Zoey has 138 pencils to share equally among 6 friends. How many pencils does each friend get?</p>
+
+        <div class="question-box">
+            <div class="choice" onclick="check(this, false)">22</div>
+            <div class="choice" onclick="check(this, true)">23</div>
+            <div class="choice" onclick="check(this, false)">24</div>
+            <div class="choice" onclick="check(this, false)">32</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="progress">
+    <button onclick="window.location.href='index.html'">⬅ Back to Dashboard</button>
+    <br>
+    <button class="finish-btn" onclick="markComplete('lesson10'); window.location.href='index.html';">
+        🎉 Finish Lesson
+    </button>
+</section>
+
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+<script>
+function check(element, isCorrect) {
+    const box = element.parentElement;
+    const feedback = box.querySelector(".feedback");
+
+    box.querySelectorAll(".choice").forEach(choice => {
+        choice.classList.remove("correct", "incorrect");
+    });
+
+    if (isCorrect) {
+        element.classList.add("correct");
+        feedback.textContent = "Great job, Zoey! 🎉";
+        feedback.style.color = "#4CAF50";
+        launchConfetti();
+    } else {
+        element.classList.add("incorrect");
+        feedback.textContent = "Try again!";
+        feedback.style.color = "#ff4d4d";
+    }
+}
+
+function launchConfetti() {
+    const container = document.getElementById("confetti-container");
+
+    for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+
+        confetti.style.left = Math.random() * 100 + "vw";
+
+        const colors = ["#8c9eff", "#e3e6ff", "#fff0fa", "#ffe6ff"];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        confetti.style.animationDelay = (Math.random() * 0.5) + "s";
+
+        container.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 1500);
+    }
+}
+</script>
+
+</body>
+</html>

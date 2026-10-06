@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiplication Fact Fluency Practice</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Comic Sans MS", Arial, sans-serif;
+        background: linear-gradient(to bottom right, #ffe6f2, #fff0fa, #ffe6ff);
+        color: #4b3558;
+        min-height: 100vh;
+    }
+
+    header {
+        text-align: center;
+        padding: 25px 20px 10px 20px;
+    }
+
+    header h1 {
+        color: #ff5cad;
+        margin-bottom: 4px;
+    }
+
+    header p {
+        color: #7b5a8c;
+        margin-top: 0;
+    }
+
+    .wrap {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 10px 20px 60px 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 122, 196, 0.3);
+        padding: 25px;
+        margin-bottom: 22px;
+    }
+
+    h2 {
+        color: #ff5cad;
+        margin-top: 0;
+    }
+
+    .section-label {
+        font-weight: bold;
+        color: #7b5a8c;
+        margin: 16px 0 8px 0;
+        font-size: 15px;
+    }
+
+    /* ---------- Setup ---------- */
+    .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chip {
+        background: #fff0fa;
+        border: 2px solid #ffcce9;
+        color: #4b3558;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .chip.on {
+        background: #ff7ac4;
+        border-color: #ff5cad;
+        color: white;
+        font-weight: bold;
+    }
+
+    .quick-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .mini {
+        background: #ffe6f7;
+        color: #ff5cad;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 13px;
+        font-family: inherit;
+        box-shadow: none;
+    }
+
+    .mini:hover {
+        background: #ffd1ec;
+    }
+
+    .opt {
+        display: block;
+        margin: 8px 0;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .opt small {
+        color: #7b5a8c;
+    }
+
+    .big-btn {
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 18px;
+        font-family: inherit;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        margin-top: 18px;
+    }
+
+    .big-btn:hover {
+        background: #ff5cad;
+    }
+
+    .setup-msg {
+        color: #ff4d4d;
+        font-weight: bold;
+        margin-top: 10px;
+        min-height: 20px;
+        font-size: 14px;
+    }
+
+    /* ---------- Strategy corner ---------- */
+    details {
+        background: #fff7d6;
+        border-radius: 14px;
+        padding: 12px 16px;
+        margin-top: 10px;
+    }
+
+    summary {
+        cursor: pointer;
+        font-weight: bold;
+        color: #7b5a8c;
+    }
+
+    details ul {
+        margin: 10px 0 4px 0;
+        padding-left: 20px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    /* ---------- Quiz ---------- */
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #7b5a8c;
+    }
+
+    .chip-stat {
+        background: #fff7d6;
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 13px;
+    }
+
+    .progress-track {
+        background: #ffe6f7;
+        border-radius: 20px;
+        height: 16px;
+        width: 100%;
+        margin-bottom: 18px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        background: linear-gradient(90deg, #ff9ecb, #ff5cad);
+        height: 100%;
+        width: 0%;
+        border-radius: 20px;
+        transition: width 0.3s;
+    }
+
+    .question {
+        font-size: 44px;
+        text-align: center;
+        margin: 18px 0 14px 0;
+        letter-spacing: 2px;
+    }
+
+    .retry-tag {
+        display: inline-block;
+        background: #e6f5ff;
+        color: #2b86f0;
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .answer-row {
+        text-align: center;
+    }
+
+    #answerInput {
+        font-family: inherit;
+        font-size: 30px;
+        width: 140px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 12px;
+        border: 3px solid #ffb3e6;
+        color: #4b3558;
+    }
+
+    #answerInput:focus {
+        outline: none;
+        border-color: #ff5cad;
+    }
+
+    #answerInput:disabled {
+        background: #f6f0f8;
+    }
+
+    .submit-btn {
+        display: block;
+        margin: 14px auto 0 auto;
+        background: linear-gradient(90deg, #ff7ac4, #ff9ecb);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 17px;
+        font-family: inherit;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+    }
+
+    .submit-btn:hover {
+        background: #ff5cad;
+    }
+
+    .feedback {
+        text-align: center;
+        font-weight: bold;
+        font-size: 19px;
+        min-height: 28px;
+        margin-top: 14px;
+    }
+
+    .hint-line {
+        text-align: center;
+        font-size: 13px;
+        color: #7b5a8c;
+        margin-top: 8px;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 6px;
+        color: #ff5cad;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* ---------- Banner ---------- */
+    .banner-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(75, 53, 88, 0.55);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 20px 0;
+    }
+
+    .banner-overlay.show {
+        display: flex;
+    }
+
+    .banner-card {
+        background: linear-gradient(135deg, #fff0fa, #ffe6f7 60%, #fff7d6);
+        border-radius: 24px;
+        padding: 34px 28px;
+        max-width: 440px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(255, 92, 173, 0.5);
+        border: 4px solid #ffb3e6;
+    }
+
+    .banner-medal {
+        font-size: 56px;
+        line-height: 1;
+    }
+
+    .banner-title {
+        font-size: 26px;
+        color: #ff5cad;
+        margin: 10px 0 6px 0;
+    }
+
+    .banner-sub {
+        font-size: 15px;
+        color: #7b5a8c;
+        margin-bottom: 14px;
+    }
+
+    .banner-score {
+        background: white;
+        border-radius: 14px;
+        padding: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff5cad;
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+
+    .missed-box {
+        background: white;
+        border-radius: 14px;
+        padding: 10px 14px;
+        font-size: 14px;
+        margin-bottom: 14px;
+        text-align: left;
+    }
+
+    .missed-box strong {
+        color: #2b86f0;
+    }
+
+    .banner-btn {
+        background: linear-gradient(90deg, #ff7ac4, #ff5cad);
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 15px;
+        font-family: inherit;
+        box-shadow: 0 3px 8px rgba(255, 122, 196, 0.4);
+        margin: 4px;
+    }
+
+    .banner-btn:hover {
+        background: #ff3d9e;
+    }
+
+    .banner-btn.alt {
+        background: #b39ddb;
+    }
+
+    #confetti-container {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        overflow: visible;
+        z-index: 1000;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 9px;
+        height: 16px;
+        opacity: 0.95;
+        border-radius: 2px;
+        animation: fall 1.6s linear forwards;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+        .question { font-size: 36px; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>⚡ Multiplication Fact Fluency</h1>
+    <p>Quick, confident facts make every other math skill easier!</p>
+</header>
+
+<div class="wrap">
+
+    <!-- ================= SETUP ================= -->
+    <div class="card" id="setupCard">
+        <h2>Choose Your Practice</h2>
+
+        <div class="section-label">Which times tables? (tap to turn on/off)</div>
+        <div class="chip-row" id="tableChips"></div>
+        <div class="quick-row">
+            <button class="mini" onclick="setTables([2,3,4,5])">Easy: 2–5</button>
+            <button class="mini" onclick="setTables([6,7,8,9])">Tricky: 6–9</button>
+            <button class="mini" onclick="setTables([11,12])">Stretch: 11–12</button>
+            <button class="mini" onclick="setTables([2,3,4,5,6,7,8,9,10,11,12])">Everything</button>
+        </div>
+
+        <div class="section-label">How do you want to practice?</div>
+        <label class="opt"><input type="radio" name="mode" value="relaxed" checked>
+            <strong>Relaxed</strong> <small>— no clock, just accuracy</small></label>
+        <label class="opt"><input type="radio" name="mode" value="speed">
+            <strong>Speed round</strong> <small>— a timer runs; try to beat your best time</small></label>
+
+        <div class="section-label">Question types</div>
+        <label class="opt"><input type="checkbox" id="optMissing" checked>
+            Missing-factor questions <small>(like 6 × ? = 42 — this is division in disguise!)</small></label>
+        <label class="opt"><input type="checkbox" id="optTens">
+            Place-value facts <small>(like 6 × 40 — builds on the area model from Week 9)</small></label>
+
+        <div class="setup-msg" id="setupMsg"></div>
+        <button class="big-btn" onclick="startRound()">Start 20 Questions ▶</button>
+
+        <details>
+            <summary>💡 Strategy Corner (for tricky facts)</summary>
+            <ul>
+                <li><strong>Doubles:</strong> 2s are just doubling. For 4s, double twice. For 8s, double three times.</li>
+                <li><strong>5s:</strong> Count by 5s — answers always end in 0 or 5.</li>
+                <li><strong>9s:</strong> Do ×10, then subtract one group. 9 × 7 → 70 − 7 = 63.</li>
+                <li><strong>Break it apart:</strong> 7 × 8 → (7 × 5) + (7 × 3) = 35 + 21 = 56. This is the same area-model idea from Week 9!</li>
+                <li><strong>11s:</strong> Do ×10, then add one group. 11 × 6 → 60 + 6 = 66.</li>
+                <li><strong>Flip it:</strong> If 3 × 8 is easier than 8 × 3, they have the same answer!</li>
+            </ul>
+        </details>
+    </div>
+
+    <!-- ================= QUIZ ================= -->
+    <div class="card hidden" id="quizCard">
+        <div class="stat-row">
+            <span id="qCounter">Question 1 of 20</span>
+            <span>
+                <span class="chip-stat" id="streakChip">🔥 Streak: 0</span>
+                <span class="chip-stat hidden" id="timerChip">⏱ 0:00</span>
+            </span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div style="text-align:center; min-height:22px;"><span class="retry-tag hidden" id="retryTag">🔁 Let's try this one again</span></div>
+        <div class="question" id="questionText">–</div>
+
+        <div class="answer-row">
+            <input type="text" id="answerInput" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Your answer">
+        </div>
+        <button class="submit-btn" id="actionBtn" onclick="handleAction()">Check ✔</button>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="hint-line" id="hintLine">Type your answer, then press Enter.</div>
+    </div>
+
+    <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<!-- Completion Banner -->
+<div class="banner-overlay" id="bannerOverlay">
+    <div class="banner-card">
+        <div class="banner-medal" id="bannerMedal">⚡</div>
+        <div class="banner-title" id="bannerTitle">Fact Fluency Star!</div>
+        <div class="banner-sub" id="bannerSub"></div>
+        <div class="banner-score" id="bannerScore"></div>
+        <div class="missed-box hidden" id="missedBox"></div>
+        <button class="banner-btn" onclick="location.reload()">Practice Again</button>
+        <button class="banner-btn alt" onclick="window.location.href='index.html'">Back to Dashboard</button>
+    </div>
+</div>
+
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+<script>
+    // ==LOGIC START==
+    const ROUND_SIZE = 20;
+    const ALL_TABLES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    function rand(n) { return Math.floor(Math.random() * n); }
+
+    // Builds one round of questions.
+    //   tables      - array of the times tables to focus on (the 'a' factor)
+    //   useMissing  - include "6 × ? = 42" style questions
+    //   useTens     - include "6 × 40" style place-value questions
+    function makeQuestions(tables, useMissing, useTens, n) {
+        const out = [];
+        const seen = new Set();
+        let tries = 0;
+
+        while (out.length < n && tries < 600) {
+            tries++;
+            const a = tables[rand(tables.length)];
+            const b = 2 + rand(11);                 // 2..12
+            const r = Math.random();
+
+            let type = "std";
+            if (useTens && a <= 9 && b <= 9 && r < 0.2) type = "tens";
+            else if (useMissing && r >= 0.2 && r < 0.45) type = "missing";
+
+            const key = type + ":" + a + "x" + b;
+            // Avoid repeats until we've tried a lot (small table sets run out of unique facts)
+            if (seen.has(key) && tries < 250) continue;
+            // Avoid the exact same fact twice in a row
+            const last = out[out.length - 1];
+            if (last && last.a === a && last.b === b && tries < 250) continue;
+            seen.add(key);
+
+            let q;
+            if (type === "tens") {
+                q = { a: a, b: b, text: a + " × " + (b * 10) + " = ?",
+                      answer: a * b * 10, label: a + " × " + (b * 10) + " = " + (a * b * 10) };
+            } else if (type === "missing") {
+                const hideFirst = Math.random() < 0.5;
+                q = { a: a, b: b,
+                      text: hideFirst ? "? × " + b + " = " + (a * b) : a + " × ? = " + (a * b),
+                      answer: hideFirst ? a : b,
+                      label: a + " × " + b + " = " + (a * b) };
+            } else {
+                q = { a: a, b: b, text: a + " × " + b + " = ?",
+                      answer: a * b, label: a + " × " + b + " = " + (a * b) };
+            }
+            q.type = type;
+            q.isRetry = false;
+            out.push(q);
+        }
+        return out;
+    }
+    // ==LOGIC END==
+
+    // ---------------- State ----------------
+    let selected = new Set(ALL_TABLES);
+    let queue = [];
+    let idx = 0;
+    let firstTryCorrect = 0;
+    let streak = 0;
+    let bestStreak = 0;
+    let missed = new Map();      // label -> true (unique missed facts)
+    let awaitingNext = false;
+    let mode = "relaxed";
+    let timerId = null;
+    let startTime = 0;
+    let finalSeconds = 0;
+
+    const $ = id => document.getElementById(id);
+
+    // ---------------- Setup UI ----------------
+    function buildChips() {
+        const row = $("tableChips");
+        row.innerHTML = "";
+        ALL_TABLES.forEach(n => {
+            const b = document.createElement("button");
+            b.className = "chip" + (selected.has(n) ? " on" : "");
+            b.textContent = n;
+            b.setAttribute("aria-pressed", selected.has(n));
+            b.onclick = () => {
+                if (selected.has(n)) selected.delete(n); else selected.add(n);
+                buildChips();
+            };
+            row.appendChild(b);
+        });
+    }
+
+    function setTables(list) {
+        selected = new Set(list);
+        $("setupMsg").textContent = "";
+        buildChips();
+    }
+
+    // ---------------- Round flow ----------------
+    function startRound() {
+        if (selected.size === 0) {
+            $("setupMsg").textContent = "Pick at least one times table first!";
+            return;
+        }
+        mode = document.querySelector('input[name="mode"]:checked').value;
+        const useMissing = $("optMissing").checked;
+        const useTens = $("optTens").checked;
+
+        queue = makeQuestions([...selected], useMissing, useTens, ROUND_SIZE);
+        idx = 0;
+        firstTryCorrect = 0;
+        streak = 0;
+        bestStreak = 0;
+        missed = new Map();
+        awaitingNext = false;
+
+        $("setupCard").classList.add("hidden");
+        $("quizCard").classList.remove("hidden");
+
+        if (mode === "speed") {
+            $("timerChip").classList.remove("hidden");
+            startTime = Date.now();
+            timerId = setInterval(updateTimer, 250);
+            updateTimer();
+        }
+        renderQuestion();
+    }
+
+    function updateTimer() {
+        const s = Math.floor((Date.now() - startTime) / 1000);
+        $("timerChip").textContent = "⏱ " + formatTime(s);
+    }
+
+    function formatTime(s) {
+        return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    }
+
+    function renderQuestion() {
+        const q = queue[idx];
+        awaitingNext = false;
+
+        $("qCounter").textContent = "Question " + (idx + 1) + " of " + queue.length;
+        $("streakChip").textContent = "🔥 Streak: " + streak;
+        $("progressFill").style.width = (idx / queue.length) * 100 + "%";
+        $("retryTag").classList.toggle("hidden", !q.isRetry);
+        $("questionText").textContent = q.text;
+        $("feedback").textContent = "";
+        $("hintLine").textContent = "Type your answer, then press Enter.";
+        $("actionBtn").textContent = "Check ✔";
+
+        const input = $("answerInput");
+        input.disabled = false;
+        input.value = "";
+        input.focus();
+    }
+
+    function handleAction() {
+        if (awaitingNext) nextQuestion(); else submitAnswer();
+    }
+
+    function submitAnswer() {
+        const raw = $("answerInput").value.trim();
+        if (raw === "" || !/^\d+$/.test(raw)) {
+            $("feedback").textContent = "Type a number first 🙂";
+            $("feedback").style.color = "#7b5a8c";
+            return;
+        }
+        const q = queue[idx];
+        const input = $("answerInput");
+        input.disabled = true;
+        awaitingNext = true;
+
+        if (parseInt(raw, 10) === q.answer) {
+            $("feedback").textContent = "✅ Correct!";
+            $("feedback").style.color = "#4CAF50";
+            if (!q.isRetry) {
+                firstTryCorrect++;
+                streak++;
+                if (streak > bestStreak) bestStreak = streak;
+            }
+            $("streakChip").textContent = "🔥 Streak: " + streak;
+            // Quick auto-advance on a right answer so it feels snappy
+            setTimeout(() => { if (awaitingNext && queue[idx] === q) nextQuestion(); }, 650);
+        } else {
+            streak = 0;
+            $("streakChip").textContent = "🔥 Streak: 0";
+            $("feedback").textContent = "❌ " + q.label;
+            $("feedback").style.color = "#ff4d4d";
+            $("hintLine").textContent = "Look at the fact, then press Enter — we'll try it again at the end.";
+            $("actionBtn").textContent = "Next ➡";
+            if (!q.isRetry) {
+                missed.set(q.label, true);
+                // Re-queue once so she gets another shot at it before the round ends
+                queue.push({ a: q.a, b: q.b, type: q.type, text: q.text, answer: q.answer,
+                             label: q.label, isRetry: true });
+            }
+        }
+    }
+
+    function nextQuestion() {
+        idx++;
+        if (idx < queue.length) renderQuestion(); else finishRound();
+    }
+
+    $("answerInput").addEventListener("keydown", e => {
+        if (e.key === "Enter") { e.preventDefault(); handleAction(); }
+    });
+    // Let Enter also continue after a wrong answer, even though the input is disabled
+    document.addEventListener("keydown", e => {
+        if (e.key === "Enter" && awaitingNext && !$("quizCard").classList.contains("hidden")) {
+            e.preventDefault();
+            nextQuestion();
+        }
+    });
+
+    // ---------------- Finish ----------------
+    function finishRound() {
+        if (timerId) { clearInterval(timerId); timerId = null; }
+        finalSeconds = mode === "speed" ? Math.floor((Date.now() - startTime) / 1000) : 0;
+        $("progressFill").style.width = "100%";
+
+        // Save progress for the dashboard
+        markComplete("multiplicationFluency");
+        localStorage.setItem("multiplicationFluencyScore", firstTryCorrect + "/" + ROUND_SIZE);
+
+        let newBest = false;
+        if (mode === "speed" && firstTryCorrect >= 18) {
+            const prev = parseInt(localStorage.getItem("multiplicationFluencyBestTime"), 10);
+            if (isNaN(prev) || finalSeconds < prev) {
+                localStorage.setItem("multiplicationFluencyBestTime", String(finalSeconds));
+                newBest = true;
+            }
+        }
+
+        const pct = firstTryCorrect / ROUND_SIZE;
+        if (pct >= 0.9) {
+            $("bannerMedal").textContent = "⚡";
+            $("bannerTitle").textContent = "Fact Fluency Star!";
+            $("bannerSub").textContent = "Zoey knew almost every fact on the first try — that's real fluency!";
+        } else if (pct >= 0.7) {
+            $("bannerMedal").textContent = "🌟";
+            $("bannerTitle").textContent = "Great Fact Practice!";
+            $("bannerSub").textContent = "Solid work — the facts below are the ones to keep practicing.";
+        } else {
+            $("bannerMedal").textContent = "💪";
+            $("bannerTitle").textContent = "Practice Makes Powerful!";
+            $("bannerSub").textContent = "Every round makes these facts stick better. Try a smaller set of tables next time.";
+        }
+
+        let scoreHtml = "First-try score: " + firstTryCorrect + " / " + ROUND_SIZE +
+                        "<br>Best streak: 🔥 " + bestStreak;
+        if (mode === "speed") {
+            scoreHtml += "<br>Time: ⏱ " + formatTime(finalSeconds) + (newBest ? " — new best! 🎉" : "");
+        }
+        $("bannerScore").innerHTML = scoreHtml;
+
+        const missedList = [...missed.keys()];
+        const box = $("missedBox");
+        if (missedList.length > 0) {
+            box.innerHTML = "<strong>Facts to practice:</strong><br>" + missedList.join("<br>");
+            box.classList.remove("hidden");
+        }
+
+        $("bannerOverlay").classList.add("show");
+        if (pct >= 0.7) launchConfetti();
+    }
+
+    function launchConfetti() {
+        const container = $("confetti-container");
+        const colors = ["#ff9ecb", "#ffb3e6", "#fff7d6", "#d1e8ff", "#d9f2d9", "#e0d1ff"];
+        for (let i = 0; i < 80; i++) {
+            const c = document.createElement("div");
+            c.classList.add("confetti-piece");
+            c.style.left = Math.random() * 100 + "vw";
+            c.style.backgroundColor = colors[rand(colors.length)];
+            c.style.animationDelay = (Math.random() * 0.6) + "s";
+            container.appendChild(c);
+            setTimeout(() => c.remove(), 2200);
+        }
+    }
+
+    buildChips();
+</script>
+
+</body>
+</html>
